@@ -28,14 +28,14 @@
 
 #include <iostream>
 
-#include "config.hpp"
-#include "utility/container.hpp"
-#include "utility/stlio.hpp"
-#include "numeric/numeric.hpp"
-#include "symbolic/expression.hpp"
-#include "symbolic/assignment.hpp"
-#include "symbolic/valuation.hpp"
-#include "symbolic/space.hpp"
+#include "container.hpp"
+#include "stlio.hpp"
+#include "expression.hpp"
+#include "assignment.hpp"
+#include "valuation.hpp"
+#include "space.hpp"
+
+#include "test.hpp"
 
 using namespace SymboliCore;
 

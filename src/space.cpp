@@ -165,4 +165,6 @@ List<Identifier> variable_names(const Space<Real>& spc)
     return spc.variable_names();
 }
 
+template class Space<Boolean>;
+
 } // namespace SymboliCore

@@ -1,5 +1,6 @@
 set(UNIT_TESTS
-    test_expression
+    test_space
+    #test_expression
 )
 
 foreach(TEST ${UNIT_TESTS})
