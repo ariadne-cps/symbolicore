@@ -1,28 +1,32 @@
 /***************************************************************************
- *            symbolic/valuation.hpp
+ *            valuation.hpp
  *
- *  Copyright  2008-20  Pieter Collins
+ *  Copyright  2023  Pieter Collins
  *
  ****************************************************************************/
 
 /*
- *  This file is part of Ariadne.
+ * This file is part of SymboliCore, under the MIT license.
  *
- *  Ariadne is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is furnished
+ * to do so, subject to the following conditions:
  *
- *  Ariadne is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/*! \file symbolic/valuation.hpp
+/*! \file valuation.hpp
  *  \brief Valuations over named variables.
  */
 
@@ -33,16 +37,13 @@
 #include <iostream>
 #include <string>
 
-#include "utility/macros.hpp"
-#include "utility/container.hpp"
-#include "utility/tribool.hpp"
+#include "macros.hpp"
+#include "container.hpp"
 
-#include "numeric/integer.hpp"
-#include "symbolic/variable.hpp"
-#include "symbolic/expression.hpp"
+#include "variable.hpp"
+#include "expression.hpp"
 
 namespace SymboliCore {
-
 
 // Sequencing operators to make Valuation objects or objects convertible to Valuations.
 template<class X> Pair<Variable<X>,X> operator|(const Variable<X>& v, const typename Variable<X>::Type& c) { return Pair<Variable<X>,X>(v,c); }
@@ -223,7 +224,7 @@ template<class V, class X> Valuation<V,X>::Valuation(const InitializerList<Pair<
     for(auto iter=la.begin(); iter!=la.end(); ++iter) { this->insert(iter->first,iter->second); } }
 
 template<class X> X evaluate(const Expression<Real>& e, const ContinuousValuation<X>&);
-template<class X> Kleenean evaluate(const Expression<Kleenean>&, const ContinuousValuation<X>&);
+template<class X> Boolean evaluate(const Expression<Boolean>&, const ContinuousValuation<X>&);
 
 } // namespace SymboliCore
 

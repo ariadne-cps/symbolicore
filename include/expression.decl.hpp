@@ -1,29 +1,25 @@
 /***************************************************************************
  *            expression.decl.hpp
  *
- *  Copyright  2023  Luca Geretti
+ *  Copyright  2008-20  Pieter Collins
  *
  ****************************************************************************/
 
 /*
- * This file is part of SymboliCore, under the MIT license.
+ *  This file is part of Ariadne.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
+ *  Ariadne is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ *  Ariadne is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  You should have received a copy of the GNU General Public License
+ *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 /*! \file expression.decl.hpp
@@ -33,14 +29,13 @@
 #ifndef SYMBOLICORE_EXPRESSION_DECL_HPP
 #define SYMBOLICORE_EXPRESSION_DECL_HPP
 
-#include "typedefs.hpp"
-
 namespace SymboliCore {
+
+class String;
 
 template<class T> class Vector;
 
 class Identifier;
-class String;
 
 template<class T> class Constant;
 template<class T> class Variable;
@@ -67,6 +62,7 @@ using RealConstant = Constant<Real>; //!< <p/>
 //! \relates Variable
 //! \name Type synonyms
 using BooleanVariable = Variable<Boolean>; //!< <p/>
+using KleeneanVariable = Variable<Kleenean>; //!< <p/>
 using StringVariable = Variable<String>; //!< <p/>
 using IntegerVariable = Variable<Integer>; //!< <p/>
 using RealVariable = Variable<Real>; //!< <p/>
@@ -103,6 +99,7 @@ using DottedRealVariable = DottedVariable<Real>; //!< <p/>
 //! \relates Expression
 //! \name Type synonyms
 using BooleanExpression = Expression<Boolean>; //!< <p/>
+using KleeneanExpression = Expression<Kleenean>; //!< <p/>
 using StringExpression = Expression<String>; //!< <p/>
 using IntegerExpression = Expression<Integer>; //!< <p/>
 using RealExpression = Expression<Real>; //!< <p/>
@@ -110,6 +107,7 @@ using RealExpressions = List<Expression<Real>>; //!< <p/>
 using RealExpressionVector = Vector<Expression<Real>>; //!< <p/>
 
 using DiscretePredicate = Expression<Boolean>; //!< \brief A decidable predicate over discrete variables.
+using ContinuousPredicate = Expression<Kleenean>; //!< \brief A quasidecidable predicate over continuous variables.
 //!@}
 
 //!@{
@@ -143,6 +141,32 @@ using IntegerValuation = Valuation<Integer>; //!< <p/>
 
 class DiscreteValuation;
 template<class X> class ContinuousValuation;
+
+
+
+
+template<class UB> class Interval;
+using RealInterval = Interval<Real>;
+
+template<class UB> class VariableInterval;
+template<class UB> class VariableLowerInterval;
+template<class UB> class VariableUpperInterval;
+template<class IVL> class VariablesBox;
+
+//!@{
+//! \relates RealVariableInterval
+//! \name Type synonyms
+using RealVariableInterval = VariableInterval<Real>; //!< <p/>
+using RealVariableLowerInterval = VariableLowerInterval<Real>; //!< <p/>
+using RealVariableUpperInterval = VariableUpperInterval<Real>; //!< <p/>
+using RealVariableIntervals = List<RealVariableInterval>; //!< <p/>
+//!@}
+
+//!@{
+//! \relates VariablesBox
+//! \name Type synonyms
+using RealVariablesBox = VariablesBox<RealInterval>; //!< <p/>
+//!@}
 
 } // namespace SymboliCore
 

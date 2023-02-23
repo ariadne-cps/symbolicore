@@ -56,7 +56,6 @@ using StringStream = std::stringstream;
 using Void = void;
 //! Internal name for builtin boolean type.
 using Bool = bool;
-using Boolean = bool;
 //! Internal name for builtin char type.
 using Char = char;
 //! Internal name for builtin byte type (8 bits).

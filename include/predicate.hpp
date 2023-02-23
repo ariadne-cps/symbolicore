@@ -1,7 +1,7 @@
 /***************************************************************************
- *            symbolic/predicate.hpp
+ *            predicate.hpp
  *
- *  Copyright  2008-20  Pieter Collins
+ *  Copyright  2023  Pieter Collins
  *
  ****************************************************************************/
 
@@ -22,7 +22,7 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/*! \file symbolic/predicate.hpp
+/*! \file predicate.hpp
  *  \brief Predicates.
  */
 
@@ -32,15 +32,8 @@
 #include <cstdarg>
 #include <iosfwd>
 #include <iostream>
-#include "function/function_interface.hpp"
 
-#include "utility/macros.hpp"
-#include "utility/pointer.hpp"
-
-#include "algebra/vector.hpp"
-#include "algebra/matrix.hpp"
-#include "algebra/differential.hpp"
-#include "function/taylor_model.hpp"
+#include "macros.hpp"
 
 namespace SymboliCore {
 

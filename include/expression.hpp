@@ -45,6 +45,8 @@
 #include "variable.hpp"
 #include "valuation.hpp"
 #include "operations.hpp"
+#include "operators.hpp"
+#include "logical.decl.hpp"
 
 namespace SymboliCore {
 
@@ -123,8 +125,6 @@ class Expression
     //! \brief A write for Expression objects using infix notation.
     friend class InfixExpressionWriter<T>;
   public:
-    operator ElementaryAlgebra<Real>() const;
-  public:
     //! \brief The variables needed to compute the expression.
     Set<UntypedVariable> arguments() const;
   public:
@@ -151,7 +151,7 @@ template<class T> T evaluate(const Expression<T>& e, const Map<Identifier,T>& x)
 
 Boolean evaluate(const Expression<Boolean>& e, const DiscreteValuation& q);
 template<class X> X evaluate(const Expression<Real>& e, const ContinuousValuation<X>&);
-template<class X> Kleenean evaluate(const Expression<Kleenean>&, const ContinuousValuation<X>&);
+template<class X> Boolean evaluate(const Expression<Boolean>&, const ContinuousValuation<X>&);
 
 //! \brief Extract the arguments of expression \a e.
 template<class T> Set<Identifier> arguments(const Expression<T>& e);
@@ -167,9 +167,6 @@ template<class T, class Y> Vector<Expression<T>> substitute(const Vector<Express
 //!@{
 //! \name Operations on expressions.
 //! \related Expression
-
-//! \brief Given \a sign when the predicate \a p is true.
-Expression<Real> indicator(Expression<Kleenean> p, Sign sign=Sign::POSITIVE);
 
 //! \brief The derivative of the expression \a e with respect to the variable \a v.
 Expression<Real> derivative(const Expression<Real>& e, Variable<Real> v);
