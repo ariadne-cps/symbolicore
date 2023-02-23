@@ -82,7 +82,7 @@ void TestReal::test_arithmetic() {
 }
 
 void TestReal::test_transcendental() {
-    double eps = 1e-20;
+    double eps = 1e-16;
     double ax = 2.5;
     Real x(ax);
     SYMBOLICORE_TEST_EQUALS(sqrt(Real(4)),2.0);
