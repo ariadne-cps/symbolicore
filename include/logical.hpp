@@ -563,9 +563,9 @@ inline Indeterminate::operator ValidatedSierpinskian() const {
 inline Indeterminate::operator ValidatedKleenean() const {
     return ValidatedKleenean(LogicalValue::INDETERMINATE); }
 inline Bool decide(Indeterminate const& l, Effort e) {
-    return decide(ValidatedKleenean(l)); }
+    return decide(ValidatedKleenean(LogicalValue::INDETERMINATE)); }
 inline Bool decide(Indeterminate const& l) {
-    return decide(ValidatedKleenean(l)); }
+    return decide(ValidatedKleenean(LogicalValue::INDETERMINATE)); }
 
 inline ValidatedSierpinskian Sierpinskian::check(Effort eff) const {
     return ValidatedSierpinskian(this->repr().check(eff)); }
