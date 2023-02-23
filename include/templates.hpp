@@ -30,6 +30,8 @@
  *  \brief
  */
 
+#include "operators.hpp"
+#include "sequence.hpp"
 
 #ifndef SYMBOLICORE_EXPRESSION_TEMPLATES_HPP
 #define SYMBOLICORE_EXPRESSION_TEMPLATES_HPP

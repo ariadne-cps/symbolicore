@@ -54,12 +54,10 @@ template<> struct OperatorTypedef<Integer(Integer,Integer)> { typedef OperatorVa
 template<> struct OperatorTypedef<Real(Real)> { typedef UnaryElementaryOperator Type; };
 template<> struct OperatorTypedef<Real(Real,Real)> { typedef BinaryElementaryOperator Type; };
 template<> struct OperatorTypedef<Real(Real,Integer)> { typedef GradedElementaryOperator Type; };
-template<> struct OperatorTypedef<Real(Real,Int)> { typedef GradedElementaryOperator Type; };
 
 template<> struct OperatorTypedef<Boolean(String,String)> { typedef OperatorVariant<Eq,Neq> Type; };
 template<> struct OperatorTypedef<Boolean(Integer,Integer)> { typedef BinaryComparisonOperator Type; };
 template<> struct OperatorTypedef<Kleenean(Real)> { typedef OperatorVariant<Sgn> Type; };
-//template<> struct OperatorTypedef<Kleenean(Real,Real)> { typedef OperatorVariant<Less,Gtr,Leq,Geq> Type; };
 template<> struct OperatorTypedef<Kleenean(Real,Real)> { typedef BinaryComparisonOperator Type; };
 
 template<> struct OperatorTypedef<Boolean(Boolean)> { typedef UnaryLogicalOperator Type; };

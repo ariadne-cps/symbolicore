@@ -55,9 +55,8 @@ template<class X> struct ExpressionNode;
 template<class T> class PrefixExpressionWriter;
 template<class T> class InfixExpressionWriter;
 
-//! \ingroup SymbolicModule
 //! \brief A simple expression in named variables.
-//! %Ariadne supports expressions of type Boolean, Kleenean, String, Integer and Real.
+//! We support expressions of type Boolean, Kleenean, String, Integer and Real.
 //!    \tparam T The type represented by the expression
 //!
 //! The independent variables are given string names, rather than an integer index.
@@ -65,8 +64,6 @@ template<class T> class InfixExpressionWriter;
 //! are all variables occuring in all expression.
 //! Expressions may be manipulated symbolically.
 //!
-//! \par \b Example
-//! \snippet tutorials/symbolic_usage.cpp Expression_usage
 //! \see Constant,  Variable,  Assignment
 template<class T>
 class Expression

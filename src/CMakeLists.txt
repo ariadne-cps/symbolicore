@@ -2,7 +2,7 @@ add_library(SYMBOLICORE_SRC OBJECT
     space.cpp
     logical.cpp
     operators.cpp
-    #expression.cpp
+    expression.cpp
 )
 
 if(COVERAGE)

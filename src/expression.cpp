@@ -24,10 +24,12 @@
 
 #include "constant.hpp"
 #include "variable.hpp"
+#include "sign.hpp"
 #include "expression.hpp"
 #include "assignment.hpp"
 #include "space.hpp"
 #include "valuation.hpp"
+#include "templates.hpp"
 #include "templates.tpl.hpp"
 #include "expression.tpl.hpp"
 
