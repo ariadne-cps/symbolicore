@@ -1,4 +1,6 @@
 set(UNIT_TESTS
+    test_paradigm
+    test_logical
     test_space
     #test_expression
 )
