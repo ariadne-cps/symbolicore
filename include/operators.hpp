@@ -1,7 +1,7 @@
 /***************************************************************************
- *            numeric/operators.hpp
+ *            operators.hpp
  *
- *  Copyright  2008-20  Pieter Collins
+ *  Copyright  2023  Pieter Collins
  *
  ****************************************************************************/
 
@@ -22,7 +22,7 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/*! \file numeric/operators.hpp
+/*! \file operators.hpp
  *  \brief Numerical operator classes
  */
 
@@ -32,8 +32,8 @@
 #include <iostream>
 #include <cassert>
 
-#include "typedefs.hpp"
 #include "logical.decl.hpp"
+#include "typedefs.hpp"
 #include "variant.hpp"
 #include "variant.inl.hpp"
 
@@ -49,12 +49,13 @@ typedef std::ostream OutputStream;
 template<class X> struct Logic;
 template<> struct Logic<String> { typedef Boolean Type; };
 template<> struct Logic<Integer> { typedef Boolean Type; };
-template<> struct Logic<Real> { typedef Boolean Type; };
+template<> struct Logic<Real> { typedef Kleenean Type; };
 template<class X> using LogicType = typename Logic<X>::Type;
 
 template<class X1, class X2> using RingType = DifferenceType<ProductType<X1,X2>,ProductType<X2,X1>>;
 template<class X1, class X2> using FieldType = DifferenceType<QuotientType<X1,X2>,QuotientType<X2,X1>>;
 template<class X> using TranscendentalType = decltype(sin(declval<X>()));
+
 
 class Operator {
   public:
@@ -76,6 +77,8 @@ class Operator {
 
 using OperatorCode=Operator::Code;
 using OperatorKind=Operator::Kind;
+
+
 
 enum class Operator::Kind : ComparableEnumerationType {
     VARIABLE,
@@ -143,11 +146,11 @@ enum class Operator::Code : ComparableEnumerationType {
     DISJ=-9    // Compare disjointness
 };
 
+OutputStream& operator<<(OutputStream& os, const OperatorKind& knd);
+OutputStream& operator<<(OutputStream&, const OperatorCode& op);
 const char* name(const OperatorCode& op);
 const char* symbol(const OperatorCode& op);
 
-OutputStream& operator<<(OutputStream& os, const OperatorKind& knd);
-OutputStream& operator<<(OutputStream& os, const OperatorCode& op);
 
 template<class OBJ> struct Object { OBJ const& upcast() const { return static_cast<OBJ const&>(*this); } };
 template<class OP> struct OperatorObject : Object<OP> { };
@@ -413,6 +416,26 @@ struct Abs : OperatorObject<Abs> {
     template<class X,class D> D derivative(const X& a, const D& d) const { return a>=0 ? a : -a; }
 };
 
+struct Sgn : ComparisonObject<Sgn> {
+    static constexpr OperatorCode code() { return OperatorCode::SGN; }
+    static OperatorKind kind() { return OperatorKind::PREDICATE; }
+    template<class A> auto operator()(A&& a) const -> decltype(sgn(a)) { return sgn(a); }
+    Kleenean operator()(const Real& a) const;
+};
+
+/*
+template<class OP> struct CodedOperator {
+    typedef OP CodeType;
+    operator Operator() const { return Operator(static_cast<Operator::Code>(_code)); }
+    CodeType code() const { return _code; }
+  protected:
+    CodeType _code;
+};
+struct SpecialOperator : CodedOperator<SpecialOperator::Code> {
+    enum class Code : char;
+};
+*/
+
 template<class... OPS> class OperatorVariant
     : public CodedVariant<OperatorCode, OPS...>
 {
@@ -438,6 +461,7 @@ template<class... OPS> class OperatorVariant
 
 
 struct UnaryLogicalOperator : OperatorVariant<NotOp> { using OperatorVariant::OperatorVariant; };
+struct UnaryComparisonOperator : OperatorVariant<Sgn> { using OperatorVariant::OperatorVariant; };
 struct UnaryRingOperator : OperatorVariant<Neg> { using OperatorVariant::OperatorVariant; };
 struct UnaryArithmeticOperator : OperatorVariant<Nul,Pos,Neg,Sqr,Rec> { using OperatorVariant::OperatorVariant; };
 struct UnaryTranscendentalOperator : OperatorVariant<Pos,Neg,Sqr,Hlf,Rec,Sqrt,Exp,Log,Sin,Cos,Tan,Atan> { using OperatorVariant::OperatorVariant; };

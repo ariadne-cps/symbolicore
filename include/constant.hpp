@@ -35,6 +35,7 @@
 
 #include "string.hpp"
 #include "identifier.hpp"
+#include "typedefs.hpp"
 
 namespace SymboliCore {
 

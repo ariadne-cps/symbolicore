@@ -1,32 +1,27 @@
 /***************************************************************************
  *            expression.cpp
  *
- *  Copyright  2023  Luca Geretti
+ *  Copyright  2023  Pieter Collins
  *
  ****************************************************************************/
 
 /*
- * This file is part of SymboliCore, under the MIT license.
+ *  This file is part of Ariadne.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
+ *  Ariadne is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ *  Ariadne is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  You should have received a copy of the GNU General Public License
+ *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "macros.hpp"
 #include "constant.hpp"
 #include "variable.hpp"
 #include "expression.hpp"
@@ -39,10 +34,15 @@
 namespace SymboliCore {
 
 template class Expression<Boolean>;
+template class Expression<Kleenean>;
 template class Expression<String>;
+template class Expression<Integer>;
+template class Expression<Real>;
 
-typedef double Real;
-typedef int Integer;
+template Bool before<Real>(Expression<Real> const& e1, Expression<Real> const& e2);
+template SizeType count_nodes<Real>(const Expression<Real>& e);
+template SizeType count_distinct_nodes<Real>(const Expression<Real>& e);
+template SizeType count_distinct_node_pointers<Real>(const Expression<Real>& e);
 
 Expression<Boolean> operator&&(Expression<Boolean> const& e1, Expression<Boolean> const& e2) {
     return make_expression<Boolean>(AndOp(),e1,e2); }
@@ -51,11 +51,18 @@ Expression<Boolean> operator||(Expression<Boolean> const& e1, Expression<Boolean
 Expression<Boolean> operator!(Expression<Boolean> const& e) {
     return make_expression<Boolean>(NotOp(),e); }
 
+
+Expression<Kleenean> operator&&(Expression<Kleenean> const& e1, Expression<Kleenean> const& e2) {
+    return make_expression<Kleenean>(AndOp(),e1,e2); }
+Expression<Kleenean> operator||(Expression<Kleenean> const& e1, Expression<Kleenean> const& e2) {
+    return make_expression<Kleenean>(OrOp(),e1,e2); }
+Expression<Kleenean> operator!(Expression<Kleenean> const& e) {
+    return make_expression<Kleenean>(NotOp(),e); }
+
 Expression<Boolean> operator==(Variable<String> v1, const String& s2) {
     return make_expression<Boolean>(Equal(),Expression<String>(v1),Expression<String>::constant(s2)); }
 Expression<Boolean> operator!=(Variable<String> v1, const String& s2) {
     return make_expression<Boolean>(Unequal(),Expression<String>(v1),Expression<String>::constant(s2)); }
-
 
 Expression<Boolean> operator==(Expression<Integer> const& e1, Expression<Integer> const& e2) {
     return make_expression<Boolean>(Equal(),e1,e2); }
@@ -87,6 +94,23 @@ Expression<Integer>& operator-=(Expression<Integer>& e1, Expression<Integer> con
     return e1=e1-e2; }
 Expression<Integer>& operator*=(Expression<Integer>& e1, Expression<Integer> const& e2) {
     return e1=e1*e2; }
+
+Expression<Kleenean> sgn(Expression<Real> const& e) {
+    return make_expression<Kleenean>(Sgn(),e); }
+
+Expression<Kleenean> operator==(Expression<Real> const& e1, Expression<Real> const& e2) {
+    return make_expression<Kleenean>(Equal(),e1,e2); }
+Expression<Kleenean> operator!=(Expression<Real> const& e1, Expression<Real> const& e2) {
+    return make_expression<Kleenean>(Unequal(),e1,e2); }
+Expression<Kleenean> operator>=(Expression<Real> const& e1, Expression<Real> const& e2) {
+    return make_expression<Kleenean>(Geq(),e1,e2); }
+Expression<Kleenean> operator<=(Expression<Real> const& e1, Expression<Real> const& e2) {
+    return make_expression<Kleenean>(Leq(),e1,e2); }
+Expression<Kleenean> operator>(Expression<Real> const& e1, Expression<Real> const& e2) {
+    return make_expression<Kleenean>(Gtr(),e1,e2); }
+Expression<Kleenean> operator<(Expression<Real> const& e1, Expression<Real> const& e2) {
+    return make_expression<Kleenean>(Less(),e1,e2); }
+
 
 Expression<Real> operator+(Expression<Real> const& e) {
     return make_expression<Real>(Pos(),e); }
@@ -164,29 +188,39 @@ template Integer evaluate(const Expression<Integer>& e, const Valuation<Integer>
 template Real evaluate(const Expression<Real>& e, const Valuation<Real>& x);
 template Boolean evaluate(const Expression<Boolean>& e, const Valuation<String>& x);
 template Boolean evaluate(const Expression<Boolean>& e, const Valuation<Integer>& x);
+template Kleenean evaluate(const Expression<Kleenean>& e, const Valuation<Real>& x);
 
 template Real evaluate(Expression<Real> const&, Map<Identifier, Real> const&);
 
+
 template Set<Identifier> arguments(const Expression<Boolean>& e);
+template Set<Identifier> arguments(const Expression<Kleenean>& e);
 template Set<Identifier> arguments(const Expression<Real>& e);
 
+
+template Expression<Kleenean> substitute(const Expression<Kleenean>& e, const Variable<Kleenean>& v, const Kleenean& c);
+template Expression<Kleenean> substitute(const Expression<Kleenean>& e, const Variable<Real>& v, const Real& c);
 template Expression<Real> substitute(const Expression<Real>& e, const Variable<Real>& v, const Real& c);
 template Expression<Real> substitute(const Expression<Real>& e, const Variable<Real>& v, const Expression<Real>& c);
 template Expression<Real> substitute(const Expression<Real>& e, const List< Assignment< Variable<Real>, Expression<Real> > >& c);
 template Vector<Expression<Real>> substitute(const Vector<Expression<Real>>& e, const List< Assignment< Variable<Real>, Expression<Real> > >& c);
+template Expression<Kleenean> substitute(const Expression<Kleenean>& e, const List< Assignment< Variable<Real>, Expression<Real> > >& c);
 
 template Expression<Real> simplify(const Expression<Real>& e);
+template Expression<Kleenean> simplify(const Expression<Kleenean>& e);
 
 template Void eliminate_common_subexpressions(Expression<Real>&);
 template Void eliminate_common_subexpressions(Vector<Expression<Real>>&);
+
 
 template<class VIS, class A, class... OPS> decltype(auto) visit_symbolic(VIS vis, Symbolic<OperatorVariant<OPS...>,A> s) {
     return s.op().accept([&s,&vis](auto op){return vis(op,s.arg());}); }
 template<class VIS, class A1, class A2, class... OPS> decltype(auto) visit_symbolic(VIS vis, Symbolic<OperatorVariant<OPS...>,A1,A2> s) {
     return s.op().accept([&s,&vis](auto op){return vis(op,s.arg1(),s.arg2());}); }
 
+
 namespace {
-using RE=Expression<Real>;
+using RE=Expression<Real>; using KE=Expression<Kleenean>;
 
 RE _indicator(Sgn, RE e, Sign sign) { if(sign==Sign::POSITIVE) { return e; } else { return -e; } }
 RE _indicator(Geq, RE e1, RE e2, Sign sign) { if(sign==Sign::POSITIVE) { return e1-e2; } else { return e2-e1; } }
@@ -196,9 +230,36 @@ RE _indicator(Less, RE e1, RE e2, Sign sign) { return _indicator(Leq(),e1,e2,sig
 RE _indicator(Equal op, RE e1, RE e2, Sign sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
 RE _indicator(Unequal op, RE e1, RE e2, Sign sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
 
+RE _indicator(AndOp, KE e1, KE e2, Sign sign) { return min(indicator(e1,sign),indicator(e2,sign)); }
+RE _indicator(OrOp, KE e1, KE e2, Sign sign) { return max(indicator(e1,sign),indicator(e2,sign)); }
+RE _indicator(NotOp, KE e, Sign sign) { return neg(indicator(e,sign)); }
+
+Expression<Real> indicator(ConstantExpressionNode<Kleenean> e, Sign sign) {
+    Kleenean value=( sign==Sign::POSITIVE ? e.value() : !e.value() );
+    ValidatedKleenean checked_value = value.check(Effort::get_default());
+    if(definitely(checked_value)) { return Expression<Real>::constant(+1); }
+    else if(not possibly(checked_value)) {  return Expression<Real>::constant(-1); }
+    else { return Expression<Real>::constant(0); } }
+Expression<Real> indicator(VariableExpressionNode<Kleenean> e, Sign sign) {
+    SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << e); }
+Expression<Real> indicator(UnaryExpressionNode<Kleenean> e, Sign sign) {
+    return e.op().accept([&](auto op){return _indicator(op,e.arg(),sign);}); }
+Expression<Real> indicator(BinaryExpressionNode<Kleenean> e, Sign sign) {
+    return e.op().accept([&](auto op){return _indicator(op,e.arg1(),e.arg2(),sign);}); }
+Expression<Real> indicator(UnaryExpressionNode<Kleenean,Real> e, Sign sign) {
+    return e.op().accept([&](auto op){return _indicator(op,e.arg(),sign);}); }
+Expression<Real> indicator(BinaryExpressionNode<Kleenean,Real,Real> e, Sign sign) {
+    return e.op().accept([&](auto op){return _indicator(op,e.arg1(),e.arg2(),sign);}); }
 }
 
+Expression<Real> indicator(Expression<Kleenean> e, Sign sign) {
+    return e.node_ref().accept([&](auto en){return indicator(en,sign);});
+}
+
+
+
 template Bool is_constant(const Expression<Real>&, const Real&);
+template Bool is_constant(const Expression<Kleenean>&, const Kleenean&);
 
 template Bool is_variable(const Expression<Real>&, const Variable<Real>&);
 template Bool identical(const Expression<Real>&, const Expression<Real>&);
@@ -302,7 +363,6 @@ Bool identical(BinaryComparisonOperator ops1, BinaryComparisonOperator ops2) {
     return ops1.accept([&ops2](auto op1){return ops2.accept([&op1](auto op2){return _identical(op1,op2);});}); }
 }
 
-
 Bool opposite(Expression<Kleenean> e1, Expression<Kleenean> e2) {
     auto* e1cp = std::get_if<BinaryExpressionNode<Kleenean,Real>>(&e1.node_ref());
     auto* e2cp = std::get_if<BinaryExpressionNode<Kleenean,Real>>(&e2.node_ref());
@@ -316,7 +376,6 @@ Bool opposite(Expression<Kleenean> e1, Expression<Kleenean> e2) {
     }
     return false;
 }
-
 
 namespace {
 Expression<Real> derivative(const Constant<Real>& e, Variable<Real> v) { return Expression<Real>(Real(0)); }

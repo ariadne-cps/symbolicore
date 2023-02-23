@@ -21,20 +21,13 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "utility/standard.hpp"
+#include "stdlib.hpp"
 
-#include "numeric/operators.tpl.hpp"
-
-#include "algebra/algebra.hpp"
-#include "algebra/algebra_wrapper.hpp"
-
-#include "symbolic/constant.hpp"
-#include "symbolic/variable.hpp"
-#include "symbolic/assignment.hpp"
-#include "symbolic/space.hpp"
-#include "symbolic/valuation.hpp"
-
-#include "function/formula.hpp"
+#include "constant.hpp"
+#include "variable.hpp"
+#include "assignment.hpp"
+#include "space.hpp"
+#include "valuation.hpp"
 
 namespace SymboliCore {
 
