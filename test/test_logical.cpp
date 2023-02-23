@@ -135,14 +135,14 @@ TestLogical::test_conversion()
 Void
 TestLogical::test_disjunction()
 {
-    Sequence<LowerKleenean> seq([](Natural n){return n==2 ? LowerKleenean(true) : LowerKleenean(indeterminate);});
+    Sequence<LowerKleenean> seq([](Nat n){return n==2 ? LowerKleenean(true) : LowerKleenean(indeterminate);});
     SYMBOLICORE_TEST_ASSIGN_CONSTRUCT(LowerKleenean, some, disjunction(seq));
     SYMBOLICORE_TEST_ASSERT(possibly(not some.check(2_eff)));
     SYMBOLICORE_TEST_ASSERT(definitely(some.check(3_eff)));
     SYMBOLICORE_TEST_ASSERT(definitely(some.check(4_eff)));
 
     SYMBOLICORE_TEST_ASSIGN_CONSTRUCT(
-        UpperKleenean, all, conjunction(Sequence<UpperKleenean>([](Natural n){return n==2 ? UpperKleenean(false) : UpperKleenean(indeterminate);})));
+        UpperKleenean, all, conjunction(Sequence<UpperKleenean>([](Nat n){return n==2 ? UpperKleenean(false) : UpperKleenean(indeterminate);})));
     SYMBOLICORE_TEST_ASSERT(possibly(all.check(2_eff)));
     SYMBOLICORE_TEST_ASSERT(not possibly(all.check(3_eff)));
     SYMBOLICORE_TEST_ASSERT(definitely(not all.check(4_eff)));

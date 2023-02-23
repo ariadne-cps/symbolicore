@@ -2,6 +2,7 @@ set(UNIT_TESTS
     test_paradigm
     test_logical
     test_integer
+    test_real
     test_space
     #test_expression
 )

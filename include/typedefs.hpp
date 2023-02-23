@@ -68,8 +68,6 @@ using Int = int;
 using Dbl = double;
 //! Internal name for builtin double-precision floats.
 using Double = double;
-//! Internal name for reals.
-using Real = double;
 
 //! Internal name for standard size type, used for sizes of containers.
 using SizeType = std::size_t;

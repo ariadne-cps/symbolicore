@@ -30,31 +30,23 @@
 #define SYMBOLICORE_SEQUENCE_HPP
 
 #include <functional>
-#include "integer.hpp"
 
 namespace SymboliCore {
 
 using Nat = unsigned int;
 
-class Natural;
-
-template<class Y> struct CompletionTypedef;
-template<> struct CompletionTypedef<Real> { typedef Real Type; };
-template<class Y> using CompletionType = typename CompletionTypedef<Y>::Type;
-
-
 //! \brief A function \f$\mathbb{N} \to X\f$.
 template<class X> class Sequence {
-    std::function<X(Natural)> _fn;
+    std::function<X(Nat)> _fn;
   public:
-    Sequence(std::function<X(Natural)> const& fn) : _fn(fn) { }
-    X operator[](Natural const& n) const { return _fn(n); }
+    Sequence(std::function<X(Nat)> const& fn) : _fn(fn) { }
+    X operator[](Nat const& n) const { return _fn(n); }
 };
 
 //! \brief A convergent sequence in \f$X\f$, with no further information about the convergence rate
 template<class X> class ConvergentSequence : public Sequence<X> {
   public:
-    ConvergentSequence(std::function<X(Natural)> const& fn) : Sequence<X>(fn) { }
+    ConvergentSequence(std::function<X(Nat)> const& fn) : Sequence<X>(fn) { }
     ConvergentSequence(Sequence<X> const& seq) : Sequence<X>(seq) { }
 };
 
@@ -67,22 +59,21 @@ template<class X> class AlternatingSequence : public ConvergentSequence<X> {
 //! \brief An increasing sequence in a partially-ordered space (X,≤).
 template<class X> class IncreasingSequence : public Sequence<X> {
   public:
-    IncreasingSequence(std::function<X(Natural)> fn) : Sequence<X>(fn) { }
+    IncreasingSequence(std::function<X(Nat)> fn) : Sequence<X>(fn) { }
     IncreasingSequence(Sequence<X> const& seq) : Sequence<X>(seq) { }
 };
 //! \brief A decreasing sequence in a partially-ordered space (X,≤).
 template<class X> class DecreasingSequence : public Sequence<X> {
   public:
-    DecreasingSequence(std::function<X(Natural)> fn) : Sequence<X>(fn) { }
+    DecreasingSequence(std::function<X(Nat)> fn) : Sequence<X>(fn) { }
     DecreasingSequence(Sequence<X> const& seq) : Sequence<X>(seq) { }
 };
 
 //! \brief A fast-converging Cauchy sequence in a metric space (X,d), satisfying \f$ d(x_m,x_n) \leq 2^{-min(m,n)}\f$.
 template<class X> class FastCauchySequence : public Sequence<X> {
   public:
-    FastCauchySequence(std::function<X(Natural)> const& fn) : Sequence<X>(fn) { }
+    FastCauchySequence(std::function<X(Nat)> const& fn) : Sequence<X>(fn) { }
     FastCauchySequence(Sequence<X> const& seq) : Sequence<X>(seq) { }
-    friend CompletionType<X> limit(FastCauchySequence<X> const&);
 };
 
 
@@ -90,13 +81,13 @@ using OutputStream = std::ostream;
 template<class T, class W> class WritableTemporary;
 
 class SequenceWriter {
-    Natural _num;
+    Nat _num;
   public:
-    SequenceWriter(Natural const& n) : _num(n) { }
+    SequenceWriter(Nat const& n) : _num(n) { }
     template<class T> inline WritableTemporary<Sequence<T>,SequenceWriter> operator() (Sequence<T> const& seq) const {
         return WritableTemporary<Sequence<T>,SequenceWriter>(*this,seq); }
     template<class T> OutputStream& _write(OutputStream& os, Sequence<T> const& seq) const {
-        os << "["; for (Natural i=0u; i!=_num; ++i) { if (i!=0) { os << ","; } os << seq[i]; } os << "]"; return os; }
+        os << "["; for (Nat i=0u; i!=_num; ++i) { if (i!=0) { os << ","; } os << seq[i]; } os << "]"; return os; }
 };
 
 } // namespace SymboliCore

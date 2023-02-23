@@ -1,8 +1,9 @@
 add_library(SYMBOLICORE_SRC OBJECT
-    space.cpp
     logical.cpp
     integer.cpp
+    real.cpp
     operators.cpp
+    space.cpp
     #expression.cpp
 )
 

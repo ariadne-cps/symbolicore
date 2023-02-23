@@ -36,13 +36,14 @@
 #include "metaprogramming.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
-#include "vector.hpp"
 
 namespace SymboliCore {
 
 struct ExactTag;
 class Integer;
 class Natural;
+
+template<class X> struct IsNumber;
 template<> struct IsNumber<Integer> : True { };
 
 template<> struct IsNumber<Nat> : True { };

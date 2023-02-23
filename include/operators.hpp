@@ -45,6 +45,7 @@ typedef unsigned int Nat;
 typedef int Int;
 
 class Integer;
+class Real;
 
 typedef std::ostream OutputStream;
 

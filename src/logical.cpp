@@ -167,7 +167,7 @@ template<> struct LogicalExpression<OrOp,Sequence<LowerKleenean>> : public Logic
     LogicalExpression(OrOp, Sequence<LowerKleenean> seq) : _seq(seq) { }
     LogicalInterface* _copy() const { return new LogicalExpression<OrOp,Sequence<LowerKleenean>>(*this); }
     LogicalValue _check(Effort eff) const {
-        for(Natural k=0u; k!=eff.work(); ++k) {
+        for(Nat k=0u; k!=eff.work(); ++k) {
             if ( definitely(_seq[k].check(eff)) ) { return LogicalValue::TRUE; }
         }
         return LogicalValue::INDETERMINATE;
@@ -184,7 +184,7 @@ template<> struct LogicalExpression<AndOp,Sequence<UpperKleenean>> : public Logi
     LogicalExpression(AndOp, Sequence<UpperKleenean> seq) : _seq(seq) { }
     LogicalInterface* _copy() const { return new LogicalExpression<AndOp,Sequence<UpperKleenean>>(*this); }
     LogicalValue _check(Effort eff) const {
-        for(Natural k=0u; k!=eff.work(); ++k) {
+        for(Nat k=0u; k!=eff.work(); ++k) {
             if ( definitely(not _seq[k].check(eff)) ) { return LogicalValue::FALSE; }
         }
         return LogicalValue::INDETERMINATE;

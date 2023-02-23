@@ -305,7 +305,7 @@ int test_case_counter = 0;
 #define SYMBOLICORE_TEST_WITHIN(expression,expected,tolerance)                         \
     {                                                                   \
         std::cout << #expression << " ~ " << #expected << ": " << std::flush; \
-        auto error=mag(expression-expected); \
+        auto error=abs(expression-expected); \
         bool ok = (error <= tolerance);                       \
         if(ok) {                                                        \
             std::cout << "true\n" << std::endl;                         \
