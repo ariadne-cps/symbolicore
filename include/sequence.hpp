@@ -34,12 +34,8 @@
 namespace SymboliCore {
 
 using Nat = unsigned int;
-class Natural;
 
-class Dyadic; class Rational; class Real;
 template<class Y> struct CompletionTypedef;
-template<> struct CompletionTypedef<Dyadic> { typedef Real Type; };
-template<> struct CompletionTypedef<Rational> { typedef Real Type; };
 template<> struct CompletionTypedef<Real> { typedef Real Type; };
 template<class Y> using CompletionType = typename CompletionTypedef<Y>::Type;
 
@@ -91,13 +87,13 @@ using OutputStream = std::ostream;
 template<class T, class W> class WritableTemporary;
 
 class SequenceWriter {
-    Nat _num;
+    Natural _num;
   public:
-    SequenceWriter(Nat const& n) : _num(n) { }
+    SequenceWriter(Natural const& n) : _num(n) { }
     template<class T> inline WritableTemporary<Sequence<T>,SequenceWriter> operator() (Sequence<T> const& seq) const {
         return WritableTemporary<Sequence<T>,SequenceWriter>(*this,seq); }
     template<class T> OutputStream& _write(OutputStream& os, Sequence<T> const& seq) const {
-        os << "["; for (Nat i=0u; i!=_num; ++i) { if (i!=0) { os << ","; } os << seq[i]; } os << "]"; return os; }
+        os << "["; for (Natural i=0u; i!=_num; ++i) { if (i!=0) { os << ","; } os << seq[i]; } os << "]"; return os; }
 };
 
 } // namespace SymboliCore

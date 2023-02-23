@@ -73,6 +73,8 @@ using Double = double;
 //! Internal name for reals.
 using Real = double;
 
+using Natural = uint;
+
 //! Internal name for standard size type, used for sizes of containers.
 using SizeType = std::size_t;
 //! Internal name for standard difference type of container indices and pointers.

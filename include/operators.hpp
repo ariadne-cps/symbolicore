@@ -147,8 +147,7 @@ const char* name(const OperatorCode& op);
 const char* symbol(const OperatorCode& op);
 
 OutputStream& operator<<(OutputStream& os, const OperatorKind& knd);
-
-OutputStream& operator<<(OutputStream& os, const OperatorCode& op) { return os << name(op); }
+OutputStream& operator<<(OutputStream& os, const OperatorCode& op);
 
 template<class OBJ> struct Object { OBJ const& upcast() const { return static_cast<OBJ const&>(*this); } };
 template<class OP> struct OperatorObject : Object<OP> { };

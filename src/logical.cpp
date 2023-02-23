@@ -30,6 +30,7 @@
 #include "string.hpp"
 #include "macros.hpp"
 #include "sequence.hpp"
+#include "operators.hpp"
 #include "templates.hpp"
 
 #include "logical.hpp"
@@ -38,7 +39,7 @@ namespace SymboliCore {
 
 namespace Detail {
 
-inline LogicalValue check(LogicalValue l, Effort e) { return l; }
+inline LogicalValue check(LogicalValue l, Effort) { return l; }
 template<class OP, class ARG> decltype(auto) check(Symbolic<OP,ARG> const& s, Effort e) { return s._op(check(s._arg,e)); }
 template<class OP, class ARG1, class ARG2> decltype(auto) check(Symbolic<OP,ARG1,ARG2> const& s, Effort e) { return s._op(check(s._arg1,e),check(s._arg2,e)); }
 
@@ -61,7 +62,7 @@ template<> class LogicalWrapper<LogicalValue>
     operator LogicalValue() const { return this->_v; }
   private:
     virtual LogicalInterface* _copy() const { return new LogicalWrapper<LogicalValue>(*this); }
-    virtual LogicalValue _check(Effort e) const { return this->_v; }
+    virtual LogicalValue _check(Effort) const { return this->_v; }
     virtual OutputStream& _write(OutputStream& os) const { return os << this->_v; }
 };
 

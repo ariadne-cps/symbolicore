@@ -32,10 +32,15 @@ double div(double,double);
 #include "stdlib.hpp"
 #include "string.hpp"
 #include "operators.hpp"
+#include "macros.hpp"
 
 namespace SymboliCore {
 
 template<class OP, class... AS> class Expression;
+
+OutputStream& operator<<(OutputStream& os, const OperatorCode& op) {
+    return os << name(op);
+}
 
 OutputStream& operator<<(OutputStream& os, const OperatorKind& knd) {
     switch(knd) {
