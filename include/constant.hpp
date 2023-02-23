@@ -70,17 +70,6 @@ template<> class Constant<String>
     const String& val() const { return *this; }
 };
 
-template<> class Constant<Real>
-{
-  public:
-    explicit Constant(const int& value) : _value(value) { }
-    const Identifier& name() const { return to_string(_value); }
-    const Real& value() const { return _value; }
-    const Real& val() const { return _value; }
-  private:
-    Real const _value;
-};
-
 } // namespace SymboliCore
 
 #endif /* SYMBOLICORE_CONSTANT_HPP */

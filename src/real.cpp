@@ -208,6 +208,10 @@ String Real::literal() const {
     return to_string(_value);
 }
 
+Bool same(Real const& r1, Real const& r2) {
+    return r1._value == r2._value;
+}
+
 OutputStream& operator<<(OutputStream& os, Real const& r) {
     return os << r.literal();
 }

@@ -51,16 +51,16 @@ struct Uninitialised { };
 
 template<class T>
 class Array {
-  private:
+private:
     static T* uninitialized_new(SizeType n) { return static_cast<T*>(::operator new(n*sizeof(T))); }
     static void uninitialized_delete(T* p) { ::operator delete(p); }
-  public:
+public:
     typedef T ValueType;
     typedef SizeType IndexType;
     typedef ValueType* Iterator;
     typedef ValueType const* ConstIterator;
 
-  public:
+public:
     // Standard typedefs
     typedef T value_type;
     typedef value_type& reference;
@@ -71,7 +71,7 @@ class Array {
     typedef const_pointer const_iterator;
     typedef SizeType size_type;
     typedef std::ptrdiff_t difference_type;
-  public:
+public:
 
     //! \brief Destructor
     ~Array() { this->_destroy_elements(); uninitialized_delete(_ptr); }
@@ -159,7 +159,7 @@ class Array {
             this->_destroy_elements(); uninitialized_delete(_ptr); _size=n; _ptr=_new_ptr; } }
     //! \brief Reallocates the Array to hold \a n elements. The new elements are default-constructed.
     void reallocate(SizeType n) { if(size()!=n) { this->_destroy_elements(); uninitialized_delete(_ptr);
-        _size=n; _ptr=uninitialized_new(_size); for(SizeType i=0; i!=_size; ++i) { new (_ptr+i) T(); } } }
+            _size=n; _ptr=uninitialized_new(_size); for(SizeType i=0; i!=_size; ++i) { new (_ptr+i) T(); } } }
     //! \brief Efficiently swap two arrays.
     void swap(Array<T>& a) { std::swap(_size,a._size); std::swap(_ptr,a._ptr); }
 
@@ -207,7 +207,7 @@ class Array {
     //! \brief Assigns the sequence from \a first to \a last.
     template<class ForwardIterator> void assign(ForwardIterator first, ForwardIterator last) {
         resize(std::distance(first,last)); fill(first); }
-  private:
+private:
     void _destroy_elements() { pointer curr=_ptr+_size; while(curr!=_ptr) { --curr; curr->~T(); } }
     void _uninitialized_fill(const ValueType& x) {
         pointer curr=_ptr; pointer end=_ptr+_size; while(curr!=end) { new (curr) T(x); ++curr; } }
@@ -219,19 +219,19 @@ class Array {
         while(curr!=end) { new (curr) T(*first,parameters); ++curr; ++first; } }
     template<class G> void _uninitialized_generate(G g) {
         for(SizeType i=0u; i!=this->size(); ++i) { new (_ptr+i) T(g(i)); } }
-  private:
+private:
     SizeType _size;
     pointer _ptr;
 };
 
 template<class T> class SharedArray {
-  public:
+public:
     typedef T ValueType;
     typedef SizeType IndexType;
     typedef ValueType* Iterator;
     typedef ValueType const* ConstIterator;
     SizeType* _count; SizeType _size; T* _ptr;
-  public:
+public:
     ~SharedArray() { --_count; if(*_count==0) { delete[] _ptr; } }
     SharedArray(SizeType n) : _count(new SizeType(1u)), _size(n), _ptr(new T[n]) { }
     SharedArray(SizeType n, const T& x) : SharedArray(n) {

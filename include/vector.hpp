@@ -39,7 +39,6 @@
 
 namespace SymboliCore {
 
-//! \ingroup LinearAlgebraModule
 //! \brief A scalar of type \a X; defined as an synonym (typedef) of \a X.
 template<class X> using Scalar = X;
 
@@ -79,7 +78,6 @@ template<class X> concept HasNul = requires(X x) { nul(x); };
 template<class X> using SupremumNormType = decltype(max(abs(declval<X>()),abs(declval<X>())));
 template<class X> using EuclideanNormType = decltype(sqrt(sqr(declval<X>())+sqr(declval<X>())));
 
-
 template<class X> X create_zero(const X& x) {
     if constexpr (HasCreateZero<X>) { return x.create_zero(); }
     else if constexpr (HasNul<X>)  { return nul(x); }
@@ -95,13 +93,11 @@ template<class PR> PR make_default_precision();
 
 template<class X> X make_zero() {
     if constexpr (DefaultConstructible<X>) { return X(); }
-    else {
-        typedef typename X::PrecisionType PR;
-        if constexpr (Constructible<X,PR>) {
-            PR pr=make_default_precision<PR>(); return X(pr);
-        } else {
-            abort();
-        }
+    typedef typename X::PrecisionType PR;
+    if constexpr (Constructible<X,PR>) {
+        PR pr=make_default_precision<PR>(); return X(pr);
+    } else {
+        abort();
     }
 }
 
@@ -148,10 +144,10 @@ struct DefaultTag { };
 //! It must be possible to add and multiply any two elements of the vector.
 template<class X>
 class Vector
-    : public VectorContainer<Vector<X>>
+        : public VectorContainer<Vector<X>>
 {
     Array<X> _ary;
-  public:
+public:
     //!@{
     //! \name Type definitions
 
@@ -183,20 +179,20 @@ class Vector
 
     //! \brief Construct from an initializer list of generic type and a precision parameter.
     template<class... PRS> requires Constructible<X,Real,PRS...>
-        explicit Vector(InitializerList<Real> const& lst, PRS... prs);
-    template<class... PRS> requires Constructible<X,Real,Real,PRS...>
-        explicit Vector(InitializerList<Pair<Real,Real>> const& lst, PRS... prs);
+    explicit Vector(InitializerList<Real> const& lst, PRS... prs);
+    template<class... PRS> requires Constructible<X,Dbl,PRS...>
+    explicit Vector(InitializerList<Dbl> const& lst, PRS... prs);
 
     //! \brief Construct from an array of generic type and a precision parameter.
     template<class Y, class... PRS> requires Constructible<X,Y,PRS...>
-        explicit Vector(Array<Y> const& ary, PRS... prs) : _ary(ary,prs...) { }
+    explicit Vector(Array<Y> const& ary, PRS... prs) : _ary(ary,prs...) { }
     //! \brief Construct from an vector of generic type and a precision parameter.
     template<class Y, class... PRS> requires Constructible<X,Y,PRS...>
-        explicit Vector(Vector<Y> const& v, PRS... prs) : _ary(v.array(),prs...) { }
+    explicit Vector(Vector<Y> const& v, PRS... prs) : _ary(v.array(),prs...) { }
     //! \brief Convert from an %VectorExpression of a different type.
     template<class VE> requires Convertible<typename VE::ScalarType,X>
     Vector(VectorExpression<VE> const& ve) : _ary(ve().size(),ve().zero_element()) {
-            for(SizeType i=0; i!=this->size(); ++i) { this->_ary[i]=ve()[i]; } }
+        for(SizeType i=0; i!=this->size(); ++i) { this->_ary[i]=ve()[i]; } }
 
     /*! \brief Generate from a function (object) \a g of type \a G mapping an index to a value. */
     template<class G> requires InvocableReturning<X,G,SizeType>
@@ -205,7 +201,7 @@ class Vector
     //! \brief Construct from an %VectorExpression of a different type.
     template<class VE> requires ExplicitlyConvertible<typename VE::ScalarType,X>
     explicit Vector(VectorExpression<VE> const& ve) : _ary(ve().size(),X(ve().zero_element())) {
-            for(SizeType i=0; i!=this->size(); ++i) { this->_ary[i]=X(ve()[i]); } }
+        for(SizeType i=0; i!=this->size(); ++i) { this->_ary[i]=X(ve()[i]); } }
 
 
     //! \brief Copy constructor.
@@ -318,10 +314,10 @@ template<class X> struct IsVector<Vector<X>> : True { };
 //! A view into a subvector of a vector of class \a V.
 //! \see Vector, Range
 template<class V> class VectorRange
-    : public VectorContainer< VectorRange<V> >
+        : public VectorContainer< VectorRange<V> >
 {
     const V& _v; Range _rng;
-  public:
+public:
     typedef typename V::ScalarType ScalarType;
     VectorRange(const V& v, Range rng) : _v(v), _rng(rng) { }
     SizeType size() const { return _rng.size(); }
@@ -538,7 +534,7 @@ template<class V1, class X2> struct VectorScalarQuotient {
 };
 template<class V1, class X2> struct IsVectorExpression<VectorScalarQuotient<V1,X2>> : True { };
 
-template<AVectorExpression V1, AScalar X2> inline
+template<AVectorExpression V1, AScalar X2>> inline
 VectorScalarQuotient<V1,X2> operator/(const V1& v1, const X2& x2) {
     return VectorScalarQuotient<V1,X2>(v1,x2); }
 
@@ -693,19 +689,19 @@ template<class X1, class X2> inline decltype(consistent(declval<X1>(),declval<X2
 }
 
 template<class G> decltype(auto) generate_vector(SizeType n, G const& g) {
-    typedef ResultOf<G(SizeType)> R;
-    return Vector<R>(n,g);
+typedef ResultOf<G(SizeType)> R;
+return Vector<R>(n,g);
 }
 
 template<class F, class X> Vector<ResultOf<F(X)>> elementwise(F const& f, Vector<X> const& v) {
-    typedef ResultOf<F(X)> R;
-    return Vector<R>(v.size(),[&](SizeType i){return f(v[i]);});
+typedef ResultOf<F(X)> R;
+return Vector<R>(v.size(),[&](SizeType i){return f(v[i]);});
 }
 
 template<class F, class X1, class X2> Vector<ResultOf<F(X1,X2)>> elementwise(F const& f, Vector<X1> const& v1, Vector<X2> const& v2) {
-    SYMBOLICORE_PRECONDITION(v1.size()==v2.size());
-    typedef ResultOf<F(X1,X2)> R;
-    return Vector<R>(v1.size(),[&](SizeType i){return f(v1[i],v2[i]);});
+SYMBOLICORE_PRECONDITION(v1.size()==v2.size());
+typedef ResultOf<F(X1,X2)> R;
+return Vector<R>(v1.size(),[&](SizeType i){return f(v1[i],v2[i]);});
 }
 
 
@@ -750,8 +746,14 @@ template<class X> inline Vector<ExactType<X>> cast_exact(const Vector<X>& v) {
 }
 
 template<class X> template<class... PRS> requires Constructible<X,Real,PRS...>
+Vector<X>::Vector(InitializerList<Real> const& lst, PRS... prs)
+        : _ary(Array<Real>(lst),prs...)
+{
+}
+
+template<class X> template<class... PRS> requires Constructible<X,Dbl,PRS...>
 Vector<X>::Vector(InitializerList<Dbl> const& lst, PRS... prs)
-    : _ary(Array<Real>(lst),prs...)
+        : _ary(Array<Dbl>(lst),prs...)
 {
 }
 

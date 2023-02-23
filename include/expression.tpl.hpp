@@ -54,6 +54,7 @@ template<> struct OperatorTypedef<Integer(Integer,Integer)> { typedef OperatorVa
 
 template<> struct OperatorTypedef<Real(Real)> { typedef UnaryElementaryOperator Type; };
 template<> struct OperatorTypedef<Real(Real,Real)> { typedef BinaryElementaryOperator Type; };
+template<> struct OperatorTypedef<Real(Real,Int)> { typedef GradedElementaryOperator Type; };
 template<> struct OperatorTypedef<Real(Real,Integer)> { typedef GradedElementaryOperator Type; };
 
 template<> struct OperatorTypedef<Boolean(String,String)> { typedef OperatorVariant<Eq,Neq> Type; };

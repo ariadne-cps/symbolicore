@@ -29,12 +29,10 @@
 #ifndef SYMBOLICORE_REAL_HPP
 #define SYMBOLICORE_REAL_HPP
 
-
 #include "typedefs.hpp"
 #include "metaprogramming.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
-//#include "vector.hpp"
 
 namespace SymboliCore {
 
@@ -118,9 +116,9 @@ class Real
     //!@{
     //! \name Comparison operations
     friend Sign sgn(Real const& r); //!< The sign of \a r.
-    friend Comparison cmp(Real const& w1, Real const& w2); //!< Compares which of \a w1 and \a w2 is larger.
-    friend Boolean eq(Real const& w1, Real const& w2); //!< Tests if \a w1 is equal to \a w2.
-    friend Boolean lt(Real const& w1, Real const& w2); //!< Tests if \a w1 is less than \a w2.
+    friend Comparison cmp(Real const& r1, Real const& r2); //!< Compares which of \a r1 and \a r2 is larger.
+    friend Boolean eq(Real const& r1, Real const& r2); //!< Tests if \a r1 is equal to \a r2.
+    friend Boolean lt(Real const& r1, Real const& r2); //!< Tests if \a r1 is less than \a r2.
     //!@}
 
     //!@{
@@ -130,6 +128,8 @@ class Real
     friend Bool is_finite(Real const& r); //!< Tests whether \a r is finite.
     friend Bool is_zero(Real const& r); //!< Tests whether \a r is zero.
     //!@}
+
+    friend Bool same(Real const& r1, Real const& r2); //!< Test equivalence of representation.
 
     //!@{
     //! \name Input/output operations

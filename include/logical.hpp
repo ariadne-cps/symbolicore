@@ -32,6 +32,7 @@
 #include "typedefs.hpp"
 #include "handle.hpp"
 #include "string.hpp"
+#include "sign.hpp"
 
 #include "paradigm.hpp"
 #include "logical.decl.hpp"
@@ -355,6 +356,8 @@ class Kleenean : public Logical<Kleenean,LogicalHandle> {
     Kleenean(Sierpinskian s) : Kleenean(s.repr()) { }
     //! \brief Convert from a negated %Sierpinskian predicate.
     Kleenean(NegatedSierpinskian ns) : Kleenean(ns.repr()) { }
+    //! \brief Convert from a sign \a s.
+    Kleenean(Sign s) : Kleenean(s == Sign::NEGATIVE ? LogicalValue::FALSE : (s == Sign::POSITIVE ? LogicalValue::TRUE : LogicalValue::INDETERMINATE)) { }
     //! \brief Check the value using effort \a e.
     ValidatedKleenean check(Effort e) const;
     //! \brief Check the value of \a k using effort \a e.
