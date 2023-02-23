@@ -28,6 +28,7 @@
 #include "assignment.hpp"
 #include "space.hpp"
 #include "valuation.hpp"
+#include "logical.hpp"
 
 namespace SymboliCore {
 
@@ -165,7 +166,7 @@ template<class T> OperatorCode Expression<T>::code() const {
 template<class T> OperatorKind Expression<T>::kind() const {
     return node_ptr()->op().kind(); }
 template<class T> const T& Expression<T>::val() const {
-    return std::get<Constant<T>>(node_ref()); }
+    return std::get<Constant<T>>(node_ref()).value(); }
 template<class T> const Identifier& Expression<T>::var() const {
     return std::get<VariableExpressionNode<T>>(node_ref()).name(); }
 template<class T> const Expression<T>& Expression<T>::arg() const {

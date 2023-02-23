@@ -39,6 +39,7 @@
 
 #include "macros.hpp"
 #include "container.hpp"
+#include "integer.hpp"
 
 #include "variable.hpp"
 #include "expression.hpp"

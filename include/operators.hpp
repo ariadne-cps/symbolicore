@@ -44,6 +44,8 @@ typedef bool Bool;
 typedef unsigned int Nat;
 typedef int Int;
 
+class Integer;
+
 typedef std::ostream OutputStream;
 
 template<class X> struct Logic;

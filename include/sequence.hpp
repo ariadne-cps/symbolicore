@@ -30,10 +30,13 @@
 #define SYMBOLICORE_SEQUENCE_HPP
 
 #include <functional>
+#include "integer.hpp"
 
 namespace SymboliCore {
 
 using Nat = unsigned int;
+
+class Natural;
 
 template<class Y> struct CompletionTypedef;
 template<> struct CompletionTypedef<Real> { typedef Real Type; };

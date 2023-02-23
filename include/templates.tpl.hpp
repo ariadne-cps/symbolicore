@@ -57,7 +57,7 @@ template<class R, class E1, class E2, class V> R _evaluate_as_impl(const BinaryC
 template<class R, class E, class N, class V> R _graded_evaluate_as_impl(const GradedElementaryOperator& op, const E& e, const N& n, const V& v) {
     return op.call_as<R>(evaluate(e,v),n); }
 
-template<class R, class A> R evaluate_as(const Constant<R>& c, const Map<Identifier,A>& x) { return c; }
+template<class R, class A> R evaluate_as(const Constant<R>& c, const Map<Identifier,A>& x) { return c.value(); }
 template<class R, class A> R evaluate_as(const Variable<R>& v, const Map<Identifier,A>& x) { abort(); }
 template<class R> R evaluate_as(const Variable<R>& v, const Map<Identifier,R>& x) { return x[v.name()]; }
 template<class R, class OP, class E, class V> R evaluate_as(const Symbolic<OP,E>& e, const V& x) {

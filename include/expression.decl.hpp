@@ -32,6 +32,8 @@
 namespace SymboliCore {
 
 class String;
+class Integer;
+class Natural;
 
 template<class T> class Vector;
 

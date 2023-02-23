@@ -66,14 +66,10 @@ using Nat = uint;
 using Int = int;
 //! Internal name for builtin double-precision floats.
 using Dbl = double;
-//! Internal name for integers.
-using Integer = int;
 //! Internal name for builtin double-precision floats.
 using Double = double;
 //! Internal name for reals.
 using Real = double;
-
-using Natural = uint;
 
 //! Internal name for standard size type, used for sizes of containers.
 using SizeType = std::size_t;
@@ -82,11 +78,6 @@ using PointerDifferenceType = std::ptrdiff_t;
 
 //! Internal name for unsigned integer used as a step counter
 using CounterType = std::uint32_t;
-
-class Nat32;
-class Int32;
-class Nat64;
-class Int64;
 
 using std::declval;
 

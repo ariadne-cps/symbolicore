@@ -1,43 +1,41 @@
 /***************************************************************************
  *            operations.hpp
  *
- *  Copyright  2023  Luca Geretti
+ *  Copyright  2024  Pieter Collins
  *
  ****************************************************************************/
 
 /*
- * This file is part of SymboliCore, under the MIT license.
+ *  This file is part of Ariadne.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
+ *  Ariadne is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ *  Ariadne is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *  You should have received a copy of the GNU General Public License
+ *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 /*! \file operations.hpp
  *  \brief Operations on symbolic expressions
  */
 
-#ifndef SYMBOLICORE_OPERATIONS_HPP
-#define SYMBOLICORE_OPERATIONS_HPP
+#ifndef SYMBOLICORE_SYMBOLIC_OPERATIONS_HPP
+#define SYMBOLICORE_SYMBOLIC_OPERATIONS_HPP
 
 #include <cstdarg>
 #include <iosfwd>
 #include <iostream>
 
 namespace SymboliCore {
+
+class String;
 
 template<class T> class Set;
 
@@ -54,9 +52,12 @@ template<class X> class Algebra;
 
 
 typedef Expression<Boolean> DiscretePredicate;
+typedef Expression<Kleenean> ContinuousPredicate;
 typedef Expression<String> StringExpression;
 typedef Expression<Integer> IntegerExpression;
 typedef Expression<Real> RealExpression;
+
+
 
 template<class X> struct ExpressionNode;
 
@@ -71,6 +72,15 @@ template<> struct DeclareExpressionOperations<Boolean>  {
     friend Expression<Boolean> operator||(Expression<Boolean> const& e1, Expression<Boolean> const& e2);
     //! \related Expression \brief Logical negation.
     friend Expression<Boolean> operator!(Expression<Boolean> const& e);
+};
+
+template<> struct DeclareExpressionOperations<Kleenean> {
+    //! \related Expression \brief Fuzzy logical disjunction.
+    friend Expression<Kleenean> operator&&(Expression<Kleenean> const& e1, Expression<Kleenean> const& e2);
+    //! \related Expression \brief Fuzzy logical conjunction.
+    friend Expression<Kleenean> operator||(Expression<Kleenean> const& e1, Expression<Kleenean> const& e2);
+    //! \related Expression \brief Fuzzy logical negation.
+    friend Expression<Kleenean> operator!(Expression<Kleenean> const& e);
 };
 
 template<> struct DeclareExpressionOperations<String>  {
@@ -112,20 +122,21 @@ template<> struct DeclareExpressionOperations<Integer>  {
 
 template<> struct DeclareExpressionOperations<Real> {
     //! \related Expression \brief Positivity test.
-    friend Expression<Boolean> sgn(Expression<Real> const& e);
+    //! Returns \c indeterminate if the value cannot be distinguished from zero.
+    friend Expression<Kleenean> sgn(Expression<Real> const& e);
     //! \related Expression \brief Fuzzy inequality comparison predicate (less) of real expressions.
-    friend Expression<Boolean> operator<=(Expression<Real> const& e1, Expression<Real> const& e2);
+    friend Expression<Kleenean> operator<=(Expression<Real> const& e1, Expression<Real> const& e2);
     //! \related Expression \brief Fuzzy inequality comparison predicate (greater) of real expressions.
-    friend Expression<Boolean> operator>=(Expression<Real> const& e1, Expression<Real> const& e2);
+    friend Expression<Kleenean> operator>=(Expression<Real> const& e1, Expression<Real> const& e2);
     //! \related Expression \brief Fuzzy inequality comparison predicate (less) of real expressions.
-    friend Expression<Boolean> operator< (Expression<Real> const& e1, Expression<Real> const& e2);
+    friend Expression<Kleenean> operator< (Expression<Real> const& e1, Expression<Real> const& e2);
     //! \related Expression \brief Fuzzy inequality comparison predicate (greater) of real expressions.
-    friend Expression<Boolean> operator> (Expression<Real> const& e1, Expression<Real> const& e2);
+    friend Expression<Kleenean> operator> (Expression<Real> const& e1, Expression<Real> const& e2);
 
     //! \related Expression \brief Equality comparison predicate of real expressions.
-    friend Expression<Boolean> operator==(Expression<Real> const& e1, Expression<Real> const& e2);
+    friend Expression<Kleenean> operator==(Expression<Real> const& e1, Expression<Real> const& e2);
     //! \related Expression \brief Negated equality comparison predicate of real expressions.
-    friend Expression<Boolean> operator!=(Expression<Real> const& e1, Expression<Real> const& e2);
+    friend Expression<Kleenean> operator!=(Expression<Real> const& e1, Expression<Real> const& e2);
 
     //! \related Expression \brief %Real unary plus expression.
     friend Expression<Real> operator+(Expression<Real> const& e);
@@ -202,4 +213,4 @@ template<> struct DeclareExpressionOperations<Real> {
 
 } // namespace SymboliCore
 
-#endif /* SYMBOLICORE_OPERATIONS_HPP */
+#endif /* SYMBOLICORE_SYMBOLIC_OPERATIONS_HPP */

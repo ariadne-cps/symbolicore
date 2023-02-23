@@ -22,6 +22,7 @@
  *  along with Ariadne.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "vector.hpp"
 #include "constant.hpp"
 #include "variable.hpp"
 #include "sign.hpp"
@@ -147,7 +148,7 @@ Expression<Real> div(Expression<Real> const& e1, Expression<Real> const& e2) {
 Expression<Real> pow(Expression<Real> const& e, Int n) {
     return make_expression<Real>(Pow(),e,n); }
 
-Expression<Real> nul(Expression<Real> const& e) {
+Expression<Real> nul(Expression<Real> const&) {
     return make_expression<Real>(Real(0)); }
 Expression<Real> pos(Expression<Real> const& e) {
     return make_expression<Real>(Pos(),e); }
@@ -229,8 +230,8 @@ RE _indicator(Geq, RE e1, RE e2, Sign sign) { if(sign==Sign::POSITIVE) { return 
 RE _indicator(Gtr, RE e1, RE e2, Sign sign) { return _indicator(Geq(),e1,e2,sign); }
 RE _indicator(Leq, RE e1, RE e2, Sign sign) { return _indicator(Geq(),e1,e2,-sign); }
 RE _indicator(Less, RE e1, RE e2, Sign sign) { return _indicator(Leq(),e1,e2,sign); }
-RE _indicator(Equal op, RE e1, RE e2, Sign sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
-RE _indicator(Unequal op, RE e1, RE e2, Sign sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
+RE _indicator(Equal op, RE e1, RE e2, Sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
+RE _indicator(Unequal op, RE e1, RE e2, Sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
 
 RE _indicator(AndOp, KE e1, KE e2, Sign sign) { return min(indicator(e1,sign),indicator(e2,sign)); }
 RE _indicator(OrOp, KE e1, KE e2, Sign sign) { return max(indicator(e1,sign),indicator(e2,sign)); }
@@ -242,7 +243,7 @@ Expression<Real> indicator(ConstantExpressionNode<Kleenean> e, Sign sign) {
     if(definitely(checked_value)) { return Expression<Real>::constant(+1); }
     else if(not possibly(checked_value)) {  return Expression<Real>::constant(-1); }
     else { return Expression<Real>::constant(0); } }
-Expression<Real> indicator(VariableExpressionNode<Kleenean> e, Sign sign) {
+Expression<Real> indicator(VariableExpressionNode<Kleenean> e, Sign) {
     SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << e); }
 Expression<Real> indicator(UnaryExpressionNode<Kleenean> e, Sign sign) {
     return e.op().accept([&](auto op){return _indicator(op,e.arg(),sign);}); }
@@ -300,14 +301,14 @@ inline Bool _is_additive_in(Add, REcr e1, REcr e2, RVcr var) {
     return (is_additive_in(e1,var) && is_constant_in(e2,var)) || (is_constant_in(e1,var) && is_additive_in(e2,var)); }
 inline Bool _is_additive_in(Sub, REcr e1, REcr e2, RVcr var) {
     return is_additive_in(e1,var) && is_constant_in(e2,var); }
-inline Bool _is_additive_in(Variant<Mul,Div,Max,Min>, REcr e1, REcr e2, RVcr var) { return false; }
+inline Bool _is_additive_in(Variant<Mul,Div,Max,Min>, REcr , REcr , RVcr ) { return false; }
 template<class... OPS> inline Bool _is_additive_in(OperatorVariant<OPS...> const& ops, REcr e1, REcr e2, RVcr var) {
     return ops.accept([&](auto op){return _is_additive_in(op,e1,e2,var);}); }
 
-inline Bool is_additive_in(RCcr c, RVcr var) { return true; }
-inline Bool is_additive_in(RVcr v, RVcr var) { return true; }
-template<class OP> inline Bool is_additive_in(Symbolic<OP,RE> const&, RVcr var) { return false; }
-template<class OP> inline Bool is_additive_in(Symbolic<OP,RE,Int> const&, RVcr var) { return false; }
+inline Bool is_additive_in(RCcr, RVcr) { return true; }
+inline Bool is_additive_in(RVcr, RVcr) { return true; }
+template<class OP> inline Bool is_additive_in(Symbolic<OP,RE> const&, RVcr) { return false; }
+template<class OP> inline Bool is_additive_in(Symbolic<OP,RE,Int> const&, RVcr) { return false; }
 template<class OP> inline Bool is_additive_in(Symbolic<OP,RE,RE> const& e, RVcr var) { return _is_additive_in(e._op,e._arg1,e._arg2,var); }
 }
 
@@ -380,7 +381,7 @@ Bool opposite(Expression<Kleenean> e1, Expression<Kleenean> e2) {
 }
 
 namespace {
-Expression<Real> derivative(const Constant<Real>& e, Variable<Real> v) { return Expression<Real>(Real(0)); }
+Expression<Real> derivative(const Constant<Real>&, Variable<Real>) { return Expression<Real>(Real(0)); }
 Expression<Real> derivative(const Variable<Real>& e, Variable<Real> v) { return Expression<Real>(Real(e==v ?1:0)); }
 }
 

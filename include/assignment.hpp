@@ -138,9 +138,10 @@ template<class T> inline List<Assignment<DottedVariable<T>,Expression<T>>> Dotte
     return elementwise([](Variable<T>const&l,Expression<T>const&r){return dot(l)=r;},this->_lhs,rhs);
 }
 
-
 //! \relates Assignment
 //! \brief Sort a list of assignments so that an assigned-to variable is only used after it is assigned.
 List<RealAssignment> algebraic_sort(const List<RealAssignment>& assignments);
+
+}
 
 #endif // SYMBOLICORE_ASSIGNMENT_HPP
