@@ -97,7 +97,7 @@ class UntypedVariable {
 
 //! \ingroup SymbolicModule
 //! \brief A named variable of type \a T.
-//! %Ariadne supports variables of type Boolean, Kleenean, String, Integer and Real.
+//! We support variables of type Boolean, Kleenean, String, Integer and Real.
 //! \see Constant, Expression, Assignment, Space
 //! \see Variables, TimeVariable,
 //! \see LetVariable, PrimedVariable, DottedVariable
