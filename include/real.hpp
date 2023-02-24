@@ -40,6 +40,8 @@
 
 namespace SymboliCore {
 
+class Integer;
+
 class Real
 {
   private:
@@ -51,6 +53,7 @@ class Real
     explicit Real(String const&); //!< Construct from a string literal
     Real(double val); //!< Construct from raw double
     Real(const Real&); //!< Copy constructor
+    Real(Integer const& i); //!< Costruct from Integer
     Real& operator=(const Real&); //!< %Assignment
     String literal() const; //!< A string literal
     double const& value() const; //!< Builtin value

@@ -33,6 +33,7 @@
 #include "macros.hpp"
 #include "string.hpp"
 #include "logical.hpp"
+#include "integer.hpp"
 
 namespace SymboliCore {
 
@@ -46,6 +47,8 @@ Real::Real(String const& str) {
     SizeType sz;
     _value = stod(str,&sz);
 }
+
+Real::Real(Integer const& i) : _value(static_cast<double>(i.value())) { }
 
 Real::Real(const Real& r) : _value(r._value) { }
 
