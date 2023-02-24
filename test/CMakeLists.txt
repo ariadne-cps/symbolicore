@@ -4,7 +4,7 @@ set(UNIT_TESTS
     test_integer
     test_real
     test_space
-    #test_expression
+    test_expression
 )
 
 foreach(TEST ${UNIT_TESTS})

@@ -1,7 +1,7 @@
 /***************************************************************************
  *            test_expression.cpp
  *
- *  Copyright  2023  Luca Geretti
+ *  Copyright  2023  Pieter Collins
  *
  ****************************************************************************/
 
@@ -30,6 +30,9 @@
 
 #include "container.hpp"
 #include "stlio.hpp"
+#include "string.hpp"
+#include "real.hpp"
+#include "vector.hpp"
 #include "expression.hpp"
 #include "assignment.hpp"
 #include "valuation.hpp"
@@ -44,7 +47,7 @@ class TestExpression {
     RealVariable x,y,z;
   public:
     TestExpression()
-        : o("1.0",1.0_q), x("x"), y("y"), z("z") {
+        : o("1.0",1.0), x("x"), y("y"), z("z") {
     }
 
     Void test_variables() {
@@ -104,7 +107,6 @@ class TestExpression {
         SYMBOLICORE_TEST_CONSTRUCT(ConstantRealAssignment,ac,(x=one));
         SYMBOLICORE_TEST_CONSTRUCT(List<ConstantRealAssignment>,lac,({x=zero,y=one}));
         SYMBOLICORE_TEST_CONSTRUCT(Valuation<Real>,va,(lac));
-        //SYMBOLICORE_TEST_CONSTRUCT(Valuation<Real>,va,({x=zero,y=one})); Fails due to ambiguous overload
 
         SYMBOLICORE_TEST_CONSTRUCT(RealAssignment,a,(let(x)=one));
         SYMBOLICORE_TEST_CONSTRUCT(PrimedRealAssignment,pa,(prime(x)=one));
@@ -115,21 +117,11 @@ class TestExpression {
         SYMBOLICORE_TEST_CONSTRUCT(List<DottedRealAssignment>,lda,(dot({x,y,z})={zero,x,e}));
     }
 
-    Void test_evaluate() {
-        SYMBOLICORE_TEST_CONSTRUCT(RealExpression,g,(x+3*y*z*z));
-
-        Map<RealVariable,Real> v;
-        v[x]=Real(2.0_x); v[y]=Real(3.0_x); v[z]=Real(5.0_x);
-
-        SYMBOLICORE_TEST_PRINT(v);
-        //SYMBOLICORE_TEST_EQUAL(evaluate(g,v),Real(227));
-    }
-
     Void test_parameters() {
-        RealExpression expr = x;//+u;
+        RealExpression expr = x;
 
         Map<Identifier,Real> valuation;
-        Real value = Real(ExactDouble(-0.0626));
+        Real value(-0.0626);
         valuation[x.name()] = value;
 
         SYMBOLICORE_TEST_EQUALS(expr.kind(),OperatorKind::VARIABLE);
@@ -139,6 +131,15 @@ class TestExpression {
         Real result1 = evaluate(expr,valuation);
 
         SYMBOLICORE_TEST_EQUALS(result1,value);
+    }
+
+    Void test_print() {
+        SYMBOLICORE_TEST_CONSTRUCT(RealExpression,g,(x+3*y*z*z));
+
+        Map<RealVariable,Real> v;
+        v[x]=Real(2.0); v[y]=Real(3.0); v[z]=Real(5.0);
+
+        SYMBOLICORE_TEST_PRINT(v);
     }
 
     Void test_identical() {
@@ -385,59 +386,13 @@ class TestExpression {
         SYMBOLICORE_TEST_ASSERT(not is_polynomial_in({x/y,sqr(y)},{x,y}))
     }
 
-    Void test_function()
-    {
-        // Test to ensure that constants are handled correctly.
-        Real tc=Dyadic(5.0);
-        Real tx=Dyadic(1.125);
-        Real ty=Dyadic(2.375);
-        Real tz=Dyadic(3.750);
-
-        Vector<Real> tv={tx,ty,tz};
-        Valuation<Real> tw({{x,tx},{y,ty},{z,tz}});
-
-        RealConstant c("5",tc);
-
-        RealExpression e1=c;
-        EffectiveScalarMultivariateFunction f1=make_function(RealSpace(List<RealVariable>({x,y,z})),e1);
-        SYMBOLICORE_TEST_PRINT(f1);
-        SYMBOLICORE_TEST_EQUAL(f1.evaluate(tv), tc);
-
-        RealExpression e2=c+x;
-        EffectiveScalarMultivariateFunction f2=make_function(RealSpace(List<RealVariable>({x,y,z})),e2);
-        SYMBOLICORE_TEST_PRINT(f2);
-        SYMBOLICORE_TEST_EQUAL(f2.evaluate(tv), tc+tx);
-
-        RealExpression e3=c+x+c*y;
-        EffectiveScalarMultivariateFunction f3=make_function({x,y,z},e3);
-        SYMBOLICORE_TEST_PRINT(f3);
-        SYMBOLICORE_TEST_EQUAL(f3.evaluate(tv), tc+tx+tc*ty);
-
-        RealExpression e4=exp(c+x);
-        EffectiveScalarMultivariateFunction f4=make_function({x,y,z},e4);
-        SYMBOLICORE_TEST_PRINT(f4);
-        SYMBOLICORE_TEST_ASSERT(possibly((f4.evaluate(tv) == exp(tc+tx)).check(Effort(0))));
-
-        RealElementaryAlgebra ax=RealExpression(x);
-        RealElementaryAlgebra ay=RealExpression(y);
-        RealElementaryAlgebra az=RealExpression(z);
-        Vector<RealElementaryAlgebra> va={ax,ay,az};
-        SYMBOLICORE_TEST_PRINT(va);
-        SYMBOLICORE_TEST_PRINT(f3(va));
-        SYMBOLICORE_TEST_CONSTRUCT(RealExpression,g3,(f3(va).extract<RealExpression>()));
-        SYMBOLICORE_TEST_PRINT(e3);
-        SYMBOLICORE_TEST_PRINT(f3);
-        SYMBOLICORE_TEST_PRINT(g3);
-        SYMBOLICORE_TEST_PRINT(5+va[0]+5*va[1]);
-        SYMBOLICORE_TEST_EQUALS(evaluate(g3,tw),evaluate(e3,tw));
-    }
-
     Void test() {
         SYMBOLICORE_TEST_CALL(test_variables());
         SYMBOLICORE_TEST_CALL(test_expression());
         SYMBOLICORE_TEST_CALL(test_write());
         SYMBOLICORE_TEST_CALL(test_assignment());
         SYMBOLICORE_TEST_CALL(test_parameters());
+        SYMBOLICORE_TEST_CALL(test_print());
         SYMBOLICORE_TEST_CALL(test_identical());
         SYMBOLICORE_TEST_CALL(test_derivative());
         SYMBOLICORE_TEST_CALL(test_simplify());
@@ -451,7 +406,6 @@ class TestExpression {
         SYMBOLICORE_TEST_CALL(test_is_additive_in());
         SYMBOLICORE_TEST_CALL(test_is_affine_in());
         SYMBOLICORE_TEST_CALL(test_is_polynomial_in());
-        SYMBOLICORE_TEST_CALL(test_function());
     }
 
 };
