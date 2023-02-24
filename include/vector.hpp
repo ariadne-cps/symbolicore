@@ -38,7 +38,7 @@
 #include "macros.hpp"
 #include "metaprogramming.hpp"
 #include "container.hpp"
-#include "typedefs.hpp""
+#include "typedefs.hpp"
 #include "range.hpp"
 
 namespace SymboliCore {
