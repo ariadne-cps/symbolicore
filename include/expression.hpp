@@ -38,12 +38,11 @@
 #include <iostream>
 
 #include "utility/macros.hpp"
-#include "utility/typedefs.hpp"
 #include "utility/container.hpp"
 #include "utility/writable.hpp"
 
+#include "typedefs.hpp"
 #include "logical.decl.hpp"
-
 #include "operators.hpp"
 #include "constant.hpp"
 #include "variable.hpp"
@@ -52,7 +51,6 @@
 
 namespace SymboliCore {
 
-template<class T> class Set;
 template<class T> struct DeclareExpressionOperations;
 template<class X> struct ExpressionNode;
 

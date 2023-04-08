@@ -36,6 +36,8 @@
 #include <cstdint>
 #include "utility/metaprogramming.hpp"
 
+using namespace Utility;
+
 namespace SymboliCore {
 
 class ParadigmError { };

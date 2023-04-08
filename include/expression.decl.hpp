@@ -35,7 +35,6 @@
 
 namespace SymboliCore {
 
-class String;
 class Integer;
 class Natural;
 

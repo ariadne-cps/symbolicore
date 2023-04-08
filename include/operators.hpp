@@ -36,11 +36,13 @@
 #include <iostream>
 #include <cassert>
 
-#include "utility/typedefs.hpp"
 #include "utility/variant.hpp"
 #include "utility/variant.inl.hpp"
-
+#include "utility/string.hpp"
+#include "typedefs.hpp"
 #include "logical.decl.hpp"
+
+using namespace Utility;
 
 namespace SymboliCore {
 

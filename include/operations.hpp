@@ -39,10 +39,6 @@
 
 namespace SymboliCore {
 
-class String;
-
-template<class T> class Set;
-
 class Identifier;
 
 template<class T> class Variable;
@@ -54,14 +50,11 @@ template<class X> class Vector;
 template<class X> class Formula;
 template<class X> class Algebra;
 
-
 typedef Expression<Boolean> DiscretePredicate;
 typedef Expression<Kleenean> ContinuousPredicate;
 typedef Expression<String> StringExpression;
 typedef Expression<Integer> IntegerExpression;
 typedef Expression<Real> RealExpression;
-
-
 
 template<class X> struct ExpressionNode;
 

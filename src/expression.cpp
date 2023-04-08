@@ -27,10 +27,8 @@
  */
 
 #include "utility/array.hpp"
-#include "utility/templates.hpp"
-#include "utility/templates.tpl.hpp"
-
-#include "string.h"
+#include "utility/string.hpp"
+#include "utility/container.hpp"
 #include "sign.hpp"
 #include "integer.hpp"
 #include "real.hpp"
@@ -38,10 +36,15 @@
 #include "assignment.hpp"
 #include "constant.hpp"
 #include "variable.hpp"
+#include "templates.hpp"
+#include "templates.tpl.hpp"
 #include "space.hpp"
 #include "valuation.hpp"
 #include "expression.hpp"
 #include "expression.tpl.hpp"
+#include "typedefs.hpp"
+
+using namespace Utility;
 
 namespace SymboliCore {
 

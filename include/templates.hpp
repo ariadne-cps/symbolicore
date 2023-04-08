@@ -6,7 +6,7 @@
  ****************************************************************************/
 
 /*
- * This file is part of Utility, under the MIT license.
+ * This file is part of SymboliCore, under the MIT license.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,10 +33,10 @@
 #include "operators.hpp"
 #include "sequence.hpp"
 
-#ifndef UTILITY_EXPRESSION_TEMPLATES_HPP
-#define UTILITY_EXPRESSION_TEMPLATES_HPP
+#ifndef SYMBOLICORE_EXPRESSION_TEMPLATES_HPP
+#define SYMBOLICORE_EXPRESSION_TEMPLATES_HPP
 
-namespace Utility {
+namespace SymboliCore {
 
 /************ Symbolic ************************************************/
 
@@ -176,6 +176,6 @@ template<class O, class A1, class A2, class A3> struct TemporaryExpression<O,A1,
 };
 
 
-} // namespace Utility
+} // namespace SymboliCore
 
 #endif

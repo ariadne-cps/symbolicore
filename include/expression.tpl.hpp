@@ -35,6 +35,10 @@
 #include "valuation.hpp"
 #include "logical.hpp"
 
+namespace Utility {
+    template<class T, class... TS> struct IndexOf<T,Variant<TS...>> { static const SizeType N=IndexOf<T,TS...>::N; };
+}
+
 namespace SymboliCore {
 
 using Eq = Equal;
@@ -118,8 +122,6 @@ template<class T> inline Cnst _op_impl(Constant<T> const&) { Cnst op; return op;
 template<class T> inline Var _op_impl(Variable<T> const&) { return Var(); }
 template<class OP, class... AS> inline OP _op_impl(Symbolic<OP,AS...> const& s) { return s._op; }
 }
-
-template<class T, class... TS> struct IndexOf<T,Variant<TS...>> { static const SizeType N=IndexOf<T,TS...>::N; };
 
 template<class T, class VAR> constexpr decltype(auto) variant_index_of() { return IntegralConstant<SizeType,IndexOf<T,VAR>::N>(); }
 

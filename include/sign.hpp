@@ -36,6 +36,9 @@
 
 #include <iosfwd>
 #include "utility/macros.hpp"
+#include "typedefs.hpp"
+
+using namespace Utility;
 
 namespace SymboliCore {
 

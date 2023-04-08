@@ -126,7 +126,7 @@ template<class T, class X> Bool operator==(const Valuation<T,X>& v1, const Valua
         }
     }
     if(v1iter!=v1sm.end() || v2iter!=v2sm.end()) { identical=false; }
-    if(!identical) { SYMBOLICORE_THROW(std::runtime_error,"operator==(DiscreteLocation,DiscreteLocation)",
+    if(!identical) { UTILITY_THROW(std::runtime_error,"operator==(DiscreteLocation,DiscreteLocation)",
                                    "Valuations "<<v1<<" and "<<v2<<" are not identical, but no values differ."); }
     return true;
 }

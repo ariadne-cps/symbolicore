@@ -35,11 +35,11 @@
 
 #define SIMPLE_VECTOR_OPERATORS
 
-#include "macros.hpp"
-#include "metaprogramming.hpp"
-#include "container.hpp"
+#include "utility/macros.hpp"
+#include "utility/metaprogramming.hpp"
+#include "utility/container.hpp"
+#include "utility/range.hpp"
 #include "typedefs.hpp"
-#include "range.hpp"
 
 namespace SymboliCore {
 

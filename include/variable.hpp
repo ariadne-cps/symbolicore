@@ -45,11 +45,12 @@
 #include "identifier.hpp"
 #include "operations.hpp"
 
+using namespace Utility;
+
 namespace SymboliCore {
 
 class UntypedVariable;
 class ExtendedUntypedVariable;
-
 
 enum class VariableType : char { BOOLEAN, ENUMERATED, STRING, INTEGER, REAL };
 

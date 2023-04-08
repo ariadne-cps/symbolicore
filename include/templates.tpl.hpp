@@ -6,7 +6,7 @@
  ****************************************************************************/
 
 /*
- * This file is part of Utility, under the MIT license.
+ * This file is part of SymboliCore, under the MIT license.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef UTILITY_TEMPLATES_TPL_HPP
-#define UTILITY_TEMPLATES_TPL_HPP
+#ifndef SYMBOLICORE_TEMPLATES_TPL_HPP
+#define SYMBOLICORE_TEMPLATES_TPL_HPP
 
-namespace Utility {
+using namespace Utility;
+
+namespace SymboliCore {
 
 template<class T> class Variable;
 
@@ -510,6 +512,6 @@ return _is_polynomial_in_impl(s._op,s._arg,s._num,vars); }
 
 }
 
-} // namespace Utility
+} // namespace SymboliCore
 
 #endif

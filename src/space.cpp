@@ -35,9 +35,12 @@
 #include <iostream>
 
 #include "utility/macros.hpp"
+#include "utility/string.hpp"
 #include "real.hpp"
 #include "variable.hpp"
 #include "space.hpp"
+
+using namespace Utility;
 
 namespace SymboliCore {
 
