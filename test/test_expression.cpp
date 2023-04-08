@@ -26,19 +26,15 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <iostream>
-
-#include "container.hpp"
-#include "stlio.hpp"
-#include "string.hpp"
+#include "utility/test.hpp"
+#include "utility/container.hpp"
+#include "utility/string.hpp"
 #include "real.hpp"
 #include "vector.hpp"
 #include "expression.hpp"
 #include "assignment.hpp"
 #include "valuation.hpp"
 #include "space.hpp"
-
-#include "test.hpp"
 
 using namespace SymboliCore;
 

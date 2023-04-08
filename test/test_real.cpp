@@ -26,9 +26,9 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "utility/test.hpp"
 #include "logical.hpp"
 #include "real.hpp"
-#include "test.hpp"
 
 using namespace std;
 using namespace SymboliCore;

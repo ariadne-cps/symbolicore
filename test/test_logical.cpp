@@ -26,12 +26,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "metaprogramming.hpp"
+#include "utility/test.hpp"
+#include "utility/macros.hpp"
 #include "logical.hpp"
 #include "sequence.hpp"
-#include "macros.hpp"
-
-#include "test.hpp"
 
 using namespace SymboliCore;
 

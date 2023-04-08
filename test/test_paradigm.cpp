@@ -26,10 +26,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "metaprogramming.hpp"
+#include "utility/test.hpp"
 #include "paradigm.hpp"
-
-#include "test.hpp"
 
 using namespace SymboliCore;
 

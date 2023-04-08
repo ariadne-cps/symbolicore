@@ -26,14 +26,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "utility/test.hpp"
+#include "utility/string.hpp"
 #include "integer.hpp"
 #include "logical.hpp"
-#include "string.hpp"
-
-#include <iostream>
-#include <iomanip>
-
-#include "test.hpp"
 
 using namespace std;
 using namespace SymboliCore;
