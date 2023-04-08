@@ -53,7 +53,7 @@ class ExtendedUntypedVariable;
 
 enum class VariableType : char { BOOLEAN, ENUMERATED, STRING, INTEGER, REAL };
 
-template<class T> inline VariableType variable_type() { SYMBOLICORE_FAIL_MSG("Unknown variable type"); }
+template<class T> inline VariableType variable_type() { UTILITY_FAIL_MSG("Unknown variable type"); }
 template<> inline constexpr VariableType variable_type<Boolean>() { return VariableType::BOOLEAN; }
 template<> inline constexpr VariableType variable_type<String>() { return VariableType::STRING; }
 template<> inline constexpr VariableType variable_type<Integer>() { return VariableType::INTEGER; }
@@ -67,7 +67,7 @@ inline String class_name(const VariableType& tp) {
         case VariableType::INTEGER: return "Integer";
         case VariableType::REAL: return "Real";
         default:
-            SYMBOLICORE_FAIL_MSG("Unhandled VariableType for output stream");
+            UTILITY_FAIL_MSG("Unhandled VariableType for output stream");
     }
 }
 
@@ -160,7 +160,7 @@ inline OutputStream& operator<<(OutputStream& os, VariableCategory const& cat) {
         case VariableCategory::PRIMED: os << "DOTTED"; break;
         case VariableCategory::DOTTED: os << "PRIMED"; break;
         default:
-            SYMBOLICORE_FAIL_MSG("Unhandled VariableCategory for output streaming");
+            UTILITY_FAIL_MSG("Unhandled VariableCategory for output streaming");
     }
     return os;
 }
@@ -184,7 +184,7 @@ inline OutputStream& operator<<(OutputStream& os, ExtendedUntypedVariable const&
         case VariableCategory::PRIMED: os << "prime("<<var.name()<<")"; break;
         case VariableCategory::DOTTED: os << "dot("<<var.name()<<")"; break;
         default:
-            SYMBOLICORE_FAIL_MSG("Unhandled VariableCategory "<<var.category());
+            UTILITY_FAIL_MSG("Unhandled VariableCategory "<<var.category());
     }
     return os;
 }

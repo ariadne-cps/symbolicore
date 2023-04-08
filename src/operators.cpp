@@ -164,7 +164,7 @@ OperatorKind kind(OperatorCode op) {
         case OperatorCode::EQ: case OperatorCode::NEQ: case OperatorCode::LEQ: case OperatorCode::GEQ: case OperatorCode::LT: case OperatorCode::GT:
             return OperatorKind::COMPARISON;
         default:
-            SYMBOLICORE_FAIL_MSG("Cannot deduce kind of operator "<<op);
+            UTILITY_FAIL_MSG("Cannot deduce kind of operator "<<op);
     }
 }
 

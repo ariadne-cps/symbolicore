@@ -47,16 +47,16 @@ class TestLogical
 };
 
 int main() {
-    SYMBOLICORE_TEST_CLASS(TestLogical,TestLogical());
-    return SYMBOLICORE_TEST_FAILURES;
+    UTILITY_TEST_CLASS(TestLogical,TestLogical());
+    return UTILITY_TEST_FAILURES;
 }
 
 Void
 TestLogical::test()
 {
-    SYMBOLICORE_TEST_CALL(test_conversion_to_bool());
-    SYMBOLICORE_TEST_CALL(test_conversion());
-    SYMBOLICORE_TEST_CALL(test_disjunction());
+    UTILITY_TEST_CALL(test_conversion_to_bool());
+    UTILITY_TEST_CALL(test_conversion());
+    UTILITY_TEST_CALL(test_disjunction());
 }
 
 Void
@@ -84,72 +84,72 @@ TestLogical::test_concept()
 Void
 TestLogical::test_conversion_to_bool()
 {
-    SYMBOLICORE_TEST_CONCEPT(Convertible<Boolean,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<Sierpinskian,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<NegatedSierpinskian,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<Kleenean,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<LowerKleenean,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<UpperKleenean,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<ValidatedKleenean,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<ValidatedUpperKleenean,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<ValidatedLowerKleenean,Bool>);
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<ApproximateKleenean,Bool>);
+    UTILITY_TEST_CONCEPT(Convertible<Boolean,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<Sierpinskian,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<NegatedSierpinskian,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<Kleenean,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<LowerKleenean,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<UpperKleenean,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ValidatedKleenean,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ValidatedUpperKleenean,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ValidatedLowerKleenean,Bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ApproximateKleenean,Bool>);
 }
 
 Void
 TestLogical::test_conversion()
 {
     if(Convertible<LogicalType<EffectiveTag>,LogicalType<ValidatedTag>>) {
-        SYMBOLICORE_TEST_NOTIFY("EffectiveTag logical types may be converted to values using default Effort.");
+        UTILITY_TEST_NOTIFY("EffectiveTag logical types may be converted to values using default Effort.");
     } else if(Convertible<LogicalType<EffectiveTag>,LogicalType<ValidatedTag>>) {
-        SYMBOLICORE_TEST_NOTIFY("EffectiveTag logical types may be explicitly converted to values using default Effort.");
+        UTILITY_TEST_NOTIFY("EffectiveTag logical types may be explicitly converted to values using default Effort.");
     } else {
-        SYMBOLICORE_TEST_NOTIFY("EffectiveTag logical types cannot be converted to values; the Effort used must be specified.");
+        UTILITY_TEST_NOTIFY("EffectiveTag logical types cannot be converted to values; the Effort used must be specified.");
     }
 
     try {
         if(decide(indeterminate)) {
-            SYMBOLICORE_TEST_NOTIFY("decide(...) is true on INDETERMINATE value.");
+            UTILITY_TEST_NOTIFY("decide(...) is true on INDETERMINATE value.");
         } else {
-            SYMBOLICORE_TEST_NOTIFY("decide(...) is false on INDETERMINATE value.");
+            UTILITY_TEST_NOTIFY("decide(...) is false on INDETERMINATE value.");
         }
     } catch(...) {
-        SYMBOLICORE_TEST_NOTIFY("decide(...) is throws error on INDETERMINATE value.");
+        UTILITY_TEST_NOTIFY("decide(...) is throws error on INDETERMINATE value.");
     }
 
-    SYMBOLICORE_TEST_CONCEPT(not Convertible<Indeterminate,Boolean>);
-    SYMBOLICORE_TEST_CONCEPT(Convertible<Indeterminate,Sierpinskian>);
-    SYMBOLICORE_TEST_CONCEPT(Convertible<Indeterminate,NegatedSierpinskian>);
-    SYMBOLICORE_TEST_CONCEPT(Convertible<Indeterminate,Kleenean>);
-    SYMBOLICORE_TEST_CONCEPT(Convertible<Indeterminate,LowerKleenean>);
-    SYMBOLICORE_TEST_CONCEPT(Convertible<Indeterminate,UpperKleenean>);
-    SYMBOLICORE_TEST_CONCEPT(Same<decltype(indeterminate and Sierpinskian(true)),Sierpinskian>);
-    SYMBOLICORE_TEST_CONCEPT(Same<decltype(indeterminate and Kleenean(true)),Kleenean>);
+    UTILITY_TEST_CONCEPT(not Convertible<Indeterminate,Boolean>);
+    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,Sierpinskian>);
+    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,NegatedSierpinskian>);
+    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,Kleenean>);
+    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,LowerKleenean>);
+    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,UpperKleenean>);
+    UTILITY_TEST_CONCEPT(Same<decltype(indeterminate and Sierpinskian(true)),Sierpinskian>);
+    UTILITY_TEST_CONCEPT(Same<decltype(indeterminate and Kleenean(true)),Kleenean>);
 
-    SYMBOLICORE_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vl,(LogicalValue::LIKELY))
-    SYMBOLICORE_TEST_EQUAL(definitely(vl),false);
-    SYMBOLICORE_TEST_EQUAL(possibly(vl),true);
-    SYMBOLICORE_TEST_EQUAL(decide(vl),true);
+    UTILITY_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vl,(LogicalValue::LIKELY))
+    UTILITY_TEST_EQUAL(definitely(vl),false);
+    UTILITY_TEST_EQUAL(possibly(vl),true);
+    UTILITY_TEST_EQUAL(decide(vl),true);
 
-    SYMBOLICORE_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vi,(LogicalValue::INDETERMINATE))
-    SYMBOLICORE_TEST_EQUAL(definitely(vl),false);
-    SYMBOLICORE_TEST_EQUAL(possibly(vl),true);
+    UTILITY_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vi,(LogicalValue::INDETERMINATE))
+    UTILITY_TEST_EQUAL(definitely(vl),false);
+    UTILITY_TEST_EQUAL(possibly(vl),true);
 }
 
 Void
 TestLogical::test_disjunction()
 {
     Sequence<LowerKleenean> seq([](Nat n){return n==2 ? LowerKleenean(true) : LowerKleenean(indeterminate);});
-    SYMBOLICORE_TEST_ASSIGN_CONSTRUCT(LowerKleenean, some, disjunction(seq));
-    SYMBOLICORE_TEST_ASSERT(possibly(not some.check(2_eff)));
-    SYMBOLICORE_TEST_ASSERT(definitely(some.check(3_eff)));
-    SYMBOLICORE_TEST_ASSERT(definitely(some.check(4_eff)));
+    UTILITY_TEST_ASSIGN_CONSTRUCT(LowerKleenean, some, disjunction(seq));
+    UTILITY_TEST_ASSERT(possibly(not some.check(2_eff)));
+    UTILITY_TEST_ASSERT(definitely(some.check(3_eff)));
+    UTILITY_TEST_ASSERT(definitely(some.check(4_eff)));
 
-    SYMBOLICORE_TEST_ASSIGN_CONSTRUCT(
+    UTILITY_TEST_ASSIGN_CONSTRUCT(
         UpperKleenean, all, conjunction(Sequence<UpperKleenean>([](Nat n){return n==2 ? UpperKleenean(false) : UpperKleenean(indeterminate);})));
-    SYMBOLICORE_TEST_ASSERT(possibly(all.check(2_eff)));
-    SYMBOLICORE_TEST_ASSERT(not possibly(all.check(3_eff)));
-    SYMBOLICORE_TEST_ASSERT(definitely(not all.check(4_eff)));
+    UTILITY_TEST_ASSERT(possibly(all.check(2_eff)));
+    UTILITY_TEST_ASSERT(not possibly(all.check(3_eff)));
+    UTILITY_TEST_ASSERT(definitely(not all.check(4_eff)));
 
 }
 

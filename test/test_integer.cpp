@@ -52,24 +52,24 @@ class TestInteger
 
 void TestInteger::test()
 {
-    SYMBOLICORE_TEST_CALL(test_constructors());
-    SYMBOLICORE_TEST_CALL(test_comparisons());
-    SYMBOLICORE_TEST_CALL(test_literal());
-    SYMBOLICORE_TEST_CALL(test_arithmetic());
+    UTILITY_TEST_CALL(test_constructors());
+    UTILITY_TEST_CALL(test_comparisons());
+    UTILITY_TEST_CALL(test_literal());
+    UTILITY_TEST_CALL(test_arithmetic());
 }
 
 
 void TestInteger::test_literal() {
     Integer z(3);
-    SYMBOLICORE_TEST_EQUALS(z,3);
-    SYMBOLICORE_TEST_EQUALS(z,Integer(3));
-    SYMBOLICORE_TEST_EQUALS(100000,Integer(100000));
-    SYMBOLICORE_TEST_EQUAL(1000000000000,sqr(Integer(1000000)));
-    SYMBOLICORE_TEST_EQUALS(1000000000000-sqr(Integer(1000000)),0);
-    SYMBOLICORE_TEST_EQUALS(4294967295,4294967295u);
-    SYMBOLICORE_TEST_EQUALS(-2147483647,-2147483647);
-    SYMBOLICORE_TEST_EQUALS(4294967295,Integer(4294967295u));
-    SYMBOLICORE_TEST_EQUALS(4611686016279904256,Integer(2147483647)*2147483647+2147483647);
+    UTILITY_TEST_EQUALS(z,3);
+    UTILITY_TEST_EQUALS(z,Integer(3));
+    UTILITY_TEST_EQUALS(100000,Integer(100000));
+    UTILITY_TEST_EQUAL(1000000000000,sqr(Integer(1000000)));
+    UTILITY_TEST_EQUALS(1000000000000-sqr(Integer(1000000)),0);
+    UTILITY_TEST_EQUALS(4294967295,4294967295u);
+    UTILITY_TEST_EQUALS(-2147483647,-2147483647);
+    UTILITY_TEST_EQUALS(4294967295,Integer(4294967295u));
+    UTILITY_TEST_EQUALS(4611686016279904256,Integer(2147483647)*2147483647+2147483647);
 }
 
 void TestInteger::test_constructors() {
@@ -83,74 +83,74 @@ void TestInteger::test_constructors() {
     String sn="-2147483647";
     String sz="314159265358979323846264";
 
-    SYMBOLICORE_TEST_ASSERT((not Constructible<Integer,float>));
-    SYMBOLICORE_TEST_ASSERT((not Constructible<Integer,double>));
+    UTILITY_TEST_ASSERT((not Constructible<Integer,float>));
+    UTILITY_TEST_ASSERT((not Constructible<Integer,double>));
 
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,zum,(um));
-    SYMBOLICORE_TEST_EQUALS(zum.value(),m);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,zulm,(ulm));
-    SYMBOLICORE_TEST_EQUALS(zulm.value(),m);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,zullm,(ullm));
-    SYMBOLICORE_TEST_EQUALS(zullm.value(),m);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,zn,(n));
-    SYMBOLICORE_TEST_EQUALS(zn.value(),n);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,zln,(ln));
-    SYMBOLICORE_TEST_EQUALS(zln.value(),n);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,zlln,(lln));
-    SYMBOLICORE_TEST_EQUALS(zlln.value(),n);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,zsn,(sn));
-    SYMBOLICORE_TEST_EQUALS(zsn.value(),n);
+    UTILITY_TEST_CONSTRUCT(Integer,zum,(um));
+    UTILITY_TEST_EQUALS(zum.value(),m);
+    UTILITY_TEST_CONSTRUCT(Integer,zulm,(ulm));
+    UTILITY_TEST_EQUALS(zulm.value(),m);
+    UTILITY_TEST_CONSTRUCT(Integer,zullm,(ullm));
+    UTILITY_TEST_EQUALS(zullm.value(),m);
+    UTILITY_TEST_CONSTRUCT(Integer,zn,(n));
+    UTILITY_TEST_EQUALS(zn.value(),n);
+    UTILITY_TEST_CONSTRUCT(Integer,zln,(ln));
+    UTILITY_TEST_EQUALS(zln.value(),n);
+    UTILITY_TEST_CONSTRUCT(Integer,zlln,(lln));
+    UTILITY_TEST_EQUALS(zlln.value(),n);
+    UTILITY_TEST_CONSTRUCT(Integer,zsn,(sn));
+    UTILITY_TEST_EQUALS(zsn.value(),n);
 
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,z1,(0));
-    SYMBOLICORE_TEST_EQUALS(z1.value(),0);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,z2,(-3));
-    SYMBOLICORE_TEST_EQUALS(z2.value(),-3);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,z3,(ullm*ullm+ullm));
-    SYMBOLICORE_TEST_EQUALS(z3,zum*zum+zum);
-    SYMBOLICORE_TEST_CONSTRUCT(Integer,z4,(lln*lln+lln));
-    SYMBOLICORE_TEST_EQUALS(z4,zn*zn+zn);
+    UTILITY_TEST_CONSTRUCT(Integer,z1,(0));
+    UTILITY_TEST_EQUALS(z1.value(),0);
+    UTILITY_TEST_CONSTRUCT(Integer,z2,(-3));
+    UTILITY_TEST_EQUALS(z2.value(),-3);
+    UTILITY_TEST_CONSTRUCT(Integer,z3,(ullm*ullm+ullm));
+    UTILITY_TEST_EQUALS(z3,zum*zum+zum);
+    UTILITY_TEST_CONSTRUCT(Integer,z4,(lln*lln+lln));
+    UTILITY_TEST_EQUALS(z4,zn*zn+zn);
 }
 
 void TestInteger::test_arithmetic() {
-    SYMBOLICORE_TEST_EQUALS(+Integer(-5),-5);
-    SYMBOLICORE_TEST_EQUALS(-Integer(-5), 5);
-    SYMBOLICORE_TEST_EQUALS(Integer(-5)+Integer(2),-3);
-    SYMBOLICORE_TEST_EQUALS(Integer(-5)-Integer(2),-7);
-    SYMBOLICORE_TEST_EQUALS(Integer(-5)*Integer(2),-10);
+    UTILITY_TEST_EQUALS(+Integer(-5),-5);
+    UTILITY_TEST_EQUALS(-Integer(-5), 5);
+    UTILITY_TEST_EQUALS(Integer(-5)+Integer(2),-3);
+    UTILITY_TEST_EQUALS(Integer(-5)-Integer(2),-7);
+    UTILITY_TEST_EQUALS(Integer(-5)*Integer(2),-10);
 
-    SYMBOLICORE_TEST_EQUALS(pos(Integer(-5)),-5);
-    SYMBOLICORE_TEST_EQUALS(neg(Integer(-5)), 5);
-    SYMBOLICORE_TEST_EQUALS(sqr(Integer(-5)),25);
-    SYMBOLICORE_TEST_EQUALS(pow(Integer(-5),3u),-125);
+    UTILITY_TEST_EQUALS(pos(Integer(-5)),-5);
+    UTILITY_TEST_EQUALS(neg(Integer(-5)), 5);
+    UTILITY_TEST_EQUALS(sqr(Integer(-5)),25);
+    UTILITY_TEST_EQUALS(pow(Integer(-5),3u),-125);
 
 
-    SYMBOLICORE_TEST_EQUALS((Integer)max(Integer(5),Integer(3)),5);
-    SYMBOLICORE_TEST_EQUALS((Integer)max(Integer(-5),Integer(-3)),-3);
-    SYMBOLICORE_TEST_EQUALS((Integer)min(Integer(5),Integer(3)),3);
-    SYMBOLICORE_TEST_EQUALS((Integer)min(Integer(-5),Integer(-3)),-5);
-    SYMBOLICORE_TEST_EQUALS(abs(Integer(-5)),5);
-    SYMBOLICORE_TEST_EQUALS(abs(Integer( 0)),0);
-    SYMBOLICORE_TEST_EQUALS(abs(Integer(+5)),5);
+    UTILITY_TEST_EQUALS((Integer)max(Integer(5),Integer(3)),5);
+    UTILITY_TEST_EQUALS((Integer)max(Integer(-5),Integer(-3)),-3);
+    UTILITY_TEST_EQUALS((Integer)min(Integer(5),Integer(3)),3);
+    UTILITY_TEST_EQUALS((Integer)min(Integer(-5),Integer(-3)),-5);
+    UTILITY_TEST_EQUALS(abs(Integer(-5)),5);
+    UTILITY_TEST_EQUALS(abs(Integer( 0)),0);
+    UTILITY_TEST_EQUALS(abs(Integer(+5)),5);
 }
 
 void TestInteger::test_comparisons() {
-    SYMBOLICORE_TEST_COMPARE(Integer(3),==,3);
-    SYMBOLICORE_TEST_COMPARE(3,==,Integer(3));
+    UTILITY_TEST_COMPARE(Integer(3),==,3);
+    UTILITY_TEST_COMPARE(3,==,Integer(3));
 
-    SYMBOLICORE_TEST_COMPARE(Integer(2),==,Integer(2));
-    SYMBOLICORE_TEST_COMPARE(Integer(0),==,Integer(-0));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),!=,Integer(-2));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),!=,Integer(-3));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),<=,Integer(23));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),<=,Integer(3));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),>=,Integer(2));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),>=,Integer(-3));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),< ,Integer(3));
-    SYMBOLICORE_TEST_COMPARE(Integer(2),> ,Integer(-3));
+    UTILITY_TEST_COMPARE(Integer(2),==,Integer(2));
+    UTILITY_TEST_COMPARE(Integer(0),==,Integer(-0));
+    UTILITY_TEST_COMPARE(Integer(2),!=,Integer(-2));
+    UTILITY_TEST_COMPARE(Integer(2),!=,Integer(-3));
+    UTILITY_TEST_COMPARE(Integer(2),<=,Integer(23));
+    UTILITY_TEST_COMPARE(Integer(2),<=,Integer(3));
+    UTILITY_TEST_COMPARE(Integer(2),>=,Integer(2));
+    UTILITY_TEST_COMPARE(Integer(2),>=,Integer(-3));
+    UTILITY_TEST_COMPARE(Integer(2),< ,Integer(3));
+    UTILITY_TEST_COMPARE(Integer(2),> ,Integer(-3));
 }
 
 int main() {
-    SYMBOLICORE_TEST_CLASS(Integer,TestInteger());
+    UTILITY_TEST_CLASS(Integer,TestInteger());
 
-    return SYMBOLICORE_TEST_FAILURES;
+    return UTILITY_TEST_FAILURES;
 }

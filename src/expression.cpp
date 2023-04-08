@@ -27,7 +27,6 @@
  */
 
 #include "utility/array.hpp"
-#include "utility/vector.hpp"
 #include "utility/templates.hpp"
 #include "utility/templates.tpl.hpp"
 
@@ -35,6 +34,7 @@
 #include "sign.hpp"
 #include "integer.hpp"
 #include "real.hpp"
+#include "vector.hpp"
 #include "assignment.hpp"
 #include "constant.hpp"
 #include "variable.hpp"
@@ -239,8 +239,8 @@ RE _indicator(Geq, RE e1, RE e2, Sign sign) { if(sign==Sign::POSITIVE) { return 
 RE _indicator(Gtr, RE e1, RE e2, Sign sign) { return _indicator(Geq(),e1,e2,sign); }
 RE _indicator(Leq, RE e1, RE e2, Sign sign) { return _indicator(Geq(),e1,e2,-sign); }
 RE _indicator(Less, RE e1, RE e2, Sign sign) { return _indicator(Leq(),e1,e2,sign); }
-RE _indicator(Equal op, RE e1, RE e2, Sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
-RE _indicator(Unequal op, RE e1, RE e2, Sign) { SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
+RE _indicator(Equal op, RE e1, RE e2, Sign) { UTILITY_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
+RE _indicator(Unequal op, RE e1, RE e2, Sign) { UTILITY_FAIL_MSG("Cannot compute indicator function of expression " << op(e1,e2)); }
 
 RE _indicator(AndOp, KE e1, KE e2, Sign sign) { return min(indicator(e1,sign),indicator(e2,sign)); }
 RE _indicator(OrOp, KE e1, KE e2, Sign sign) { return max(indicator(e1,sign),indicator(e2,sign)); }
@@ -253,7 +253,7 @@ Expression<Real> indicator(ConstantExpressionNode<Kleenean> e, Sign sign) {
     else if(not possibly(checked_value)) {  return Expression<Real>::constant(-1); }
     else { return Expression<Real>::constant(0); } }
 Expression<Real> indicator(VariableExpressionNode<Kleenean> e, Sign) {
-    SYMBOLICORE_FAIL_MSG("Cannot compute indicator function of expression " << e); }
+    UTILITY_FAIL_MSG("Cannot compute indicator function of expression " << e); }
 Expression<Real> indicator(UnaryExpressionNode<Kleenean> e, Sign sign) {
     return e.op().accept([&](auto op){return _indicator(op,e.arg(),sign);}); }
 Expression<Real> indicator(BinaryExpressionNode<Kleenean> e, Sign sign) {

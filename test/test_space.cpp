@@ -43,23 +43,23 @@ class TestSpace {
     void test_construction() {
         {
             Space<Boolean> spc;
-            SYMBOLICORE_TEST_EQUAL(spc.dimension(),0);
+            UTILITY_TEST_EQUAL(spc.dimension(),0);
         }
         {
             RealVariable x("x"), y("y");
             Space<Real> spc({x,y});
-            SYMBOLICORE_TEST_EQUAL(spc.dimension(),2);
+            UTILITY_TEST_EQUAL(spc.dimension(),2);
         }
     }
 
 
 
     void test() {
-        SYMBOLICORE_TEST_CALL(test_construction());
+        UTILITY_TEST_CALL(test_construction());
     }
 };
 
 Int main() {
     TestSpace().test();
-    return SYMBOLICORE_TEST_FAILURES;
+    return UTILITY_TEST_FAILURES;
 }

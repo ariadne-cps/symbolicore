@@ -42,8 +42,8 @@ class TestParadigm
 };
 
 int main() {
-    SYMBOLICORE_TEST_CLASS(TestParadigm,TestParadigm());
-    return SYMBOLICORE_TEST_FAILURES;
+    UTILITY_TEST_CLASS(TestParadigm,TestParadigm());
+    return UTILITY_TEST_FAILURES;
 }
 
 
@@ -57,22 +57,22 @@ TestParadigm::test()
 Void
 TestParadigm::test_concept()
 {
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ApproximateTag,ApproximateTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ApproximateTag,ValidatedTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ApproximateTag,EffectiveTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ApproximateTag,ExactTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ValidatedTag,ValidatedTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ValidatedTag,EffectiveTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ValidatedTag,ExactTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<EffectiveTag,EffectiveTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<EffectiveTag,ExactTag>);
-    SYMBOLICORE_TEST_CONCEPT(WeakerThan<ExactTag,ExactTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,ApproximateTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,ValidatedTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,EffectiveTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,ExactTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ValidatedTag,ValidatedTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ValidatedTag,EffectiveTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ValidatedTag,ExactTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<EffectiveTag,EffectiveTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<EffectiveTag,ExactTag>);
+    UTILITY_TEST_CONCEPT(WeakerThan<ExactTag,ExactTag>);
 
-    SYMBOLICORE_TEST_CONCEPT(not WeakerThan<ValidatedTag,ApproximateTag>);
-    SYMBOLICORE_TEST_CONCEPT(not WeakerThan<EffectiveTag,ApproximateTag>);
-    SYMBOLICORE_TEST_CONCEPT(not WeakerThan<EffectiveTag,ValidatedTag>);
-    SYMBOLICORE_TEST_CONCEPT(not WeakerThan<ExactTag,ApproximateTag>);
-    SYMBOLICORE_TEST_CONCEPT(not WeakerThan<ExactTag,ValidatedTag>);
-    SYMBOLICORE_TEST_CONCEPT(not WeakerThan<ExactTag,EffectiveTag>);
+    UTILITY_TEST_CONCEPT(not WeakerThan<ValidatedTag,ApproximateTag>);
+    UTILITY_TEST_CONCEPT(not WeakerThan<EffectiveTag,ApproximateTag>);
+    UTILITY_TEST_CONCEPT(not WeakerThan<EffectiveTag,ValidatedTag>);
+    UTILITY_TEST_CONCEPT(not WeakerThan<ExactTag,ApproximateTag>);
+    UTILITY_TEST_CONCEPT(not WeakerThan<ExactTag,ValidatedTag>);
+    UTILITY_TEST_CONCEPT(not WeakerThan<ExactTag,EffectiveTag>);
 }
 

@@ -149,7 +149,7 @@ class Integer
 };
 
 template<BuiltinIntegral N> inline N Integer::get() const {
-    N n=static_cast<N>(_value); SYMBOLICORE_ASSERT(Integer(n)==*this); return n; }
+    N n=static_cast<N>(_value); UTILITY_ASSERT(Integer(n)==*this); return n; }
 
 template<class R, class A> R integer_cast(const A& a) {
     return cast_integer(a).template get<R>(); }

@@ -159,7 +159,7 @@ OutputStream& operator<<(OutputStream& os, LogicalValue l) {
         case LogicalValue::INDETERMINATE: os << "indeterminate";  break;
         case LogicalValue::UNLIKELY: os << "unlikely"; break;
         case LogicalValue::FALSE: os << "false"; break;
-        default: SYMBOLICORE_FAIL_MSG("Unhandled LogicalValue for output streaming.");
+        default: UTILITY_FAIL_MSG("Unhandled LogicalValue for output streaming.");
     }
     return os;
 }
@@ -243,7 +243,7 @@ template<> String class_name<ApproximateKleenean>() { return "ApproximateKleenea
 
 } // namespace SymboliCore
 
-#include "array.hpp"
+#include "utility/array.hpp"
 
 namespace SymboliCore {
 
