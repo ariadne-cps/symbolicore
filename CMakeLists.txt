@@ -78,8 +78,6 @@ if (NOT EXISTS ${PROJECT_SOURCE_DIR}/submodules/.symbolic/utility)
     message(STATUS "Created symbolic link to Utility submodule")
 endif()
 
-find_package(Threads REQUIRED)
-
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/submodules/.symbolic)
 
 if(NOT TARGET symbolicore)
