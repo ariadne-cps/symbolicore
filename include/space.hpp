@@ -37,7 +37,7 @@
 #include <iosfwd>
 #include <iostream>
 
-#include "macros.hpp"
+#include "utility/macros.hpp"
 #include "variable.hpp"
 
 namespace SymboliCore {

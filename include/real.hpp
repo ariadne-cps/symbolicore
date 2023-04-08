@@ -33,8 +33,8 @@
 #ifndef SYMBOLICORE_REAL_HPP
 #define SYMBOLICORE_REAL_HPP
 
-#include "typedefs.hpp"
-#include "metaprogramming.hpp"
+#include "utility/typedefs.hpp"
+#include "utility/metaprogramming.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
 

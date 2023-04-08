@@ -30,13 +30,12 @@
  *  \brief
  */
 
-#include "stdlib.hpp"
-#include "string.hpp"
-#include "macros.hpp"
+#include "utility/stdlib.hpp"
+#include "utility/string.hpp"
+#include "utility/macros.hpp"
+#include "utility/templates.hpp"
 #include "sequence.hpp"
 #include "operators.hpp"
-#include "templates.hpp"
-
 #include "logical.hpp"
 
 namespace SymboliCore {

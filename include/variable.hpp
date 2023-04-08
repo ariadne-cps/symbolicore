@@ -37,13 +37,13 @@
 #include <iosfwd>
 #include <iostream>
 
-#include "macros.hpp"
-#include "string.hpp"
+#include "utility/macros.hpp"
+#include "utility/string.hpp"
+#include "utility/container.hpp"
 #include "logical.decl.hpp"
 #include "expression.decl.hpp"
 #include "identifier.hpp"
 #include "operations.hpp"
-#include "container.hpp"
 
 namespace SymboliCore {
 

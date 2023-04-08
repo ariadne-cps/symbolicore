@@ -35,7 +35,7 @@
 #define SYMBOLICORE_SIGN_HPP
 
 #include <iosfwd>
-#include "macros.hpp"
+#include "utility/macros.hpp"
 
 namespace SymboliCore {
 

@@ -33,10 +33,10 @@ double mul(double,double);
 double div(double,double);
 }
 
-#include "stdlib.hpp"
-#include "string.hpp"
+#include "utility/macros.hpp"
+#include "utility/stdlib.hpp"
+#include "utility/string.hpp"
 #include "operators.hpp"
-#include "macros.hpp"
 
 namespace SymboliCore {
 

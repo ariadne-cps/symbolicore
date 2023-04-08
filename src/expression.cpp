@@ -26,19 +26,20 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include "utility/array.hpp"
+#include "utility/vector.hpp"
+#include "utility/templates.hpp"
+#include "utility/templates.tpl.hpp"
+
 #include "string.h"
 #include "sign.hpp"
 #include "integer.hpp"
 #include "real.hpp"
-#include "array.hpp"
 #include "assignment.hpp"
-#include "vector.hpp"
 #include "constant.hpp"
 #include "variable.hpp"
 #include "space.hpp"
 #include "valuation.hpp"
-#include "templates.hpp"
-#include "templates.tpl.hpp"
 #include "expression.hpp"
 #include "expression.tpl.hpp"
 

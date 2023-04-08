@@ -33,9 +33,9 @@
 #ifndef SYMBOLICORE_CONSTANT_HPP
 #define SYMBOLICORE_CONSTANT_HPP
 
-#include "string.hpp"
+#include "utility/string.hpp"
+#include "utility/typedefs.hpp"
 #include "identifier.hpp"
-#include "typedefs.hpp"
 
 namespace SymboliCore {
 

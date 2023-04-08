@@ -34,7 +34,7 @@
 #define SYMBOLICORE_PARADIGM_HPP
 
 #include <cstdint>
-#include "metaprogramming.hpp"
+#include "utility/metaprogramming.hpp"
 
 namespace SymboliCore {
 

@@ -37,10 +37,10 @@
 #include <iosfwd>
 #include <iostream>
 
-#include "macros.hpp"
-#include "typedefs.hpp"
-#include "container.hpp"
-#include "writable.hpp"
+#include "utility/macros.hpp"
+#include "utility/typedefs.hpp"
+#include "utility/container.hpp"
+#include "utility/writable.hpp"
 
 #include "logical.decl.hpp"
 

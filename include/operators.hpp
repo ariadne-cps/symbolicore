@@ -36,10 +36,11 @@
 #include <iostream>
 #include <cassert>
 
+#include "utility/typedefs.hpp"
+#include "utility/variant.hpp"
+#include "utility/variant.inl.hpp"
+
 #include "logical.decl.hpp"
-#include "typedefs.hpp"
-#include "variant.hpp"
-#include "variant.inl.hpp"
 
 namespace SymboliCore {
 

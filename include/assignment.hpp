@@ -38,10 +38,10 @@
 #include <string>
 
 
-#include "macros.hpp"
-#include "container.hpp"
-#include "stlio.hpp"
-#include "string.hpp"
+#include "utility/macros.hpp"
+#include "utility/container.hpp"
+#include "utility/stlio.hpp"
+#include "utility/string.hpp"
 #include "variable.hpp"
 #include "expression.hpp"
 

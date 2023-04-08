@@ -34,7 +34,7 @@
 #include <iosfwd>
 #include <iostream>
 
-#include "macros.hpp"
+#include "utility/macros.hpp"
 #include "real.hpp"
 #include "variable.hpp"
 #include "space.hpp"

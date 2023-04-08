@@ -37,10 +37,10 @@
 #include <iostream>
 #include <string>
 
-#include "macros.hpp"
-#include "container.hpp"
-#include "integer.hpp"
+#include "utility/macros.hpp"
+#include "utility/container.hpp"
 
+#include "integer.hpp"
 #include "variable.hpp"
 #include "expression.hpp"
 

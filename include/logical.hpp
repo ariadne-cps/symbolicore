@@ -32,12 +32,12 @@
 #ifndef SYMBOLICORE_LOGICAL_HPP
 #define SYMBOLICORE_LOGICAL_HPP
 
-#include "stdlib.hpp"
-#include "typedefs.hpp"
-#include "handle.hpp"
-#include "string.hpp"
-#include "sign.hpp"
+#include "utility/stdlib.hpp"
+#include "utility/typedefs.hpp"
+#include "utility/handle.hpp"
+#include "utility/string.hpp"
 
+#include "sign.hpp"
 #include "paradigm.hpp"
 #include "logical.decl.hpp"
 

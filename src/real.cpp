@@ -28,10 +28,10 @@
 
 #include <limits>
 
-#include "stdlib.hpp"
+#include "utility/stdlib.hpp"
+#include "utility/macros.hpp"
+#include "utility/string.hpp"
 #include "real.hpp"
-#include "macros.hpp"
-#include "string.hpp"
 #include "logical.hpp"
 #include "integer.hpp"
 
