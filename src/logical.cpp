@@ -51,7 +51,7 @@ template<class L> class LogicalWrapper
 {
     using L::L;
   private:
-    virtual LogicalInterface* _copy() const { return new LogicalWrapper<L>(*this); }
+    virtual LogicalInterface* clone() const { return new LogicalWrapper<L>(*this); }
     virtual LogicalValue _check(Effort e) const { return check(static_cast<L const&>(*this),e); }
     virtual OutputStream& _write(OutputStream& os) const { return os << static_cast<L const&>(*this); }
 };
@@ -64,7 +64,7 @@ template<> class LogicalWrapper<LogicalValue>
     LogicalWrapper(LogicalValue v) : _v(v) { }
     operator LogicalValue() const { return this->_v; }
   private:
-    virtual LogicalInterface* _copy() const { return new LogicalWrapper<LogicalValue>(*this); }
+    virtual LogicalInterface* clone() const { return new LogicalWrapper<LogicalValue>(*this); }
     virtual LogicalValue _check(Effort) const { return this->_v; }
     virtual OutputStream& _write(OutputStream& os) const { return os << this->_v; }
 };
@@ -168,7 +168,7 @@ template<> struct LogicalExpression<OrOp,Sequence<LowerKleenean>> : public Logic
     Sequence<LowerKleenean> _seq;
   public:
     LogicalExpression(OrOp, Sequence<LowerKleenean> seq) : _seq(seq) { }
-    LogicalInterface* _copy() const { return new LogicalExpression<OrOp,Sequence<LowerKleenean>>(*this); }
+    LogicalInterface* clone() const { return new LogicalExpression<OrOp,Sequence<LowerKleenean>>(*this); }
     LogicalValue _check(Effort eff) const {
         for(Nat k=0u; k!=eff.work(); ++k) {
             if ( definitely(_seq[k].check(eff)) ) { return LogicalValue::TRUE; }
@@ -185,7 +185,7 @@ template<> struct LogicalExpression<AndOp,Sequence<UpperKleenean>> : public Logi
     Sequence<UpperKleenean> _seq;
   public:
     LogicalExpression(AndOp, Sequence<UpperKleenean> seq) : _seq(seq) { }
-    LogicalInterface* _copy() const { return new LogicalExpression<AndOp,Sequence<UpperKleenean>>(*this); }
+    LogicalInterface* clone() const { return new LogicalExpression<AndOp,Sequence<UpperKleenean>>(*this); }
     LogicalValue _check(Effort eff) const {
         for(Nat k=0u; k!=eff.work(); ++k) {
             if ( definitely(not _seq[k].check(eff)) ) { return LogicalValue::FALSE; }

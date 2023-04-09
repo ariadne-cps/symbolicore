@@ -101,7 +101,7 @@ namespace Detail {
     class LogicalInterface {
       public:
         virtual ~LogicalInterface() = default;
-        virtual LogicalInterface* _copy() const = 0;
+        virtual LogicalInterface* clone() const = 0;
         virtual LogicalValue _check(Effort) const = 0;
         virtual OutputStream& _write(OutputStream&) const = 0;
     };
