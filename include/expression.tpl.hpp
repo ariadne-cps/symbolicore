@@ -43,6 +43,7 @@ namespace SymboliCore {
 
 using Utility::IndexOf;
 using Utility::Same;
+using Utility::IntegralConstant;
 
 using Eq = Equal;
 using Neq = Unequal;
