@@ -37,6 +37,8 @@
 
 namespace SymboliCore {
 
+using std::declval;
+
 class Indeterminate;
 extern const Indeterminate indeterminate;
 
