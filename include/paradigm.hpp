@@ -36,9 +36,9 @@
 #include <cstdint>
 #include "utility/metaprogramming.hpp"
 
-using namespace Utility;
-
 namespace SymboliCore {
+
+using Utility::Convertible;
 
 class ParadigmError { };
 
@@ -126,7 +126,7 @@ template<> struct ParadigmTraits<ApproximateTag,ApproximateTag> {
   public:
     using Weaker = ApproximateTag;
     using Stronger = ApproximateTag;
-    using NextWeaker = Void;
+    using NextWeaker = void;
 };
 
 template<> struct ParadigmTraits<ExactTag,EffectiveTag> {

@@ -176,7 +176,7 @@ template<> struct DeclareExpressionOperations<Real> {
     //! \related Expression \brief %Real division expression.
     friend Expression<Real> div(Expression<Real> const& e1, Expression<Real> const& e2);
     //! \related Expression \brief %Real integer power expression.
-    friend Expression<Real> pow(Expression<Real> const& e, Int n);
+    friend Expression<Real> pow(Expression<Real> const& e, int n);
     //! \related Expression \brief %Real reciprocal expression.
     //! Equivalent to 1/\a e.
     friend Expression<Real> rec(Expression<Real> const& e);

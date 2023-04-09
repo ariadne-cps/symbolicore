@@ -33,7 +33,7 @@
 #ifndef SYMBOLICORE_REAL_HPP
 #define SYMBOLICORE_REAL_HPP
 
-#include "typedefs.hpp"
+#include "using.hpp"
 #include "utility/metaprogramming.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
@@ -95,8 +95,8 @@ class Real
     friend Real div(Real const& r1, Real const& r2); //!< \brief Rounded quotient \a r1÷r2.
     friend Real rec(Real const& r); //!< Reciprocal \a 1/r.
     friend Real fma(Real const& r1, Real const& r2, Real const& r3); //!< \brief Fused multiply-and-add \a r1×r2+r3.
-    friend Real pow(Real const& r, Nat m); //!< \brief Power \a r<sup>m</sup>.
-    friend Real pow(Real const& r, Int n); //!< \brief Power \a r<sup>n</sup>.
+    friend Real pow(Real const& r, unsigned int m); //!< \brief Power \a r<sup>m</sup>.
+    friend Real pow(Real const& r, int n); //!< \brief Power \a r<sup>n</sup>.
     //!@}
 
 
@@ -130,13 +130,13 @@ class Real
 
     //!@{
     //! \name Special value tests
-    friend Bool is_nan(Real const& r); //!< Tests whether \a r is NaN (not-a-number).
-    friend Bool is_inf(Real const& r); //!< Tests whether \a r is ±∞.
-    friend Bool is_finite(Real const& r); //!< Tests whether \a r is finite.
-    friend Bool is_zero(Real const& r); //!< Tests whether \a r is zero.
+    friend bool is_nan(Real const& r); //!< Tests whether \a r is NaN (not-a-number).
+    friend bool is_inf(Real const& r); //!< Tests whether \a r is ±∞.
+    friend bool is_finite(Real const& r); //!< Tests whether \a r is finite.
+    friend bool is_zero(Real const& r); //!< Tests whether \a r is zero.
     //!@}
 
-    friend Bool same(Real const& r1, Real const& r2); //!< Test equivalence of representation.
+    friend bool same(Real const& r1, Real const& r2); //!< Test equivalence of representation.
 
     //!@{
     //! \name Input/output operations

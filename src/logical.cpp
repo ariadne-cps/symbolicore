@@ -40,6 +40,8 @@
 
 namespace SymboliCore {
 
+using Utility::make_handle;
+
 namespace Detail {
 
 inline LogicalValue check(LogicalValue l, Effort) { return l; }
@@ -170,7 +172,7 @@ template<> struct LogicalExpression<OrOp,Sequence<LowerKleenean>> : public Logic
     LogicalExpression(OrOp, Sequence<LowerKleenean> seq) : _seq(seq) { }
     LogicalInterface* clone() const { return new LogicalExpression<OrOp,Sequence<LowerKleenean>>(*this); }
     LogicalValue _check(Effort eff) const {
-        for(Nat k=0u; k!=eff.work(); ++k) {
+        for(unsigned int k=0u; k!=eff.work(); ++k) {
             if ( definitely(_seq[k].check(eff)) ) { return LogicalValue::TRUE; }
         }
         return LogicalValue::INDETERMINATE;
@@ -187,7 +189,7 @@ template<> struct LogicalExpression<AndOp,Sequence<UpperKleenean>> : public Logi
     LogicalExpression(AndOp, Sequence<UpperKleenean> seq) : _seq(seq) { }
     LogicalInterface* clone() const { return new LogicalExpression<AndOp,Sequence<UpperKleenean>>(*this); }
     LogicalValue _check(Effort eff) const {
-        for(Nat k=0u; k!=eff.work(); ++k) {
+        for(unsigned int k=0u; k!=eff.work(); ++k) {
             if ( definitely(not _seq[k].check(eff)) ) { return LogicalValue::FALSE; }
         }
         return LogicalValue::INDETERMINATE;
@@ -207,11 +209,11 @@ UpperKleenean conjunction(Sequence<UpperKleenean> const& l) {
     return UpperKleenean(LogicalHandle(make_handle<Detail::LogicalExpression<AndOp,Sequence<UpperKleenean>>>(AndOp(),l)));
 }
 
-Nat Effort::_default = 0u;
+unsigned int Effort::_default = 0u;
 
 const Indeterminate indeterminate = Indeterminate();
 
-Bool NondeterministicBoolean::_choose(LowerKleenean p1, LowerKleenean p2) {
+bool NondeterministicBoolean::_choose(LowerKleenean p1, LowerKleenean p2) {
     Effort eff(0u);
     while(true) {
         if(definitely(p1.check(eff))) { return true; }
@@ -227,7 +229,7 @@ template<> String class_name<ValidatedTag>() { return "Validated"; }
 //template<> String class_name<LowerTag>() { return "Lower"; }
 template<> String class_name<ApproximateTag>() { return "Approximate"; }
 
-template<> String class_name<Bool>() { return "Bool"; }
+template<> String class_name<bool>() { return "bool"; }
 template<> String class_name<Boolean>() { return "Boolean"; }
 template<> String class_name<Sierpinskian>() { return "Sierpinskian"; }
 template<> String class_name<NegatedSierpinskian>() { return "NegatedSierpinskian"; }
@@ -247,10 +249,10 @@ template<> String class_name<ApproximateKleenean>() { return "ApproximateKleenea
 
 namespace SymboliCore {
 
-SizeType nondeterministic_choose_index(Array<LowerKleenean> const& p) {
+size_t nondeterministic_choose_index(Array<LowerKleenean> const& p) {
     Effort eff(0u);
     while(true) {
-        for (SizeType i=0; i!=p.size(); ++i) {
+        for (size_t i=0; i!=p.size(); ++i) {
             if(definitely(p[i].check(eff))) { return i; }
         }
         ++eff;

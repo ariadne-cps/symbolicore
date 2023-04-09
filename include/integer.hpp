@@ -33,13 +33,17 @@
 #ifndef SYMBOLICORE_INTEGER_HPP
 #define SYMBOLICORE_INTEGER_HPP
 
-
-#include "typedefs.hpp"
 #include "utility/metaprogramming.hpp"
+#include "using.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
 
 namespace SymboliCore {
+
+using Utility::True;
+using Utility::False;
+using Utility::BuiltinIntegral;
+using Utility::BuiltinUnsignedIntegral;
 
 struct ExactTag;
 class Integer;
@@ -48,8 +52,8 @@ class Natural;
 template<class X> struct IsNumber;
 template<> struct IsNumber<Integer> : True { };
 
-template<> struct IsNumber<Nat> : True { };
-template<> struct IsNumber<Int> : True { };
+template<> struct IsNumber<unsigned int> : True { };
+template<> struct IsNumber<int> : True { };
 
 class Integer
 {
@@ -112,8 +116,8 @@ class Integer
     friend Integer quot(Integer const& z1, Integer const& z2); //!< \brief Rounded quotient \a z1÷z2.
     friend Integer rem(Integer const& z1, Integer const& z2); //!< \brief Remainder of the quotient \a z1÷z2.
     friend Integer fma(Integer const& z1, Integer const& z2, Integer const& z3); //!< \brief Fused multiply-and-add \a z1×z2+z3.
-    friend Integer pow(Integer const& z, Nat m); //!< \brief Power \a z<sup>m</sup>.
-    friend Integer pow(Integer const& z, Int n); //!< \brief Power \a z<sup>n</sup>.
+    friend Integer pow(Integer const& z, unsigned int m); //!< \brief Power \a z<sup>m</sup>.
+    friend Integer pow(Integer const& z, int n); //!< \brief Power \a z<sup>n</sup>.
     //!@}
 
     //!@{
@@ -133,10 +137,10 @@ class Integer
 
     //!@{
     //! \name Special value tests
-    friend Bool is_nan(Integer const& z); //!< Tests whether \a z is NaN (not-a-number).
-    friend Bool is_inf(Integer const& z); //!< Tests whether \a z is ±∞.
-    friend Bool is_finite(Integer const& z); //!< Tests whether \a z is finite.
-    friend Bool is_zero(Integer const& z); //!< Tests whether \a z is zero.
+    friend bool is_nan(Integer const& z); //!< Tests whether \a z is NaN (not-a-number).
+    friend bool is_inf(Integer const& z); //!< Tests whether \a z is ±∞.
+    friend bool is_finite(Integer const& z); //!< Tests whether \a z is finite.
+    friend bool is_zero(Integer const& z); //!< Tests whether \a z is zero.
     //!@}
 
     //!@{

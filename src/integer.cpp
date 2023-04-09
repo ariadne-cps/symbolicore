@@ -36,6 +36,8 @@
 
 namespace SymboliCore {
 
+using Utility::to_string;
+
 Comparison cmp(Integer const& z1, Integer const& z2);
 
 Integer::Integer() : _value(0) {}
@@ -112,7 +114,7 @@ Integer rem(Integer const& z1, Integer const& z2) {
     return Integer(z1._value % z2._value);
 }
 
-Integer pow(Integer const& z, Nat m) {
+Integer pow(Integer const& z, unsigned int m) {
     unsigned long int lm=m;
     return Integer(static_cast<int>(std::pow(z._value,lm)));
 }
@@ -137,19 +139,19 @@ Natural min(Natural const& z1,Natural const& z2) {
     return (z1<z2)?z1:z2;
 }
 
-Bool is_nan(Integer const&) {
+bool is_nan(Integer const&) {
     return false;
 }
 
-Bool is_inf(Integer const&) {
+bool is_inf(Integer const&) {
     return false;
 }
 
-Bool is_finite(Integer const&) {
+bool is_finite(Integer const&) {
     return true;
 }
 
-Bool is_zero(Integer const& z) {
+bool is_zero(Integer const& z) {
     return z._value==0;
 }
 
@@ -164,7 +166,7 @@ Comparison cmp(Integer const& z1, Integer const& z2) {
     return c==0 ? Comparison::EQUAL : (c>0?Comparison::GREATER:Comparison::LESS);
 }
 
-Comparison cmp(Integer const& z1, Int const& n2) {
+Comparison cmp(Integer const& z1, int const& n2) {
     return cmp(z1,Integer(n2));
 }
 

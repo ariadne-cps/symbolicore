@@ -41,7 +41,7 @@
 #include "utility/container.hpp"
 #include "utility/writable.hpp"
 
-#include "typedefs.hpp"
+#include "using.hpp"
 #include "logical.decl.hpp"
 #include "operators.hpp"
 #include "constant.hpp"
@@ -50,6 +50,11 @@
 #include "operations.hpp"
 
 namespace SymboliCore {
+
+using Utility::Writer;
+using Utility::WriterInterface;
+using Utility::ConvertibleTo;
+using Utility::SelfType;
 
 template<class T> struct DeclareExpressionOperations;
 template<class X> struct ExpressionNode;
@@ -71,10 +76,10 @@ template<class T>
 class Expression
     : public DeclareExpressionOperations<T>
 {
-    typedef SharedPointer<const ExpressionNode<T>> Pointer;
+    typedef shared_ptr<const ExpressionNode<T>> Pointer;
     static Writer<Expression<T>> _default_writer;
   public:
-    static Void set_default_writer(Writer<Expression<T>> w) { _default_writer=w; }
+    static void set_default_writer(Writer<Expression<T>> w) { _default_writer=w; }
     static Writer<Expression<T>> default_writer() { return _default_writer; }
   public:
     typedef Real NumericType;
@@ -84,7 +89,7 @@ class Expression
     typedef Variable<T> VariableType;
   public:
     // Use template formulation to avoid ambiguity treating Expression(0) as a pointer construction.
-    template<ConvertibleTo<SharedPointer<const ExpressionNode<T>>> P>
+    template<ConvertibleTo<shared_ptr<const ExpressionNode<T>>> P>
         explicit Expression(P const& eptr) : _root(eptr) { }
   public:
     //! \brief Default expression is a constant with default value.
@@ -114,7 +119,7 @@ class Expression
     const ValueType& val() const;
     const Identifier& var() const;
     const Expression<T>& arg() const;
-    const Int& num() const;
+    const int& num() const;
     const Expression<T>& arg1() const;
     const Expression<T>& arg2() const;
     template<class A> const Expression<A>& cmp1(A* dummy=0) const;
@@ -129,13 +134,13 @@ class Expression
     //! \brief The variables needed to compute the expression.
     Set<UntypedVariable> arguments() const;
   public:
-    SharedPointer<const ExpressionNode<T>> node_ptr() const { return _root; }
+    shared_ptr<const ExpressionNode<T>> node_ptr() const { return _root; }
     const ExpressionNode<T>* node_raw_ptr() const { return _root.operator->(); }
     const ExpressionNode<T>& node_ref() const { return _root.operator*(); }
   private:
     OutputStream& _write(OutputStream& os) const;
   private:
-    SharedPointer<const ExpressionNode<T>> _root;
+    shared_ptr<const ExpressionNode<T>> _root;
 };
 
 //!@{
@@ -182,31 +187,31 @@ Expression<Real> derivative(const Expression<Real>& e, Variable<Real> v);
 //! \related Expression
 
 //! \brief Returns \a true if the expression\a e is syntactically equal to the constant \a c.
-template<class T> Bool is_constant(const Expression<T>& e, const SelfType<T>& c);
+template<class T> bool is_constant(const Expression<T>& e, const SelfType<T>& c);
 
 //! \brief Returns \a true if the expression \a e is syntactically equal to the variable with name \a vn.
-template<class T> Bool is_variable(const Expression<T>& e, const Identifier& vn);
+template<class T> bool is_variable(const Expression<T>& e, const Identifier& vn);
 
 //! \brief Returns \a true if the expression \a e is syntactically equal to the variable \a v.
-template<class T> Bool is_variable(const Expression<T>& e, const Variable<T>& v);
+template<class T> bool is_variable(const Expression<T>& e, const Variable<T>& v);
 
 //! \brief Returns \a true if the expression \a e is syntactically constant in the variables \a vs.
-template<class T> Bool is_constant_in(const Expression<T>& e, const Set<Variable<T>>& vs);
+template<class T> bool is_constant_in(const Expression<T>& e, const Set<Variable<T>>& vs);
 //! \brief Returns \a true if the expression \a e is syntactically affine in the variables \a vs.
-Bool is_affine_in(const Expression<Real>& e, const Set<Variable<Real>>& vs);
+bool is_affine_in(const Expression<Real>& e, const Set<Variable<Real>>& vs);
 //! \brief Returns \a true if the vector expression \a e is syntactically affine in the variables \a vs.
-Bool is_affine_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& vs);
+bool is_affine_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& vs);
 //! \brief Returns \a true if the vector expression \a e is syntactically additive (possibly with multipliers) in the variables \a vs.
-Bool is_additive_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& vs);
-Bool is_additive_in(const Expression<Real>& e, const Variable<Real>& v);
+bool is_additive_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& vs);
+bool is_additive_in(const Expression<Real>& e, const Variable<Real>& v);
 //! \brief Returns \a true if the expression \a e is syntactically polynomial in the variables \a vs.
-Bool is_polynomial_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& vs);
-Bool is_polynomial_in(const Expression<Real>& e, const Set<Variable<Real>>& vs);
+bool is_polynomial_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& vs);
+bool is_polynomial_in(const Expression<Real>& e, const Set<Variable<Real>>& vs);
 
 //! \brief Returns true if the expressions are mutual negations. <br>
 //! Currently can only test for pairs of the form (a1<=a2; a1>=a2),  (a1<=a2; a2<=a1)
 //! or (a1>=a2; a2>=a1).
-Bool opposite(Expression<Kleenean> p, Expression<Kleenean> q);
+bool opposite(Expression<Kleenean> p, Expression<Kleenean> q);
 //!@}
 
 //!@{
@@ -214,9 +219,9 @@ Bool opposite(Expression<Kleenean> p, Expression<Kleenean> q);
 //! \related Expression
 
 //! \brief Tests whether two expressions are identical.
-template<class T> Bool identical(const Expression<T>& e1, const Expression<T>& e2);
+template<class T> bool identical(const Expression<T>& e1, const Expression<T>& e2);
 //! \brief Check the ordering of two expressions \a e1 and \a e2, by identifying whether \a e1 precedes \a e2.
-template<class T> Bool before(Expression<T> const& e1, Expression<T> const& e2);
+template<class T> bool before(Expression<T> const& e1, Expression<T> const& e2);
 //!@}
 
 //!@{
@@ -224,17 +229,17 @@ template<class T> Bool before(Expression<T> const& e1, Expression<T> const& e2);
 //! \related Expression
 
 //! \brief Count the number of nodes in the expression \a e.
-template<class T> SizeType count_nodes(const Expression<T>& e);
+template<class T> size_t count_nodes(const Expression<T>& e);
 //! \brief Count the number of distinct (i.e., having identical representation) nodes in the expression \a e.
-template<class T> SizeType count_distinct_nodes(const Expression<T>& e);
+template<class T> size_t count_distinct_nodes(const Expression<T>& e);
 //! \brief Count the number of distinct node pointers in the expression \a e.
-template<class T> SizeType count_distinct_node_pointers(const Expression<T>& e);
+template<class T> size_t count_distinct_node_pointers(const Expression<T>& e);
 
 //! \brief Simplify the expression \a e, such as by eliminating double negations \f$-(-e) \mapsto e\f$.
 template<class T> Expression<T> simplify(const Expression<T>& e);
 //! \brief Eliminate common subexpression in \a e by replacing identical nodes.
-template<class T> Void eliminate_common_subexpressions(Expression<T>& e);
-template<class T> Void eliminate_common_subexpressions(Vector<Expression<T>>& e);
+template<class T> void eliminate_common_subexpressions(Expression<T>& e);
+template<class T> void eliminate_common_subexpressions(Vector<Expression<T>>& e);
 //!@}
 
 //! \brief Prefix notation for writing an Expression

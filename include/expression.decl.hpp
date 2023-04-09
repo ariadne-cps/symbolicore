@@ -35,6 +35,8 @@
 
 namespace SymboliCore {
 
+using Utility::List;
+
 class Integer;
 class Natural;
 

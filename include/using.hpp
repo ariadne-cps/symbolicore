@@ -1,5 +1,5 @@
 /***************************************************************************
- *            test_space.cpp
+ *            using.hpp
  *
  *  Copyright  2023  Luca Geretti
  *
@@ -26,36 +26,29 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "utility/test.hpp"
-#include "utility/container.hpp"
-#include "real.hpp"
-#include "space.hpp"
+/*! \file using.hpp
+ *  \brief Common using directives.
+ */
 
-using namespace SymboliCore;
+#ifndef SYMBOLICORE_USING_HPP
+#define SYMBOLICORE_USING_HPP
 
-class TestSpace {
-  public:
+#include <cstdint>
+#include <iosfwd>
+#include <type_traits>
+#include <memory>
+#include <map>
+#include <list>
 
-    void test_construction() {
-        {
-            Space<Boolean> spc;
-            UTILITY_TEST_EQUAL(spc.dimension(),0);
-        }
-        {
-            RealVariable x("x"), y("y");
-            Space<Real> spc({x,y});
-            UTILITY_TEST_EQUAL(spc.dimension(),2);
-        }
-    }
+namespace SymboliCore {
 
+using std::ostream;
+using std::stringstream;
+using std::size_t;
+using std::shared_ptr;
+using std::initializer_list;
+using std::pair;
 
+} // namespace SymboliCore
 
-    void test() {
-        UTILITY_TEST_CALL(test_construction());
-    }
-};
-
-int main() {
-    TestSpace().test();
-    return UTILITY_TEST_FAILURES;
-}
+#endif

@@ -37,6 +37,7 @@
 #include "space.hpp"
 
 using namespace SymboliCore;
+using namespace Utility;
 
 class TestExpression {
     RealConstant o;
@@ -46,14 +47,14 @@ class TestExpression {
         : o("1.0",1.0), x("x"), y("y"), z("z") {
     }
 
-    Void test_variables() {
+    void test_variables() {
         UTILITY_TEST_CONSTRUCT(RealVariable,a,("a"));
         UTILITY_TEST_ASSERT(a==RealVariable("a"));
         UTILITY_TEST_ASSERT(a==RealVariable(a));
         UTILITY_TEST_ASSERT(a!=RealVariable("b"));
     }
 
-    Void test_expression() {
+    void test_expression() {
         // Regression test for constructing Expression from 0 without being an ambiguous nullptr;
         UTILITY_TEST_CONSTRUCT(IntegerExpression,ze,(0));
         UTILITY_TEST_CONSTRUCT(RealExpression,re,(0));
@@ -61,7 +62,7 @@ class TestExpression {
         RealExpression(nullptr);
     }
 
-    Void test_write() {
+    void test_write() {
         UTILITY_TEST_EQUALS(to_string(+x),"+x");
         UTILITY_TEST_EQUALS(to_string(-x),"-x");
         UTILITY_TEST_EQUALS(to_string(x+y),"x+y");
@@ -92,7 +93,7 @@ class TestExpression {
         UTILITY_TEST_EQUALS(to_string(sub(x,max(y,z))),"x-max(y,z)");
     }
 
-    Void test_assignment() {
+    void test_assignment() {
         Real zero(0), one(1);
         RealExpression e(x*y+o);
 
@@ -113,7 +114,7 @@ class TestExpression {
         UTILITY_TEST_CONSTRUCT(List<DottedRealAssignment>,lda,(dot({x,y,z})={zero,x,e}));
     }
 
-    Void test_parameters() {
+    void test_parameters() {
         RealExpression expr = x;
 
         Map<Identifier,Real> valuation;
@@ -129,7 +130,7 @@ class TestExpression {
         UTILITY_TEST_EQUALS(result1,value);
     }
 
-    Void test_print() {
+    void test_print() {
         UTILITY_TEST_CONSTRUCT(RealExpression,g,(x+3*y*z*z));
 
         Map<RealVariable,Real> v;
@@ -138,7 +139,7 @@ class TestExpression {
         UTILITY_TEST_PRINT(v);
     }
 
-    Void test_identical() {
+    void test_identical() {
         UTILITY_TEST_ASSERT(identical(RealExpression(x),RealExpression(x)));
         UTILITY_TEST_ASSERT(identical(RealExpression::constant(0),RealExpression::constant(0)));
         UTILITY_TEST_ASSERT(identical(RealExpression::constant(2),RealExpression::constant(2)));
@@ -153,7 +154,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(identical(e1,e2));
     }
 
-    Void test_derivative() {
+    void test_derivative() {
         RealExpression expr = 2*x+y;
         UTILITY_TEST_PRINT(derivative(expr,x));
         UTILITY_TEST_PRINT(simplify(derivative(expr,x)));
@@ -164,7 +165,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(identical(simplify(derivative(expr2,x)),3*sqr(x)));
     }
 
-    Void test_simplify() {
+    void test_simplify() {
         RealExpression zero(0);
         RealExpression one(1);
         RealVariable u("u");
@@ -183,7 +184,7 @@ class TestExpression {
         UTILITY_TEST_BINARY_PREDICATE(identical,simplify(div(x,x)),one);
     }
 
-    Void test_ordering() {
+    void test_ordering() {
         UTILITY_TEST_ASSERT(before(RealExpression(x),RealExpression(y)));
         UTILITY_TEST_ASSERT(not before(RealExpression(x),RealExpression(x)));
         UTILITY_TEST_ASSERT(before(RealExpression(1),RealExpression(2)));
@@ -198,7 +199,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(not before(log(x),rec(x)));
     }
 
-    Void test_count_nodes() {
+    void test_count_nodes() {
         UTILITY_TEST_EQUALS(count_nodes(RealExpression(x)),1);
         UTILITY_TEST_EQUALS(count_nodes(RealExpression(1)),1);
         UTILITY_TEST_EQUALS(count_nodes(2*x),3);
@@ -210,7 +211,7 @@ class TestExpression {
         UTILITY_TEST_EQUALS(count_nodes(x+cos(x)+pow(cos(x),2)),8);
     }
 
-    Void test_count_distinct_nodes() {
+    void test_count_distinct_nodes() {
         UTILITY_TEST_EQUALS(count_distinct_nodes(RealExpression(x)),1);
         UTILITY_TEST_EQUALS(count_distinct_nodes(x*exp(x)),3);
         UTILITY_TEST_EQUALS(count_distinct_nodes(x*x),2);
@@ -223,7 +224,7 @@ class TestExpression {
         UTILITY_TEST_EQUALS(count_distinct_nodes(x+cos(x)+pow(cos(x),2)),5);
     }
 
-    Void test_count_distinct_node_pointers() {
+    void test_count_distinct_node_pointers() {
         UTILITY_TEST_EQUALS(count_distinct_node_pointers(RealExpression(x)),1);
         UTILITY_TEST_EQUALS(count_distinct_node_pointers(x*exp(x)),4);
         UTILITY_TEST_EQUALS(count_distinct_node_pointers(x*x),3);
@@ -236,7 +237,7 @@ class TestExpression {
         UTILITY_TEST_EQUALS(count_distinct_node_pointers(x+cos(x)+pow(cos(x),2)),8);
     }
 
-    Void test_eliminate_common_subexpressions() {
+    void test_eliminate_common_subexpressions() {
         RealExpression expr1 = x;
         UTILITY_TEST_PRINT(expr1);
         eliminate_common_subexpressions(expr1);
@@ -278,7 +279,7 @@ class TestExpression {
         UTILITY_TEST_EQUAL(count_distinct_node_pointers(expr9),5);
     }
 
-    Void test_substitute() {
+    void test_substitute() {
 
         RealVariable u1("u1"), u2("u2");
         RealExpression expr = -u1*x*y+2*pow(x+u2,2);
@@ -290,7 +291,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(identical(substitution,-(u1+1)*x*y+2*pow(x+u1*x,2)));
     }
 
-    Void test_is_constant_in() {
+    void test_is_constant_in() {
         Real c(3);
         UTILITY_TEST_ASSERT(is_constant_in(3*y,{x}));
         UTILITY_TEST_ASSERT(is_constant_in(pow(x,2),{y}));
@@ -302,7 +303,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(is_constant_in(simplify(0*y),{y}));
     }
 
-    Void test_is_additive_in() {
+    void test_is_additive_in() {
         RealVariable u1("u1"), u2("u2");
         UTILITY_TEST_ASSERT(is_additive_in(u1,u1));
         UTILITY_TEST_ASSERT(is_additive_in(x,u1));
@@ -321,7 +322,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(not is_additive_in(Vector<RealExpression>({x+u1,y+sqr(u2)}),{u1,u2}));
     }
 
-    Void test_is_affine_in() {
+    void test_is_affine_in() {
         UTILITY_TEST_ASSERT(is_affine_in(sqr(x),{y}));
         UTILITY_TEST_ASSERT(is_affine_in(neg(x),{x}));
         UTILITY_TEST_ASSERT(is_affine_in(pow(x,3),{y}));
@@ -353,7 +354,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(not is_affine_in(x/y,{y}));
     }
 
-    Void test_is_polynomial_in() {
+    void test_is_polynomial_in() {
         UTILITY_TEST_ASSERT(is_polynomial_in(1,{x}))
         UTILITY_TEST_ASSERT(is_polynomial_in(x,{x}))
         UTILITY_TEST_ASSERT(is_polynomial_in(x*x,{x}))
@@ -382,7 +383,7 @@ class TestExpression {
         UTILITY_TEST_ASSERT(not is_polynomial_in({x/y,sqr(y)},{x,y}))
     }
 
-    Void test() {
+    void test() {
         UTILITY_TEST_CALL(test_variables());
         UTILITY_TEST_CALL(test_expression());
         UTILITY_TEST_CALL(test_write());
@@ -407,7 +408,7 @@ class TestExpression {
 };
 
 
-Int main() {
+int main() {
     TestExpression().test();
     return UTILITY_TEST_FAILURES;
 }

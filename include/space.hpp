@@ -38,9 +38,14 @@
 #include <iostream>
 
 #include "utility/macros.hpp"
+#include "utility/container.hpp"
 #include "variable.hpp"
 
 namespace SymboliCore {
+
+using Utility::List;
+using Utility::Map;
+using Utility::Set;
 
 template<class T> class Space;
 template<class T> OutputStream& operator<<(OutputStream& os, const Space<T>& spc);
@@ -74,39 +79,39 @@ template<class T> class Space
     Space();
     Space(const List<VariableType>& vl);
     Space(const List<Identifier>& vl);
-    Space(const InitializerList<VariableType>& vl);
+    Space(const initializer_list<VariableType>& vl);
 
-    Bool operator==(const Space<T>& other) const;
-    Bool operator!=(const Space<T>& other) const;
+    bool operator==(const Space<T>& other) const;
+    bool operator!=(const Space<T>& other) const;
 
     //! \brief The dimension of the space.
-    SizeType size() const;
+    size_t size() const;
     //! \brief The dimension of the space.
-    SizeType dimension() const;
+    size_t dimension() const;
     //! \brief The \a i<sup>th</sup> named variable.
-    const VariableType operator[](SizeType i) const;
+    const VariableType operator[](size_t i) const;
     //! \brief The \a i<sup>th</sup> named variable.
-    const VariableType variable(SizeType i) const;
+    const VariableType variable(size_t i) const;
 
     //! \brief A list giving ordered variables.
     List<Identifier> variable_names() const;
     //! \brief A list giving ordered variables.
     List<VariableType> variables() const;
     //! \brief A map giving the index of a given variable.
-    Map<Identifier,SizeType> indices_from_names() const;
+    Map<Identifier,size_t> indices_from_names() const;
     //! \brief A map giving the index of a given variable.
-    Map<VariableType,SizeType> indices() const;
+    Map<VariableType,size_t> indices() const;
 
     //! \brief Tests if the variable \a v is in the space.
-    Bool contains(const VariableType& v) const;
+    bool contains(const VariableType& v) const;
     //! \brief Tests if all the variables \a vs is in the space.
-    Bool contains(const Set<VariableType>& vs) const;
+    bool contains(const Set<VariableType>& vs) const;
     //! \brief The index of the named variable \a v.
-    SizeType operator[](const VariableType& v) const;
-    SizeType operator[](const Identifier& n) const;
+    size_t operator[](const VariableType& v) const;
+    size_t operator[](const Identifier& n) const;
     //! \brief The index of the named variable \a v.
-    SizeType index(const VariableType& v) const;
-    SizeType index(const Identifier& n) const;
+    size_t index(const VariableType& v) const;
+    size_t index(const Identifier& n) const;
     //! \brief Append the named variable \a v to the variables defining the space; ignores if the variable is already in the space.
     Space<T>& insert(const VariableType& v);
     //! \brief Adjoins the variables in \a spc.
@@ -124,7 +129,7 @@ template<class T> Space<T> join(const Space<T>& spc1, const Space<T>& spc2) {
 template<class T> Space<T> join(const Space<T>& spc1, const Variable<T>& var2) {
     Space<T> r(spc1); r.append(var2); return r; }
 
-SizeType dimension(const Space<Real>& spc);
+size_t dimension(const Space<Real>& spc);
 List<Identifier> variable_names(const Space<Real>& spc);
 List<Identifier> variable_names(const List<Variable<Real>>& spc);
 Space<Real> real_space(const List<Identifier>& vars);

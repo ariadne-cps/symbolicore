@@ -33,6 +33,7 @@
 
 using namespace std;
 using namespace SymboliCore;
+using namespace Utility;
 
 class TestInteger
 {

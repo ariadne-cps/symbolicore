@@ -39,17 +39,21 @@
 #include "utility/variant.hpp"
 #include "utility/variant.inl.hpp"
 #include "utility/string.hpp"
+#include "using.hpp"
 #include "typedefs.hpp"
 #include "logical.decl.hpp"
 
-using namespace Utility;
-
 namespace SymboliCore {
 
-typedef void Void;
-typedef bool Bool;
-typedef unsigned int Nat;
-typedef int Int;
+using std::declval;
+
+using Utility::String;
+using Utility::ProductType;
+using Utility::QuotientType;
+using Utility::DifferenceType;
+using Utility::ArithmeticType;
+using Utility::OneOf;
+using Utility::CodedVariant;
 
 class Integer;
 class Real;
@@ -142,7 +146,7 @@ enum class Operator::Code : ComparableEnumerationType {
     OR,    // Logical or
     XOR,   // Logical exclusive or
     IMPL,  // Logical implication
-    ITOR,   // Conversion of Int to Real
+    ITOR,   // Conversion of int to Real
     PUSH,
     PULL,
     EQ=-6,    // Equal
@@ -521,13 +525,13 @@ template<class OP> using InverseType = decltype(inverse(declval<OP>()));
 template<class OP> concept HasInverse = requires(OP op) { inverse(op); };
 
 namespace {
-template<class OP, class... OPS> Bool _are_inverses(OP const& op1, OperatorVariant<OPS...> const& ops2) {
+template<class OP, class... OPS> bool _are_inverses(OP const& op1, OperatorVariant<OPS...> const& ops2) {
     if constexpr(HasInverse<decltype(op1)>) { return inverse(op1).code() == ops2.code(); }
     else { return false; }
 }
 } // namespace
 
-template<class... OPS> Bool are_inverses(OperatorVariant<OPS...> const& ops1, OperatorVariant<OPS...> const& ops2) {
+template<class... OPS> bool are_inverses(OperatorVariant<OPS...> const& ops1, OperatorVariant<OPS...> const& ops2) {
     return ops1.accept([&ops2](auto op1){ return _are_inverses(op1,ops2); });
 }
 

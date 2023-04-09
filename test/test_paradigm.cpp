@@ -34,9 +34,9 @@ using namespace SymboliCore;
 class TestParadigm
 {
   public:
-    Void test();
+    void test();
   private:
-    Void test_concept();
+    void test_concept();
 };
 
 int main() {
@@ -45,14 +45,14 @@ int main() {
 }
 
 
-Void
+void
 TestParadigm::test()
 {
 }
 
 // Test that the type implements all operations of
 // the FloatDP concept without testing correctness
-Void
+void
 TestParadigm::test_concept()
 {
     UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,ApproximateTag>);

@@ -45,9 +45,10 @@
 #include "identifier.hpp"
 #include "operations.hpp"
 
-using namespace Utility;
-
 namespace SymboliCore {
+
+using Utility::List;
+using Utility::to_str;
 
 class UntypedVariable;
 class ExtendedUntypedVariable;
@@ -80,10 +81,10 @@ class UntypedVariable {
     //! \brief The name of the variable.
     const Identifier& name() const { return this->_name; }
     const VariableType& type() const { return this->_type; }
-    Bool operator==(const UntypedVariable& other) const {
+    bool operator==(const UntypedVariable& other) const {
         return (this->name()==other.name()) && (this->type()==other.type()); }
-    Bool operator!=(const UntypedVariable& other) const { return !(*this==other); }
-    Bool operator<(const UntypedVariable& other) const {
+    bool operator!=(const UntypedVariable& other) const { return !(*this==other); }
+    bool operator<(const UntypedVariable& other) const {
         return this->name()<other.name() || (this->name()==other.name() && this->type() < other.type()); }
     friend OutputStream& operator<<(OutputStream& os, const UntypedVariable& var) {
         return os << var.name(); }
@@ -142,11 +143,11 @@ template<class T> class Variables : public List<Variable<T>> {
   public:
     //! \brief Construct \a n variables with base name \a name,
     //! so that the \a i<sup>th</sup> variable is <tt>x</tt><i>i</i>.
-    Variables(Identifier name, SizeType n) : List<Variable<T>>() {
-        this->reserve(n); for(SizeType i=0; i!=n; ++i) { this->append(Variable<T>(name+to_str(i))); } }
+    Variables(Identifier name, size_t n) : List<Variable<T>>() {
+        this->reserve(n); for(size_t i=0; i!=n; ++i) { this->append(Variable<T>(name+to_str(i))); } }
     inline List<Assignment<Variable<T>,T>> operator=(const List<T>& c) const;
     //! \brief The Construct \a n variables with name \a name.
-    Variable<T> const& operator[] (SizeType i) const { return this->List<Variable<T>>::operator[](i); }
+    Variable<T> const& operator[] (size_t i) const { return this->List<Variable<T>>::operator[](i); }
     List<Identifier> names() const {
         List<Variable<T>> const& lst=*this; return apply([](Variable<T>const& var){return var.name();},lst); }
 };
@@ -267,8 +268,8 @@ template<class T> struct LetVariables {
 };
 template<class T> inline LetVariables<T> let(const List<Variable<T>>& lhs) { return LetVariables<T>(lhs); }
 template<class T> inline LetVariables<T> set(const List<Variable<T>>& lhs) { return LetVariables<T>(lhs); }
-inline LetVariables<Real> let(const InitializerList<Variable<Real>>& lhs) { return let(List<Variable<Real>>(lhs)); }
-inline LetVariables<Real> set(const InitializerList<Variable<Real>>& lhs) { return set(List<Variable<Real>>(lhs)); }
+inline LetVariables<Real> let(const initializer_list<Variable<Real>>& lhs) { return let(List<Variable<Real>>(lhs)); }
+inline LetVariables<Real> set(const initializer_list<Variable<Real>>& lhs) { return set(List<Variable<Real>>(lhs)); }
 
 template<class T> struct PrimedVariables {
     const List<Variable<T>> _lhs;
@@ -278,8 +279,8 @@ template<class T> struct PrimedVariables {
 };
 template<class T> inline PrimedVariables<T> prime(const List<Variable<T>>& lhs) { return PrimedVariables<T>(lhs); }
 template<class T> inline PrimedVariables<T> next(const List<Variable<T>>& lhs) { return PrimedVariables<T>(lhs); }
-inline PrimedVariables<Real> prime(const InitializerList<Variable<Real>>& lhs) { return prime(List<Variable<Real>>(lhs)); }
-inline PrimedVariables<Real> next(const InitializerList<Variable<Real>>& lhs) { return next(List<Variable<Real>>(lhs)); }
+inline PrimedVariables<Real> prime(const initializer_list<Variable<Real>>& lhs) { return prime(List<Variable<Real>>(lhs)); }
+inline PrimedVariables<Real> next(const initializer_list<Variable<Real>>& lhs) { return next(List<Variable<Real>>(lhs)); }
 
 template<class T> struct DottedVariables {
     const List<Variable<T>> _lhs;
@@ -288,7 +289,7 @@ template<class T> struct DottedVariables {
     friend OutputStream& operator<<(OutputStream& os, DottedVariables<T> const& dv) { return os <<"dot("<<dv._lhs<<")"; }
 };
 inline DottedVariables<Real> dot(const List<Variable<Real>>& lhs) { return DottedVariables<Real>(lhs); }
-inline DottedVariables<Real> dot(const InitializerList<Variable<Real>>& lhs) { return DottedVariables<Real>(List<Variable<Real>>(lhs)); }
+inline DottedVariables<Real> dot(const initializer_list<Variable<Real>>& lhs) { return DottedVariables<Real>(List<Variable<Real>>(lhs)); }
 
 } // namespace SymboliCore
 

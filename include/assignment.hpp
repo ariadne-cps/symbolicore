@@ -37,7 +37,6 @@
 #include <iostream>
 #include <string>
 
-
 #include "utility/macros.hpp"
 #include "utility/container.hpp"
 #include "utility/stlio.hpp"
@@ -76,7 +75,7 @@ class Assignment
     const E& right_hand_side() const { return this->rhs; }
     V lhs; E rhs;
 };
-template<class V, class E> Bool operator<(const Assignment<V,E>& a1, const Assignment<V,E>& a2) {
+template<class V, class E> bool operator<(const Assignment<V,E>& a1, const Assignment<V,E>& a2) {
     return a1.lhs < a2.lhs;
 }
 template<class V, class E> inline OutputStream& operator<<(OutputStream& os, const Assignment<V,E>& a) {

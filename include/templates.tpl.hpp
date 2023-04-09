@@ -29,14 +29,12 @@
 #ifndef SYMBOLICORE_TEMPLATES_TPL_HPP
 #define SYMBOLICORE_TEMPLATES_TPL_HPP
 
-using namespace Utility;
-
 namespace SymboliCore {
 
 template<class T> class Variable;
 
 template<class... OPS> class OperatorVariant;
-template<class... OPS> Bool are_inverses(OperatorVariant<OPS...> const& ops1, OperatorVariant<OPS...> const& ops2);
+template<class... OPS> bool are_inverses(OperatorVariant<OPS...> const& ops1, OperatorVariant<OPS...> const& ops2);
 
 
 namespace {
@@ -66,7 +64,7 @@ template<class R, class OP, class E, class V> R evaluate_as(const Symbolic<OP,E>
     return _evaluate_as_impl<R>(e._op,e._arg,x); }
 template<class R, class OP, class E1, class E2, class V> R evaluate_as(const Symbolic<OP,E1,E2>& e, const V& x) {
     return _evaluate_as_impl<R>(e._op,e._arg1,e._arg2,x); }
-template<class R, class OP, class E, class V> R evaluate_as(const Symbolic<OP,E,Int>& e, const V& x) {
+template<class R, class OP, class E, class V> R evaluate_as(const Symbolic<OP,E,int>& e, const V& x) {
     return _graded_evaluate_as_impl<R>(e._op,e._arg,e._num,x); }
 
 
@@ -98,9 +96,9 @@ template<class Y> void _write_impl(OutputStream& os, Symbolic<Cnst,Y> const& c) 
 template<class I> void _write_impl(OutputStream& os, Symbolic<Var,I> const& v) {
     os << "x" << v._ind; }
 
-template<class T> inline Void _write_impl(OutputStream& os, Constant<T> const& c) {
+template<class T> inline void _write_impl(OutputStream& os, Constant<T> const& c) {
     os << c; }
-template<class T> inline Void _write_impl(OutputStream& os, Variable<T> const& v) {
+template<class T> inline void _write_impl(OutputStream& os, Variable<T> const& v) {
     os << v; }
 
 
@@ -184,7 +182,7 @@ template<class OP, class A, template<class>class E, class J> decltype(auto) deri
     return _derivative_impl(s._op,E<A>(s._cnst),s._arg,j); }
 template<class OP, class A, template<class>class E, class J> decltype(auto) derivative(Symbolic<OP,E<A>,A> const& s, J j) {
     return _derivative_impl(s._op,E<A>(s._arg),s._cnst,j); }
-template<class OP, class A, class J> decltype(auto) derivative(Symbolic<OP,A,Int> const& s, J j) {
+template<class OP, class A, class J> decltype(auto) derivative(Symbolic<OP,A,int> const& s, J j) {
     return _derivative_impl(s._op,s._arg,s._num,j); }
 
 } // namespace
@@ -213,7 +211,7 @@ template<class E> inline E _simpl(Div op, E const& e1, E const& e2) {
 template<class E> inline E _simpl(Max op, E const& e1, E const& e2) { return op(e1,e2); }
 template<class E> inline E _simpl(Min op, E const& e1, E const& e2) { return op(e1,e2); }
 
-template<class E> inline E _simpl(Pow op, E const& e, Int n) {
+template<class E> inline E _simpl(Pow op, E const& e, int n) {
     switch (n) {
         case -1: return simplify(rec(e));
         case 0: return E::constant(1);
@@ -264,7 +262,7 @@ template<class E, class OP, class A, template<class>class F> inline E _simplify_
     auto sarg=simplify(s._arg);
     return s.op().accept([&](auto op){return _simpl(op,F<A>(s._cnst),sarg);});
 }
-template<class E, class OP, class A> inline E _simplify_node(const Symbolic<OP,A,Int>& s) {
+template<class E, class OP, class A> inline E _simplify_node(const Symbolic<OP,A,int>& s) {
     auto sarg=simplify(s.arg());
     return s.op().accept([&](auto op){return _simpl(op,sarg,s.num());});
 }
@@ -288,54 +286,54 @@ template<class V, class SE, class OP, class E1, class E2> decltype(auto) _substi
     return e._op(substitute(e._arg1,v,s),substitute(e._arg2,v,s)); }
 template<class V, class SE, class OP, class A, template<class>class E> decltype(auto) _substitute(const Symbolic<OP,A,E<A>>& e, const V& v, const SE& s) {
     return e._op(e._cnst,substitute(e._arg,v,s)); }
-template<class V, class SE, class OP, class E> decltype(auto) _substitute(const Symbolic<OP,E,Int>& e, const V& v, const SE& s) {
+template<class V, class SE, class OP, class E> decltype(auto) _substitute(const Symbolic<OP,E,int>& e, const V& v, const SE& s) {
     return e._op(substitute(e._arg,v,s),e._num); }
 
 } // namespace
 
 namespace {
 
-template<class T> Bool identical(const Constant<T>& c1, const Constant<T>& c2) {
+template<class T> bool identical(const Constant<T>& c1, const Constant<T>& c2) {
     return same(c1.value(),c2.value()); }
-template<class T> Bool identical(const Variable<T>& v1, const Variable<T>& v2) {
+template<class T> bool identical(const Variable<T>& v1, const Variable<T>& v2) {
     return v1==v2; }
-template<class OP, class A> Bool identical(const Symbolic<OP,A>& s1, const Symbolic<OP,A>& s2) {
+template<class OP, class A> bool identical(const Symbolic<OP,A>& s1, const Symbolic<OP,A>& s2) {
     return s1._op.code()==s2._op.code() && identical(s1._arg,s2._arg); }
-template<class OP, class A1, class A2> Bool identical(const Symbolic<OP,A1,A2>& s1, const Symbolic<OP,A1,A2>& s2) {
+template<class OP, class A1, class A2> bool identical(const Symbolic<OP,A1,A2>& s1, const Symbolic<OP,A1,A2>& s2) {
     return s1._op.code()==s2._op.code() && identical(s1._arg1,s2._arg1) && identical(s1._arg2,s2._arg2); }
-template<class OP, class A> Bool identical(const Symbolic<OP,A,Int>& s1, const Symbolic<OP,A,Int>& s2) {
+template<class OP, class A> bool identical(const Symbolic<OP,A,int>& s1, const Symbolic<OP,A,int>& s2) {
     return s1._op.code()==s2._op.code() && identical(s1._arg,s2._arg) && s1._num==s2._num; }
 
-template<class E> Bool _identical_dispatch(const E& e1, const E& e2) { return identical(e1,e2); }
-template<class E1, class E2> Bool _identical_dispatch(const E1& e1, const E2& e2) { return false; }
+template<class E> bool _identical_dispatch(const E& e1, const E& e2) { return identical(e1,e2); }
+template<class E1, class E2> bool _identical_dispatch(const E1& e1, const E2& e2) { return false; }
 
-//template<class E1, class E2> Bool identical(const E1& e1, const E2& e2) { return _identical_dispatch(e1,e2); }
+//template<class E1, class E2> bool identical(const E1& e1, const E2& e2) { return _identical_dispatch(e1,e2); }
 
 } // namespace
 
 struct IdenticalSymbolic {
-    template<class T> static Bool _identical(const Constant<T>& c1, const Constant<T>& c2) {
+    template<class T> static bool _identical(const Constant<T>& c1, const Constant<T>& c2) {
         return same(c1.value(),c2.value()); }
-    template<class T> static Bool _identical(const Variable<T>& v1, const Variable<T>& v2) {
+    template<class T> static bool _identical(const Variable<T>& v1, const Variable<T>& v2) {
         return v1==v2; }
-    template<class T> static Bool _identical(const Symbolic<Cnst,T>& c1, const Symbolic<Cnst,T>& c2) {
+    template<class T> static bool _identical(const Symbolic<Cnst,T>& c1, const Symbolic<Cnst,T>& c2) {
         return same(c1._val,c2._val); }
-    template<class I> static Bool _identical(const Symbolic<Var,I>& v1, const Symbolic<Var,I>& v2) {
+    template<class I> static bool _identical(const Symbolic<Var,I>& v1, const Symbolic<Var,I>& v2) {
         return v1._ind==v2._ind; }
-    template<class OP, class A> static Bool _identical(const Symbolic<OP,A>& s1, const Symbolic<OP,A>& s2) {
+    template<class OP, class A> static bool _identical(const Symbolic<OP,A>& s1, const Symbolic<OP,A>& s2) {
         return s1._op.code()==s2._op.code() && identical(s1._arg,s2._arg); }
-    template<class OP, class A1, class A2> static Bool _identical(const Symbolic<OP,A1,A2>& s1, const Symbolic<OP,A1,A2>& s2) {
+    template<class OP, class A1, class A2> static bool _identical(const Symbolic<OP,A1,A2>& s1, const Symbolic<OP,A1,A2>& s2) {
         return s1._op.code()==s2._op.code() && identical(s1._arg1,s2._arg1) && identical(s1._arg2,s2._arg2); }
-    template<class OP, class A, template<class>class E> static Bool _identical(const Symbolic<OP,A,E<A>>& s1, const Symbolic<OP,A,E<A>>& s2) {
+    template<class OP, class A, template<class>class E> static bool _identical(const Symbolic<OP,A,E<A>>& s1, const Symbolic<OP,A,E<A>>& s2) {
         return s1._op.code()==s2._op.code() && same(s1._cnst,s2._cnst) && identical(s1._arg,s2._arg); }
-    template<class OP, class A> static Bool _identical(const Symbolic<OP,A,Int>& s1, const Symbolic<OP,A,Int>& s2) {
+    template<class OP, class A> static bool _identical(const Symbolic<OP,A,int>& s1, const Symbolic<OP,A,int>& s2) {
         return s1._op.code()==s2._op.code() && identical(s1._arg,s2._arg) && s1._num==s2._num; }
-    //template<class S1, class S2> static Bool identical(const S1& s1, const S2& s2) {
+    //template<class S1, class S2> static bool identical(const S1& s1, const S2& s2) {
      //   return false; }
 
-    template<class S, class SV> static Bool _identical_dispatch(const S& s1, const SV& sv2) {
+    template<class S, class SV> static bool _identical_dispatch(const S& s1, const SV& sv2) {
         auto const* s2p = std::get_if<S>(&sv2); if(s2p) { return _identical(s1,*s2p); } else { return false; } }
-    template<class SV> static Bool identical_variant(const SV& sv1, const SV& sv2) {
+    template<class SV> static bool identical_variant(const SV& sv1, const SV& sv2) {
         return sv1.accept([&sv2](auto s1){return IdenticalSymbolic::_identical_dispatch(s1,sv2);}); }
 };
 
@@ -350,164 +348,164 @@ template<class OP, class E> Set<UntypedVariable> _arguments(Symbolic<OP,E> const
     return s._arg.arguments(); }
 template<class OP, class E1, class E2> Set<UntypedVariable> _arguments(Symbolic<OP,E1,E2> const& s) {
     return join(s._arg1.arguments(),s._arg2.arguments()); }
-template<class OP, class E1> Set<UntypedVariable> _arguments(Symbolic<OP,E1,Int> const& s) {
+template<class OP, class E1> Set<UntypedVariable> _arguments(Symbolic<OP,E1,int> const& s) {
     return s._arg.arguments(); }
 }
 
 namespace {
 
-template<class T> Bool _is_constant(Constant<T> const& s) { return true; }
-template<class T> Bool _is_constant(Variable<T> const& s) { return false; }
-template<class T> Bool _is_constant(Symbolic<Cnst,T> const& s) { return true; }
-template<class OP, class... AS> Bool _is_constant(Symbolic<OP,AS...> const& s) { return false; }
+template<class T> bool _is_constant(Constant<T> const& s) { return true; }
+template<class T> bool _is_constant(Variable<T> const& s) { return false; }
+template<class T> bool _is_constant(Symbolic<Cnst,T> const& s) { return true; }
+template<class OP, class... AS> bool _is_constant(Symbolic<OP,AS...> const& s) { return false; }
 
 
-template<class OP, class E, class VARS> inline Bool _is_constant_in_impl(OP op, E const& e, VARS const& vars) {
+template<class OP, class E, class VARS> inline bool _is_constant_in_impl(OP op, E const& e, VARS const& vars) {
     return is_constant_in(e,vars); }
-template<class OP, class E1, class E2, class VARS> inline Bool _is_constant_in_impl(OP op, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class OP, class E1, class E2, class VARS> inline bool _is_constant_in_impl(OP op, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_constant_in(e1,vars) && is_constant_in(e2,vars); }
-template<class E, class N, class VARS> inline Bool _is_constant_in_graded_impl(Pow op, E const& e, N n, VARS const& vars) {
+template<class E, class N, class VARS> inline bool _is_constant_in_graded_impl(Pow op, E const& e, N n, VARS const& vars) {
     return n==0 || is_constant_in(e,vars); }
 
-template<class E, class VARS, class... OPS> Bool _is_constant_in_impl(OperatorVariant<OPS...> ops, E const& e, VARS const& vars) {
+template<class E, class VARS, class... OPS> bool _is_constant_in_impl(OperatorVariant<OPS...> ops, E const& e, VARS const& vars) {
     return ops.accept([&e,&vars](auto op){return _is_constant_in_impl(op,e, vars);}); }
-template<class E1, class E2, class VARS, class... OPS> Bool _is_constant_in_impl(OperatorVariant<OPS...> ops, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS, class... OPS> bool _is_constant_in_impl(OperatorVariant<OPS...> ops, E1 const& e1, E2 const& e2, VARS const& vars) {
     return ops.accept([&e1,&e2,&vars](auto op){return _is_constant_in_impl(op,e1,e2, vars);}); }
-template<class E, class VARS, class... OPS> Bool _is_constant_in_graded_impl(OperatorVariant<OPS...> ops, E const& e, Int n, VARS const& vars) {
+template<class E, class VARS, class... OPS> bool _is_constant_in_graded_impl(OperatorVariant<OPS...> ops, E const& e, int n, VARS const& vars) {
     return ops.accept([&e,n,&vars](auto op){return _is_constant_in_graded_impl(op,e,n, vars);}); }
-template<class OP, class E, class N, class VARS> inline Bool _is_constant_in_graded_impl(GradedElementaryOperator ops, E const& e, N n, VARS const& vars) {
+template<class OP, class E, class N, class VARS> inline bool _is_constant_in_graded_impl(GradedElementaryOperator ops, E const& e, N n, VARS const& vars) {
     return ops.accept([&e,n,&vars](auto op){return _is_constant_in_graded_impl(op,e,n,vars);}); }
 
-template<class T, class VARS> constexpr inline Bool is_constant_in(Constant<T> const&, VARS const&) {
+template<class T, class VARS> constexpr inline bool is_constant_in(Constant<T> const&, VARS const&) {
     return true; }
-template<class T, class VARS> inline Bool is_constant_in(Variable<T> const& v, VARS const& vars) {
+template<class T, class VARS> inline bool is_constant_in(Variable<T> const& v, VARS const& vars) {
     return not vars.contains(v); }
-template<class T, class VARS> constexpr inline Bool is_constant_in(Symbolic<Cnst,T> const&, VARS const& vars) {
+template<class T, class VARS> constexpr inline bool is_constant_in(Symbolic<Cnst,T> const&, VARS const& vars) {
     return true; }
-template<class I, class VARS> inline Bool is_constant_in(Symbolic<Var,I> const& v, VARS const& vars) {
+template<class I, class VARS> inline bool is_constant_in(Symbolic<Var,I> const& v, VARS const& vars) {
     return not vars.contains(v._ind); }
-template<class OP, class A, class VARS> inline Bool is_constant_in(Symbolic<OP,A> const& s, VARS const& vars) {
+template<class OP, class A, class VARS> inline bool is_constant_in(Symbolic<OP,A> const& s, VARS const& vars) {
     return _is_constant_in_impl(s._op,s._arg,vars); }
-template<class OP, class A1, class A2, class VARS> inline Bool is_constant_in(Symbolic<OP,A1,A2> const& s, VARS const& vars) {
+template<class OP, class A1, class A2, class VARS> inline bool is_constant_in(Symbolic<OP,A1,A2> const& s, VARS const& vars) {
     return _is_constant_in_impl(s._op,s._arg1,s._arg2,vars); }
-template<class OP, class A, template<class>class E, class VARS> inline Bool is_constant_in(Symbolic<OP,A,E<A>> const& s, VARS const& vars) {
+template<class OP, class A, template<class>class E, class VARS> inline bool is_constant_in(Symbolic<OP,A,E<A>> const& s, VARS const& vars) {
     return _is_constant_in_impl(s._op,s._arg,vars); }
-template<class OP, class A, class VARS> inline Bool is_constant_in(Symbolic<OP,A,Int> const& s, VARS const& vars) {
+template<class OP, class A, class VARS> inline bool is_constant_in(Symbolic<OP,A,int> const& s, VARS const& vars) {
     return _is_constant_in_graded_impl(s._op,s._arg,s._num,vars); }
 
-template<class E, class VARS> inline Bool _is_affine_in_impl(Atan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Acos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Asin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Cos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Sin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Tan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Abs, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Sqr, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Log, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Sqrt, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Exp, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Rec, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Hlf, E const& e, VARS const& vars) { return is_affine_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Pos, E const& e, VARS const& vars) { return is_affine_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Neg, E const& e, VARS const& vars) { return is_affine_in(e,vars); }
-template<class E, class VARS> inline Bool _is_affine_in_impl(Nul, E const& e, VARS const& vars) { return true; }
-template<class E1, class E2, class VARS> inline Bool _is_affine_in_impl(Add, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E, class VARS> inline bool _is_affine_in_impl(Atan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Acos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Asin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Cos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Sin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Tan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Abs, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Sqr, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Log, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Sqrt, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Exp, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Rec, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Hlf, E const& e, VARS const& vars) { return is_affine_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Pos, E const& e, VARS const& vars) { return is_affine_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Neg, E const& e, VARS const& vars) { return is_affine_in(e,vars); }
+template<class E, class VARS> inline bool _is_affine_in_impl(Nul, E const& e, VARS const& vars) { return true; }
+template<class E1, class E2, class VARS> inline bool _is_affine_in_impl(Add, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_affine_in(e1,vars) && is_affine_in(e2,vars); }
-template<class E1, class E2, class VARS> inline Bool _is_affine_in_impl(Sub, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_affine_in_impl(Sub, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_affine_in(e1,vars) && is_affine_in(e2,vars); }
-template<class E1, class E2, class VARS> inline Bool _is_affine_in_impl(Mul, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_affine_in_impl(Mul, E1 const& e1, E2 const& e2, VARS const& vars) {
     return (is_affine_in(e1,vars) && is_constant_in(e2,vars)) || (is_constant_in(e1,vars) && is_affine_in(e2,vars)); }
-template<class E1, class E2, class VARS> inline Bool _is_affine_in_impl(Div, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_affine_in_impl(Div, E1 const& e1, E2 const& e2, VARS const& vars) {
     return (is_affine_in(e1,vars) && is_constant_in(e2,vars)); }
-template<class E1, class E2, class VARS> inline Bool _is_affine_in_impl(Max, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_affine_in_impl(Max, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_constant_in(e1,vars) && is_constant_in(e2,vars); }
-template<class E1, class E2, class VARS> inline Bool _is_affine_in_impl(Min, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_affine_in_impl(Min, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_constant_in(e1,vars) && is_constant_in(e2,vars); }
-template<class E, class N, class VARS> inline Bool _is_affine_in_impl(Pow, E const& e1, N n2, VARS const& vars) {
+template<class E, class N, class VARS> inline bool _is_affine_in_impl(Pow, E const& e1, N n2, VARS const& vars) {
     return n2 == 0 || (n2==1 && is_affine_in(e1,vars)) || is_constant_in(e1,vars); }
 
-template<class E, class... OPS, class VARS> Bool _is_affine_in_impl(OperatorVariant<OPS...> ops, E const& e, VARS const& vars) {
+template<class E, class... OPS, class VARS> bool _is_affine_in_impl(OperatorVariant<OPS...> ops, E const& e, VARS const& vars) {
     return ops.accept([&e,&vars](auto op){return _is_affine_in_impl(op,e, vars);}); }
-template<class E1, class E2, class... OPS, class VARS> Bool _is_affine_in_impl(OperatorVariant<OPS...> ops, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class... OPS, class VARS> bool _is_affine_in_impl(OperatorVariant<OPS...> ops, E1 const& e1, E2 const& e2, VARS const& vars) {
     return ops.accept([&e1,&e2,&vars](auto op){return _is_affine_in_impl(op,e1,e2, vars);}); }
-template<class E, class VARS, class... OPS> Bool _is_affine_in_impl(OperatorVariant<OPS...> ops, E const& e, Int n, VARS const& vars) {
+template<class E, class VARS, class... OPS> bool _is_affine_in_impl(OperatorVariant<OPS...> ops, E const& e, int n, VARS const& vars) {
     return ops.accept([&e,n,&vars](auto op){return _is_affine_in_impl(op,e,n, vars);}); }
-template<class OP, class E, class N, class VARS> inline Bool _is_affine_in_impl(GradedElementaryOperator ops, E const& e, N n, VARS const& vars) {
+template<class OP, class E, class N, class VARS> inline bool _is_affine_in_impl(GradedElementaryOperator ops, E const& e, N n, VARS const& vars) {
     return ops.accept([&e,n,&vars](auto op){return _is_affine_in_impl(op,e,n,vars);}); }
 
-template<class T, class VARS> constexpr Bool is_affine_in(Constant<T> const&, VARS const& vars) {
+template<class T, class VARS> constexpr bool is_affine_in(Constant<T> const&, VARS const& vars) {
     return true; }
-template<class T, class VARS> constexpr Bool is_affine_in(Variable<T> const&, VARS const& vars) {
+template<class T, class VARS> constexpr bool is_affine_in(Variable<T> const&, VARS const& vars) {
     return true; }
-template<class T, class VARS> constexpr Bool is_affine_in(Symbolic<Cnst,T> const&, VARS const& vars) {
+template<class T, class VARS> constexpr bool is_affine_in(Symbolic<Cnst,T> const&, VARS const& vars) {
     return true; }
-template<class I, class VARS> constexpr Bool is_affine_in(Symbolic<Var,I> const& v, VARS const& vars) {
+template<class I, class VARS> constexpr bool is_affine_in(Symbolic<Var,I> const& v, VARS const& vars) {
     return true; }
-template<class OP, class A, class VARS> Bool is_affine_in(Symbolic<OP,A> const& s, VARS const& vars) {
+template<class OP, class A, class VARS> bool is_affine_in(Symbolic<OP,A> const& s, VARS const& vars) {
     return _is_affine_in_impl(s._op,s._arg,vars); }
-template<class OP, class A1, class A2, class VARS> Bool is_affine_in(Symbolic<OP,A1,A2> const& s, VARS const& vars) {
+template<class OP, class A1, class A2, class VARS> bool is_affine_in(Symbolic<OP,A1,A2> const& s, VARS const& vars) {
     return _is_affine_in_impl(s._op,s._arg1,s._arg2,vars); }
-template<class OP, class A, template<class>class E, class VARS> Bool is_affine_in(Symbolic<OP,A,E<A>> const& s, VARS const& vars) {
+template<class OP, class A, template<class>class E, class VARS> bool is_affine_in(Symbolic<OP,A,E<A>> const& s, VARS const& vars) {
     return _is_affine_in_impl(s._op,E<A>(s._cnst),s._arg,vars); }
-template<class OP, class A, class VARS> Bool is_affine_in(Symbolic<OP,A,Int> const& s, VARS const& vars) {
+template<class OP, class A, class VARS> bool is_affine_in(Symbolic<OP,A,int> const& s, VARS const& vars) {
     return _is_affine_in_impl(s._op,s._arg,s._num,vars); }
 
 
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Atan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Acos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Asin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Cos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Sin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Tan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Abs, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Log, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Sqrt, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Exp, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Rec, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Sqr, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Hlf, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Pos, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Neg, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
-template<class E, class VARS> inline Bool _is_polynomial_in_impl(Nul, E const& e, VARS const& vars) { return true; }
-template<class E1, class E2, class VARS> inline Bool _is_polynomial_in_impl(Add, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Atan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Acos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Asin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Cos, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Sin, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Tan, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Abs, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Log, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Sqrt, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Exp, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Rec, E const& e, VARS const& vars) { return is_constant_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Sqr, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Hlf, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Pos, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Neg, E const& e, VARS const& vars) { return is_polynomial_in(e,vars); }
+template<class E, class VARS> inline bool _is_polynomial_in_impl(Nul, E const& e, VARS const& vars) { return true; }
+template<class E1, class E2, class VARS> inline bool _is_polynomial_in_impl(Add, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_polynomial_in(e1,vars) && is_polynomial_in(e2,vars); }
-template<class E1, class E2, class VARS> inline Bool _is_polynomial_in_impl(Sub, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_polynomial_in_impl(Sub, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_polynomial_in(e1,vars) && is_polynomial_in(e2,vars); }
-template<class E1, class E2, class VARS> inline Bool _is_polynomial_in_impl(Mul, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_polynomial_in_impl(Mul, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_polynomial_in(e1, vars) && is_polynomial_in(e2, vars); }
-template<class E1, class E2, class VARS> inline Bool _is_polynomial_in_impl(Div, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_polynomial_in_impl(Div, E1 const& e1, E2 const& e2, VARS const& vars) {
     return (is_polynomial_in(e1,vars) && is_constant_in(e2,vars)); }
-template<class E1, class E2, class VARS> inline Bool _is_polynomial_in_impl(Max, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_polynomial_in_impl(Max, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_constant_in(e1,vars) && is_constant_in(e2,vars); }
-template<class E1, class E2, class VARS> inline Bool _is_polynomial_in_impl(Min, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class VARS> inline bool _is_polynomial_in_impl(Min, E1 const& e1, E2 const& e2, VARS const& vars) {
     return is_constant_in(e1,vars) && is_constant_in(e2,vars); }
-template<class E, class N, class VARS> inline Bool _is_polynomial_in_impl(Pow, E const& e1, N n2, VARS const& vars) {
+template<class E, class N, class VARS> inline bool _is_polynomial_in_impl(Pow, E const& e1, N n2, VARS const& vars) {
     return n2==0 || (n2>0 && is_polynomial_in(e1, vars)); }
 
-template<class E, class... OPS, class VARS> Bool _is_polynomial_in_impl(OperatorVariant<OPS...> ops, E const& e, VARS const& vars) {
+template<class E, class... OPS, class VARS> bool _is_polynomial_in_impl(OperatorVariant<OPS...> ops, E const& e, VARS const& vars) {
     return ops.accept([&e,&vars](auto op){return _is_polynomial_in_impl(op,e, vars);}); }
-template<class E1, class E2, class... OPS, class VARS> Bool _is_polynomial_in_impl(OperatorVariant<OPS...> ops, E1 const& e1, E2 const& e2, VARS const& vars) {
+template<class E1, class E2, class... OPS, class VARS> bool _is_polynomial_in_impl(OperatorVariant<OPS...> ops, E1 const& e1, E2 const& e2, VARS const& vars) {
     return ops.accept([&e1,&e2,&vars](auto op){return _is_polynomial_in_impl(op,e1,e2, vars);}); }
-template<class E, class VARS, class... OPS> Bool _is_polynomial_in_impl(OperatorVariant<OPS...> ops, E const& e, Int n, VARS const& vars) {
+template<class E, class VARS, class... OPS> bool _is_polynomial_in_impl(OperatorVariant<OPS...> ops, E const& e, int n, VARS const& vars) {
     return ops.accept([&e,n,&vars](auto op){return _is_polynomial_in_impl(op,e,n, vars);}); }
-template<class OP, class E, class N, class VARS> inline Bool _is_polynomial_in_impl(GradedElementaryOperator ops, E const& e, N n, VARS const& vars) {
+template<class OP, class E, class N, class VARS> inline bool _is_polynomial_in_impl(GradedElementaryOperator ops, E const& e, N n, VARS const& vars) {
     return ops.accept([&e,n,&vars](auto op){return _is_polynomial_in_impl(op,e,n,vars);}); }
 
-template<class T, class VARS> constexpr Bool is_polynomial_in(Constant<T> const&, VARS const& vars) {
+template<class T, class VARS> constexpr bool is_polynomial_in(Constant<T> const&, VARS const& vars) {
 return true; }
-template<class T, class VARS> constexpr Bool is_polynomial_in(Variable<T> const&, VARS const& vars) {
+template<class T, class VARS> constexpr bool is_polynomial_in(Variable<T> const&, VARS const& vars) {
 return true; }
-template<class T, class VARS> constexpr Bool is_polynomial_in(Symbolic<Cnst,T> const&, VARS const& vars) {
+template<class T, class VARS> constexpr bool is_polynomial_in(Symbolic<Cnst,T> const&, VARS const& vars) {
 return true; }
-template<class I, class VARS> constexpr Bool is_polynomial_in(Symbolic<Var,I> const& v, VARS const& vars) {
+template<class I, class VARS> constexpr bool is_polynomial_in(Symbolic<Var,I> const& v, VARS const& vars) {
 return true; }
-template<class OP, class A, class VARS> Bool is_polynomial_in(Symbolic<OP,A> const& s, VARS const& vars) {
+template<class OP, class A, class VARS> bool is_polynomial_in(Symbolic<OP,A> const& s, VARS const& vars) {
 return _is_polynomial_in_impl(s._op,s._arg,vars); }
-template<class OP, class A1, class A2, class VARS> Bool is_polynomial_in(Symbolic<OP,A1,A2> const& s, VARS const& vars) {
+template<class OP, class A1, class A2, class VARS> bool is_polynomial_in(Symbolic<OP,A1,A2> const& s, VARS const& vars) {
 return _is_polynomial_in_impl(s._op,s._arg1,s._arg2,vars); }
-template<class OP, class A, template<class>class E, class VARS> Bool is_polynomial_in(Symbolic<OP,A,E<A>> const& s, VARS const& vars) {
+template<class OP, class A, template<class>class E, class VARS> bool is_polynomial_in(Symbolic<OP,A,E<A>> const& s, VARS const& vars) {
 return _is_polynomial_in_impl(s._op,E<A>(s._cnst),s._arg,vars); }
-template<class OP, class A, class VARS> Bool is_polynomial_in(Symbolic<OP,A,Int> const& s, VARS const& vars) {
+template<class OP, class A, class VARS> bool is_polynomial_in(Symbolic<OP,A,int> const& s, VARS const& vars) {
 return _is_polynomial_in_impl(s._op,s._arg,s._num,vars); }
 
 }

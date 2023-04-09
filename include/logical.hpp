@@ -37,12 +37,17 @@
 #include "utility/string.hpp"
 #include "utility/array.hpp"
 
-#include "typedefs.hpp"
+#include "using.hpp"
 #include "sign.hpp"
 #include "paradigm.hpp"
 #include "logical.decl.hpp"
 
 namespace SymboliCore {
+
+using Utility::String;
+using Utility::Array;
+using Utility::Handle;
+using Utility::ConstructibleFrom;
 
 template<class X> class Sequence;
 
@@ -53,25 +58,25 @@ template<class T> String class_name();
 //! \details The Effort should roughly reflect the time needed to perform a computation.
 //! \sa Accuracy.
 class Effort {
-    static Nat _default;
-    Nat _m;
+    static unsigned int _default;
+    unsigned int _m;
   public:
     //! \brief Get the default effort. Initially set to the minimum possible effort 0.
     static Effort get_default() { return Effort(_default); }
     //! \brief Set the default effort.
-    static Void set_default(Nat m) { _default=m; }
+    static void set_default(unsigned int m) { _default=m; }
   public:
     //! \brief Construct from a raw positive integer.
-    explicit Effort(Nat m) : _m(m) { }
+    explicit Effort(unsigned int m) : _m(m) { }
     //! \brief Convert to a raw positive integer.
-    operator Nat() const { return _m; }
-    Nat work() const { return _m; }
+    operator unsigned int() const { return _m; }
+    unsigned int work() const { return _m; }
     Effort& operator++() { ++_m; return *this; }
-    Effort& operator+=(Nat m) { _m+=m; return *this; }
-    Effort& operator*=(Nat m) { _m*=m; return *this; }
+    Effort& operator+=(unsigned int m) { _m+=m; return *this; }
+    Effort& operator*=(unsigned int m) { _m*=m; return *this; }
     friend OutputStream& operator<<(OutputStream& os, Effort eff) { return os << "Effort(" << eff._m << ")"; }
 };
-inline Effort operator""_eff(unsigned long long int e) { Nat m=static_cast<Nat>(e); assert(m==e); return Effort(m); }
+inline Effort operator""_eff(unsigned long long int e) { unsigned int m=static_cast<unsigned int>(e); assert(m==e); return Effort(m); }
 
 namespace Detail {
 
@@ -85,12 +90,12 @@ namespace Detail {
         TRUE=+2 //!< Definitely true.
     };
     inline LogicalValue make_logical_value(bool b) { return b ? LogicalValue::TRUE : LogicalValue::FALSE; }
-    inline Bool definitely(LogicalValue lv) { return lv==LogicalValue::TRUE; }
-    inline Bool probably(const LogicalValue& lv) { return lv>=LogicalValue::LIKELY; }
-    inline Bool decide(LogicalValue lv) { return lv>=LogicalValue::LIKELY; }
-    inline Bool possibly(LogicalValue lv) { return lv!=LogicalValue::FALSE; }
-    inline Bool is_determinate(LogicalValue lv) { return lv==LogicalValue::TRUE or lv==LogicalValue::FALSE; }
-    inline Bool is_indeterminate(LogicalValue lv) { return lv==LogicalValue::INDETERMINATE or lv==LogicalValue::UNLIKELY or lv==LogicalValue::LIKELY; }
+    inline bool definitely(LogicalValue lv) { return lv==LogicalValue::TRUE; }
+    inline bool probably(const LogicalValue& lv) { return lv>=LogicalValue::LIKELY; }
+    inline bool decide(LogicalValue lv) { return lv>=LogicalValue::LIKELY; }
+    inline bool possibly(LogicalValue lv) { return lv!=LogicalValue::FALSE; }
+    inline bool is_determinate(LogicalValue lv) { return lv==LogicalValue::TRUE or lv==LogicalValue::FALSE; }
+    inline bool is_indeterminate(LogicalValue lv) { return lv==LogicalValue::INDETERMINATE or lv==LogicalValue::UNLIKELY or lv==LogicalValue::LIKELY; }
     LogicalValue operator==(LogicalValue lv1, LogicalValue lv2);
     inline LogicalValue operator!(LogicalValue lv) { return static_cast<LogicalValue>(-static_cast<ComparableEnumerationType>(lv)); }
     inline LogicalValue operator&&(LogicalValue lv1, LogicalValue lv2) { return std::min(lv1,lv2); }
@@ -116,10 +121,10 @@ namespace Detail {
     };
 
     inline LogicalValue check(LogicalHandle l, Effort e) { return l.check(e); }
-    inline Bool definitely(LogicalHandle l, Effort e) { return definitely(check(l,e)); }
-    inline Bool probably(LogicalHandle l, Effort e) { return probably(check(l,e)); }
-    inline Bool decide(LogicalHandle l, Effort e) { return decide(check(l,e)); }
-    inline Bool possibly(LogicalHandle l, Effort e) { return possibly(check(l,e)); }
+    inline bool definitely(LogicalHandle l, Effort e) { return definitely(check(l,e)); }
+    inline bool probably(LogicalHandle l, Effort e) { return probably(check(l,e)); }
+    inline bool decide(LogicalHandle l, Effort e) { return decide(check(l,e)); }
+    inline bool possibly(LogicalHandle l, Effort e) { return possibly(check(l,e)); }
     LogicalHandle operator&&(LogicalHandle v1, LogicalHandle v2);
     LogicalHandle operator||(LogicalHandle v1, LogicalHandle v2);
     LogicalHandle operator==(LogicalHandle v1, LogicalHandle v2);
@@ -139,7 +144,7 @@ namespace Detail {
         if constexpr (ConstructibleFrom<LogicalType<P>,LogicalHandle>) {
             auto elptr=dynamic_cast<LogicalInterface*>(ptr);
             if (elptr) {
-                return LogicalType<P>(LogicalHandle(SharedPointer<LogicalInterface>(elptr)));
+                return LogicalType<P>(LogicalHandle(shared_ptr<LogicalInterface>(elptr)));
             }
         }
         static_assert (ConstructibleFrom<LogicalType<P>,LogicalValue>);
@@ -244,8 +249,8 @@ class Indeterminate {
   public:
     operator ValidatedSierpinskian() const;
     operator ValidatedKleenean() const;
-    friend Bool decide(Indeterminate const& l, Effort e);
-    friend Bool decide(Indeterminate const& l);
+    friend bool decide(Indeterminate const& l, Effort e);
+    friend bool decide(Indeterminate const& l);
     friend OutputStream& operator<<(OutputStream& os, ValidatedKleenean const&);
 };
 
@@ -274,10 +279,10 @@ class Boolean : public Logical<Boolean,LogicalValue> {
     //! \brief Logical equality.
     friend Boolean operator==(Boolean const& b1, Boolean const& b2);
 
-    friend Boolean operator&&(Boolean const& l1, Bool const& l2) { return l1 && Boolean(l2); }
-    friend Boolean operator&&(Bool const& l1, Boolean const& l2) { return Boolean(l1) && l2; }
-    friend Boolean operator||(Boolean const& l1, Bool const& l2) { return l1 || Boolean(l2); }
-    friend Boolean operator||(Bool const& l1, Boolean const& l2) { return Boolean(l1) || l2; }
+    friend Boolean operator&&(Boolean const& l1, bool const& l2) { return l1 && Boolean(l2); }
+    friend Boolean operator&&(bool const& l1, Boolean const& l2) { return Boolean(l1) && l2; }
+    friend Boolean operator||(Boolean const& l1, bool const& l2) { return l1 || Boolean(l2); }
+    friend Boolean operator||(bool const& l1, Boolean const& l2) { return Boolean(l1) || l2; }
 };
 
 
@@ -567,9 +572,9 @@ inline Indeterminate::operator ValidatedSierpinskian() const {
     return ValidatedSierpinskian(LogicalValue::INDETERMINATE); }
 inline Indeterminate::operator ValidatedKleenean() const {
     return ValidatedKleenean(LogicalValue::INDETERMINATE); }
-inline Bool decide(Indeterminate const& l, Effort e) {
+inline bool decide(Indeterminate const& l, Effort e) {
     return decide(ValidatedKleenean(LogicalValue::INDETERMINATE)); }
-inline Bool decide(Indeterminate const& l) {
+inline bool decide(Indeterminate const& l) {
     return decide(ValidatedKleenean(LogicalValue::INDETERMINATE)); }
 
 inline ValidatedSierpinskian Sierpinskian::check(Effort eff) const {
@@ -587,12 +592,12 @@ inline ApproximateKleenean NaiveKleenean::check(Effort e) const {
 
 
 class NondeterministicBoolean {
-    LowerKleenean _pt; LowerKleenean _pf; Bool _r;
+    LowerKleenean _pt; LowerKleenean _pf; bool _r;
   public:
     NondeterministicBoolean(LowerKleenean pt, LowerKleenean pf) : _pt(pt), _pf(pf), _r(_choose(pt,pf)) { }
     operator bool() const { return _r; }
   private:
-    static Bool _choose(LowerKleenean pt, LowerKleenean pf);
+    static bool _choose(LowerKleenean pt, LowerKleenean pf);
 };
 inline NondeterministicBoolean choose(LowerKleenean pt, LowerKleenean pf) {
     return NondeterministicBoolean(pt,pf);
@@ -601,7 +606,7 @@ inline NondeterministicBoolean choose(LowerKleenean pt, LowerKleenean pf) {
 //! \relates LowerKleenean
 //! Returns an index \a i such that \c p[i] is definitely \c true, if one exists.
 //! Loops infinitely if no \c p[i] can be shown to be definitely \c true.
-SizeType nondeterministic_choose_index(Array<LowerKleenean> const& p);
+size_t nondeterministic_choose_index(Array<LowerKleenean> const& p);
 
 template<class P, class T> class Case {
     P _p; T _t;

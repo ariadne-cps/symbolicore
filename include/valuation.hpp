@@ -46,6 +46,10 @@
 
 namespace SymboliCore {
 
+using Utility::Pair;
+using Utility::Map;
+using Utility::Set;
+
 // Sequencing operators to make Valuation objects or objects convertible to Valuations.
 template<class X> Pair<Variable<X>,X> operator|(const Variable<X>& v, const typename Variable<X>::Type& c) { return Pair<Variable<X>,X>(v,c); }
 template<class X> Pair<Variable<X>,X> operator|(const Variable<X>& v, const Constant<X>& c) { return Pair<Variable<X>,X>(v,c.value()); }
@@ -83,13 +87,13 @@ class Valuation
     Valuation(const Map<Variable<Type>,ValueType>& m) {
         for(auto val : m) { this->_values.insert(val.first.name(),val.second); } }
     Valuation(Array<X> ary, Space<T> const& spc){
-        for(SizeType i=0; i!=ary.size(); ++i) { this->insert(spc[i],ary[i]); } }
+        for(size_t i=0; i!=ary.size(); ++i) { this->insert(spc[i],ary[i]); } }
     Valuation(const Assignment<Variable<T>,X>& a);
     Valuation(const List<Assignment<Variable<T>,X> >& la);
-    Valuation(const InitializerList<Pair<Variable<T>,X> >& lst);
-    Void insert(const Variable<Type>& v, const ValueType& s) { this->_values.insert(v.name(),s); }
+    Valuation(const initializer_list<Pair<Variable<T>,X> >& lst);
+    void insert(const Variable<Type>& v, const ValueType& s) { this->_values.insert(v.name(),s); }
     //! \brief %Set the value associated with variable \a v to \a s.
-    Void set(const Variable<Type>& v, const ValueType& s) { this->_values[v.name()]=s; }
+    void set(const Variable<Type>& v, const ValueType& s) { this->_values[v.name()]=s; }
     //! \brief Get the value associated with variable \a v.
     const ValueType& get(const Variable<Type>& v) const { return _values[v.name()]; }
     const ValueType& operator[](const Identifier& nm) const { return _values[nm]; }
@@ -103,13 +107,13 @@ class Valuation
     ConstIterator begin() const { return _values.begin(); }
     ConstIterator end() const { return _values.end(); }
     Vector<ValueType> operator[](const Space<Type>& spc) {
-        return Vector<ValueType>(spc.dimension(),[&](SizeType i){return _values[spc[i]];}); }
+        return Vector<ValueType>(spc.dimension(),[&](size_t i){return _values[spc[i]];}); }
   public:
     Map<Identifier,ValueType> _values;
 };
 
-template<class T, class X> Bool operator==(const Valuation<T,X>& v1, const Valuation<T,X>& v2) {
-    Bool identical = true;
+template<class T, class X> bool operator==(const Valuation<T,X>& v1, const Valuation<T,X>& v2) {
+    bool identical = true;
     const Map<Identifier,X>& v1sm=v1.values();
     const Map<Identifier,X>& v2sm=v2.values();
     typename Map<Identifier,X>::ConstIterator v1iter=v1sm.begin();
@@ -156,7 +160,7 @@ class DiscreteValuation
     const Map<Identifier,IntegerType>& integer_values() const { return Valuation<Integer>::values(); }
 };
 
-inline Bool operator==(const DiscreteValuation& v1, const DiscreteValuation& v2) {
+inline bool operator==(const DiscreteValuation& v1, const DiscreteValuation& v2) {
     return static_cast<const StringValuation&>(v1)==static_cast<const StringValuation&>(v2)
         && static_cast<const IntegerValuation&>(v1)==static_cast<const IntegerValuation&>(v2); }
 
@@ -220,8 +224,8 @@ template<class X> inline OutputStream& operator<<(OutputStream& os, const Valuat
 
 template<class V, class X> Valuation<V,X>::Valuation(const Assignment<Variable<V>,X>& a) { this->insert(a.lhs,a.rhs); }
 template<class V, class X> Valuation<V,X>::Valuation(const List<Assignment<Variable<V>,X> >& la) {
-    for(SizeType i=0; i!=la.size(); ++i) { this->insert(la[i].lhs,la[i].rhs); } }
-template<class V, class X> Valuation<V,X>::Valuation(const InitializerList<Pair<Variable<V>,X> >& la) {
+    for(size_t i=0; i!=la.size(); ++i) { this->insert(la[i].lhs,la[i].rhs); } }
+template<class V, class X> Valuation<V,X>::Valuation(const initializer_list<Pair<Variable<V>,X> >& la) {
     for(auto iter=la.begin(); iter!=la.end(); ++iter) { this->insert(iter->first,iter->second); } }
 
 template<class X> X evaluate(const Expression<Real>& e, const ContinuousValuation<X>&);

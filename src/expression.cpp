@@ -36,17 +36,16 @@
 #include "assignment.hpp"
 #include "constant.hpp"
 #include "variable.hpp"
-#include "templates.hpp"
-#include "templates.tpl.hpp"
-#include "space.hpp"
 #include "valuation.hpp"
+#include "operators.hpp"
+#include "templates.hpp"
 #include "expression.hpp"
+#include "templates.tpl.hpp"
 #include "expression.tpl.hpp"
-#include "typedefs.hpp"
-
-using namespace Utility;
 
 namespace SymboliCore {
+
+using Utility::range;
 
 template class Expression<Boolean>;
 template class Expression<Kleenean>;
@@ -54,10 +53,10 @@ template class Expression<String>;
 template class Expression<Integer>;
 template class Expression<Real>;
 
-template Bool before<Real>(Expression<Real> const& e1, Expression<Real> const& e2);
-template SizeType count_nodes<Real>(const Expression<Real>& e);
-template SizeType count_distinct_nodes<Real>(const Expression<Real>& e);
-template SizeType count_distinct_node_pointers<Real>(const Expression<Real>& e);
+template bool before<Real>(Expression<Real> const& e1, Expression<Real> const& e2);
+template size_t count_nodes<Real>(const Expression<Real>& e);
+template size_t count_distinct_nodes<Real>(const Expression<Real>& e);
+template size_t count_distinct_node_pointers<Real>(const Expression<Real>& e);
 
 Expression<Boolean> operator&&(Expression<Boolean> const& e1, Expression<Boolean> const& e2) {
     return make_expression<Boolean>(AndOp(),e1,e2); }
@@ -157,7 +156,7 @@ Expression<Real> mul(Expression<Real> const& e1, Expression<Real> const& e2) {
     return make_expression<Real>(Mul(),e1,e2); }
 Expression<Real> div(Expression<Real> const& e1, Expression<Real> const& e2) {
     return make_expression<Real>(Div(),e1,e2); }
-Expression<Real> pow(Expression<Real> const& e, Int n) {
+Expression<Real> pow(Expression<Real> const& e, int n) {
     return make_expression<Real>(Pow(),e,n); }
 
 Expression<Real> nul(Expression<Real> const&) {
@@ -224,8 +223,8 @@ template Expression<Kleenean> substitute(const Expression<Kleenean>& e, const Li
 template Expression<Real> simplify(const Expression<Real>& e);
 template Expression<Kleenean> simplify(const Expression<Kleenean>& e);
 
-template Void eliminate_common_subexpressions(Expression<Real>&);
-template Void eliminate_common_subexpressions(Vector<Expression<Real>>&);
+template void eliminate_common_subexpressions(Expression<Real>&);
+template void eliminate_common_subexpressions(Vector<Expression<Real>>&);
 
 
 template<class VIS, class A, class... OPS> decltype(auto) visit_symbolic(VIS vis, Symbolic<OperatorVariant<OPS...>,A> s) {
@@ -273,70 +272,70 @@ Expression<Real> indicator(Expression<Kleenean> e, Sign sign) {
 
 
 
-template Bool is_constant(const Expression<Real>&, const Real&);
-template Bool is_constant(const Expression<Kleenean>&, const Kleenean&);
+template bool is_constant(const Expression<Real>&, const Real&);
+template bool is_constant(const Expression<Kleenean>&, const Kleenean&);
 
-template Bool is_variable(const Expression<Real>&, const Variable<Real>&);
-template Bool identical(const Expression<Real>&, const Expression<Real>&);
+template bool is_variable(const Expression<Real>&, const Variable<Real>&);
+template bool identical(const Expression<Real>&, const Expression<Real>&);
 
-template Bool is_constant_in(const Expression<Real>& e, const Set<Variable<Real>>& spc);
+template bool is_constant_in(const Expression<Real>& e, const Set<Variable<Real>>& spc);
 
-Bool is_affine_in(const Expression<Real>& e, const Set<Variable<Real>>& spc) {
+bool is_affine_in(const Expression<Real>& e, const Set<Variable<Real>>& spc) {
     return e.node_ref().accept([&spc](auto en){return is_affine_in(en,spc);});
 }
 
-Bool is_affine_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& spc) {
+bool is_affine_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& spc) {
     for (auto i : range(e.size())) {
         if (not is_affine_in(e[i],spc)) return false;
     }
     return true;
 }
 
-Bool is_polynomial_in(const Expression<Real>& e, const Set<Variable<Real>>& spc) {
+bool is_polynomial_in(const Expression<Real>& e, const Set<Variable<Real>>& spc) {
     return e.node_ref().accept([&spc](auto en){return is_polynomial_in(en,spc);});
 }
 
-Bool is_polynomial_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& spc) {
+bool is_polynomial_in(const Vector<Expression<Real>>& e, const Set<Variable<Real>>& spc) {
     for (auto i : range(e.size())) {
         if (not is_polynomial_in(e[i],spc)) return false;
     }
     return true;
 }
 
-Bool is_constant_in(const Expression<Real>& e, const Variable<Real>& var) { return is_constant_in(e,Set<RealVariable>{var}); }
+bool is_constant_in(const Expression<Real>& e, const Variable<Real>& var) { return is_constant_in(e,Set<RealVariable>{var}); }
 
 namespace {
 typedef Expression<Real> RE; typedef Expression<Real> const& REcr;
 typedef Variable<Real> const& RVcr; typedef Constant<Real> const& RCcr;
 
-inline Bool _is_additive_in(Add, REcr e1, REcr e2, RVcr var) {
+inline bool _is_additive_in(Add, REcr e1, REcr e2, RVcr var) {
     return (is_additive_in(e1,var) && is_constant_in(e2,var)) || (is_constant_in(e1,var) && is_additive_in(e2,var)); }
-inline Bool _is_additive_in(Sub, REcr e1, REcr e2, RVcr var) {
+inline bool _is_additive_in(Sub, REcr e1, REcr e2, RVcr var) {
     return is_additive_in(e1,var) && is_constant_in(e2,var); }
-inline Bool _is_additive_in(Variant<Mul,Div,Max,Min>, REcr , REcr , RVcr ) { return false; }
-template<class... OPS> inline Bool _is_additive_in(OperatorVariant<OPS...> const& ops, REcr e1, REcr e2, RVcr var) {
+inline bool _is_additive_in(Variant<Mul,Div,Max,Min>, REcr , REcr , RVcr ) { return false; }
+template<class... OPS> inline bool _is_additive_in(OperatorVariant<OPS...> const& ops, REcr e1, REcr e2, RVcr var) {
     return ops.accept([&](auto op){return _is_additive_in(op,e1,e2,var);}); }
 
-inline Bool is_additive_in(RCcr, RVcr) { return true; }
-inline Bool is_additive_in(RVcr, RVcr) { return true; }
-template<class OP> inline Bool is_additive_in(Symbolic<OP,RE> const&, RVcr) { return false; }
-template<class OP> inline Bool is_additive_in(Symbolic<OP,RE,Int> const&, RVcr) { return false; }
-template<class OP> inline Bool is_additive_in(Symbolic<OP,RE,RE> const& e, RVcr var) { return _is_additive_in(e._op,e._arg1,e._arg2,var); }
+inline bool is_additive_in(RCcr, RVcr) { return true; }
+inline bool is_additive_in(RVcr, RVcr) { return true; }
+template<class OP> inline bool is_additive_in(Symbolic<OP,RE> const&, RVcr) { return false; }
+template<class OP> inline bool is_additive_in(Symbolic<OP,RE,int> const&, RVcr) { return false; }
+template<class OP> inline bool is_additive_in(Symbolic<OP,RE,RE> const& e, RVcr var) { return _is_additive_in(e._op,e._arg1,e._arg2,var); }
 }
 
-Bool is_additive_in(const Expression<Real>& e, const Variable<Real>& var) {
+bool is_additive_in(const Expression<Real>& e, const Variable<Real>& var) {
     return e.node_ref().accept([&](auto en){return is_additive_in(en,var);});
 }
 
-Bool is_additive_in(const Vector<Expression<Real>>& ev, const Set<Variable<Real>>& spc) {
+bool is_additive_in(const Vector<Expression<Real>>& ev, const Set<Variable<Real>>& spc) {
     // We treat the vector of expressions as additive in spc if each variable in spc appears at most once in all expressions,
     // with a constant value of 1
     // (FIXME: this simplifies the case of a constant multiplier, for which would need to rescale the variable)
     // (FIXME: more generally, this simplifies the case of a diagonalisable matrix of constant multipliers)
 
     for (auto v : spc) {
-        Bool already_found = false;
-        Bool already_found_one = false;
+        bool already_found = false;
+        bool already_found_one = false;
         for (auto i : range(ev.size())) {
             const Expression<Real>& e = ev[i];
             auto der = simplify(derivative(e, v));
@@ -363,22 +362,22 @@ Bool is_additive_in(const Vector<Expression<Real>>& ev, const Set<Variable<Real>
 
 namespace {
 
-template<class OP> constexpr Bool _identical(OP,OP) { return true; }
-template<class OP1, class OP2> constexpr Bool _identical(OP1,OP2) { return false; }
+template<class OP> constexpr bool _identical(OP,OP) { return true; }
+template<class OP1, class OP2> constexpr bool _identical(OP1,OP2) { return false; }
 
-constexpr Bool _opposite(Geq,Leq) { return true; }
-constexpr Bool _opposite(Leq,Geq) { return true; }
-constexpr Bool _opposite(Gtr,Less) { return true; }
-constexpr Bool _opposite(Less,Gtr) { return true; }
-template<class OP1, class OP2> constexpr Bool _opposite(OP1,OP2) { return false; }
+constexpr bool _opposite(Geq,Leq) { return true; }
+constexpr bool _opposite(Leq,Geq) { return true; }
+constexpr bool _opposite(Gtr,Less) { return true; }
+constexpr bool _opposite(Less,Gtr) { return true; }
+template<class OP1, class OP2> constexpr bool _opposite(OP1,OP2) { return false; }
 
-Bool opposite(BinaryComparisonOperator ops1, BinaryComparisonOperator ops2) {
+bool opposite(BinaryComparisonOperator ops1, BinaryComparisonOperator ops2) {
     return ops1.accept([&ops2](auto op1){return ops2.accept([&op1](auto op2){return _opposite(op1,op2);});}); }
-Bool identical(BinaryComparisonOperator ops1, BinaryComparisonOperator ops2) {
+bool identical(BinaryComparisonOperator ops1, BinaryComparisonOperator ops2) {
     return ops1.accept([&ops2](auto op1){return ops2.accept([&op1](auto op2){return _identical(op1,op2);});}); }
 }
 
-Bool opposite(Expression<Kleenean> e1, Expression<Kleenean> e2) {
+bool opposite(Expression<Kleenean> e1, Expression<Kleenean> e2) {
     auto* e1cp = std::get_if<BinaryExpressionNode<Kleenean,Real>>(&e1.node_ref());
     auto* e2cp = std::get_if<BinaryExpressionNode<Kleenean,Real>>(&e2.node_ref());
 

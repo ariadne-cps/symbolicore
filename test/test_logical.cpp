@@ -32,16 +32,17 @@
 #include "sequence.hpp"
 
 using namespace SymboliCore;
+using namespace Utility;
 
 class TestLogical
 {
   public:
-    Void test();
+    void test();
   private:
-    Void test_concept();
-    Void test_conversion_to_bool();
-    Void test_conversion();
-    Void test_disjunction();
+    void test_concept();
+    void test_conversion_to_bool();
+    void test_conversion();
+    void test_disjunction();
 };
 
 int main() {
@@ -49,7 +50,7 @@ int main() {
     return UTILITY_TEST_FAILURES;
 }
 
-Void
+void
 TestLogical::test()
 {
     UTILITY_TEST_CALL(test_conversion_to_bool());
@@ -57,7 +58,7 @@ TestLogical::test()
     UTILITY_TEST_CALL(test_disjunction());
 }
 
-Void
+void
 TestLogical::test_concept()
 {
     // Check to see if we can perform operations on computational and specification logical types
@@ -79,22 +80,22 @@ TestLogical::test_concept()
     vl = vl && vl;
 }
 
-Void
+void
 TestLogical::test_conversion_to_bool()
 {
-    UTILITY_TEST_CONCEPT(Convertible<Boolean,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<Sierpinskian,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<NegatedSierpinskian,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<Kleenean,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<LowerKleenean,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<UpperKleenean,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ValidatedKleenean,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ValidatedUpperKleenean,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ValidatedLowerKleenean,Bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ApproximateKleenean,Bool>);
+    UTILITY_TEST_CONCEPT(Convertible<Boolean,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<Sierpinskian,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<NegatedSierpinskian,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<Kleenean,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<LowerKleenean,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<UpperKleenean,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ValidatedKleenean,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ValidatedUpperKleenean,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ValidatedLowerKleenean,bool>);
+    UTILITY_TEST_CONCEPT(not Convertible<ApproximateKleenean,bool>);
 }
 
-Void
+void
 TestLogical::test_conversion()
 {
     if(Convertible<LogicalType<EffectiveTag>,LogicalType<ValidatedTag>>) {
@@ -134,17 +135,17 @@ TestLogical::test_conversion()
     UTILITY_TEST_EQUAL(possibly(vl),true);
 }
 
-Void
+void
 TestLogical::test_disjunction()
 {
-    Sequence<LowerKleenean> seq([](Nat n){return n==2 ? LowerKleenean(true) : LowerKleenean(indeterminate);});
+    Sequence<LowerKleenean> seq([](unsigned int n){return n==2 ? LowerKleenean(true) : LowerKleenean(indeterminate);});
     UTILITY_TEST_ASSIGN_CONSTRUCT(LowerKleenean, some, disjunction(seq));
     UTILITY_TEST_ASSERT(possibly(not some.check(2_eff)));
     UTILITY_TEST_ASSERT(definitely(some.check(3_eff)));
     UTILITY_TEST_ASSERT(definitely(some.check(4_eff)));
 
     UTILITY_TEST_ASSIGN_CONSTRUCT(
-        UpperKleenean, all, conjunction(Sequence<UpperKleenean>([](Nat n){return n==2 ? UpperKleenean(false) : UpperKleenean(indeterminate);})));
+        UpperKleenean, all, conjunction(Sequence<UpperKleenean>([](unsigned int n){return n==2 ? UpperKleenean(false) : UpperKleenean(indeterminate);})));
     UTILITY_TEST_ASSERT(possibly(all.check(2_eff)));
     UTILITY_TEST_ASSERT(not possibly(all.check(3_eff)));
     UTILITY_TEST_ASSERT(definitely(not all.check(4_eff)));

@@ -38,6 +38,8 @@
 
 namespace SymboliCore {
 
+using Utility::Variant;
+
 /************ Symbolic ************************************************/
 
 template<class OP, class... AS> struct Symbolic;
@@ -151,7 +153,7 @@ template<class F> struct Symbolic<Iterate,F> {
     Symbolic(Iterate op, F fn) : _fn(fn) { }
     template<class S> Sequence<S> operator () (S const& s) const {
         // TODO: Use cache so that sequence does not always have to be recomputed
-        return Sequence<S>([&](Nat const& n){ S t=s; for(Nat i=0u; i!=n; ++i) { t=_fn(t); } return t; }); }
+        return Sequence<S>([&](unsigned int const& n){ S t=s; for(unsigned int i=0u; i!=n; ++i) { t=_fn(t); } return t; }); }
     friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
         return os << "iterate(f)" << expr._cnd << ") { " << expr._fn << "}";
     }

@@ -37,9 +37,6 @@
 
 namespace SymboliCore {
 
-typedef void Void;
-typedef bool Bool;
-
 class Indeterminate;
 extern const Indeterminate indeterminate;
 

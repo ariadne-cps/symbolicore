@@ -37,6 +37,8 @@
 
 namespace SymboliCore {
 
+using Utility::to_string;
+
 Comparison cmp(Real const& r1, Real const& r2);
 
 Real::Real() : _value(0.0) { }
@@ -44,7 +46,7 @@ Real::Real() : _value(0.0) { }
 Real::Real(double val) : _value(val) { }
 
 Real::Real(String const& str) {
-    SizeType sz;
+    size_t sz;
     _value = stod(str,&sz);
 }
 
@@ -114,12 +116,12 @@ Real rec(Real const& r) {
     return Real(1.0/r._value);
 }
 
-Real pow(Real const& r, Nat m) {
+Real pow(Real const& r, unsigned int m) {
     unsigned long int lm=m;
     return Real(std::pow(r._value,lm));
 }
 
-Real pow(Real const& r, Int n) {
+Real pow(Real const& r, int n) {
     auto ln=static_cast<unsigned long int>(n);
     return Real(std::pow(r._value,ln));
 }
@@ -172,19 +174,19 @@ Real atan(Real const& r) {
     return Real(std::atan(r._value));
 }
 
-Bool is_nan(Real const& r) {
+bool is_nan(Real const& r) {
     return std::isnan(r._value);
 }
 
-Bool is_inf(Real const& r) {
+bool is_inf(Real const& r) {
     return std::isinf(r._value);
 }
 
-Bool is_finite(Real const& r) {
+bool is_finite(Real const& r) {
     return not is_inf(r);
 }
 
-Bool is_zero(Real const& r) {
+bool is_zero(Real const& r) {
     return r._value==0;
 }
 
@@ -215,7 +217,7 @@ String Real::literal() const {
     return to_string(_value);
 }
 
-Bool same(Real const& r1, Real const& r2) {
+bool same(Real const& r1, Real const& r2) {
     return r1._value == r2._value;
 }
 
