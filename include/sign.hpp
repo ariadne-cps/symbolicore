@@ -41,18 +41,18 @@
 
 namespace SymboliCore {
 
-using OutputStream = std::ostream;
+using ostream = std::ostream;
 
 //! \brief The sign of a numerical value.
 enum class Sign : ComparableEnumerationType { NEGATIVE=-1, ZERO=0, POSITIVE=+1 };
-OutputStream& operator<<(OutputStream& os, Sign s);
+ostream& operator<<(ostream& os, Sign s);
 inline Sign operator-(Sign s) { return Sign(-static_cast<ComparableEnumerationType>(s)); }
 inline Sign operator*(Sign s1, Sign s2) { return Sign(static_cast<ComparableEnumerationType>(s1)*static_cast<ComparableEnumerationType>(s2)); }
 
 //! \brief The result of a comparison operation.
 enum class Comparison : ComparableEnumerationType { LESS=-1, EQUAL=0, GREATER=+1, INCOMPARABLE=ComparableEnumerationType(-128) };
 
-inline OutputStream& operator<<(OutputStream& os, Comparison const& cmp) {
+inline ostream& operator<<(ostream& os, Comparison const& cmp) {
     switch(cmp) {
         case Comparison::LESS: os << "LESS";  break;
         case Comparison::EQUAL: os << "EQUAL";  break;

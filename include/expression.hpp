@@ -125,7 +125,7 @@ class Expression
     template<class A> const Expression<A>& cmp1(A* dummy=0) const;
     template<class A> const Expression<A>& cmp2(A* dummy=0) const;
     //! \brief Write to an output stream.
-    friend OutputStream& operator<<(OutputStream& os, Expression<T> const& e) { return e._write(os); }
+    friend ostream& operator<<(ostream& os, Expression<T> const& e) { return e._write(os); }
     //! \brief A writer for Expression objects using prefix notation.
     friend class PrefixExpressionWriter<T>;
     //! \brief A write for Expression objects using infix notation.
@@ -138,7 +138,7 @@ class Expression
     const ExpressionNode<T>* node_raw_ptr() const { return _root.operator->(); }
     const ExpressionNode<T>& node_ref() const { return _root.operator*(); }
   private:
-    OutputStream& _write(OutputStream& os) const;
+    ostream& _write(ostream& os) const;
   private:
     shared_ptr<const ExpressionNode<T>> _root;
 };
@@ -244,11 +244,11 @@ template<class T> void eliminate_common_subexpressions(Vector<Expression<T>>& e)
 
 //! \brief Prefix notation for writing an Expression
 template<class T> class PrefixExpressionWriter : public WriterInterface<Expression<T>> {
-    virtual OutputStream& _write(OutputStream& os, Expression<T> const& e) const final override;
+    virtual ostream& _write(ostream& os, Expression<T> const& e) const final override;
 };
 //! \brief Infix notation for writing an Expression
 template<class T> class InfixExpressionWriter : public WriterInterface<Expression<T>> {
-    virtual OutputStream& _write(OutputStream& os, Expression<T> const& e) const final override;
+    virtual ostream& _write(ostream& os, Expression<T> const& e) const final override;
 };
 
 

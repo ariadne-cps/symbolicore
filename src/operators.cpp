@@ -42,11 +42,11 @@ namespace SymboliCore {
 
 template<class OP, class... AS> class Expression;
 
-OutputStream& operator<<(OutputStream& os, const OperatorCode& op) {
+ostream& operator<<(ostream& os, const OperatorCode& op) {
     return os << name(op);
 }
 
-OutputStream& operator<<(OutputStream& os, const OperatorKind& knd) {
+ostream& operator<<(ostream& os, const OperatorKind& knd) {
     switch(knd) {
         case OperatorKind::VARIABLE: return os << "VARIABLE";
         case OperatorKind::COORDINATE: return os << "COORDINATE";

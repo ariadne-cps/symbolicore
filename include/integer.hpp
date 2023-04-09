@@ -145,7 +145,7 @@ class Integer
 
     //!@{
     //! \name Input/output operations
-    friend OutputStream& operator<<(OutputStream& os, Integer const& z); //!< <p/>
+    friend ostream& operator<<(ostream& os, Integer const& z); //!< <p/>
     //!@}
 
   public:

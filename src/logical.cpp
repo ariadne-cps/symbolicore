@@ -55,7 +55,7 @@ template<class L> class LogicalWrapper
   private:
     virtual LogicalInterface* clone() const { return new LogicalWrapper<L>(*this); }
     virtual LogicalValue _check(Effort e) const { return check(static_cast<L const&>(*this),e); }
-    virtual OutputStream& _write(OutputStream& os) const { return os << static_cast<L const&>(*this); }
+    virtual ostream& _write(ostream& os) const { return os << static_cast<L const&>(*this); }
 };
 
 template<> class LogicalWrapper<LogicalValue>
@@ -68,7 +68,7 @@ template<> class LogicalWrapper<LogicalValue>
   private:
     virtual LogicalInterface* clone() const { return new LogicalWrapper<LogicalValue>(*this); }
     virtual LogicalValue _check(Effort) const { return this->_v; }
-    virtual OutputStream& _write(OutputStream& os) const { return os << this->_v; }
+    virtual ostream& _write(ostream& os) const { return os << this->_v; }
 };
 
 
@@ -154,7 +154,7 @@ LogicalValue operator==(LogicalValue l1, LogicalValue l2) {
     }
 }
 
-OutputStream& operator<<(OutputStream& os, LogicalValue l) {
+ostream& operator<<(ostream& os, LogicalValue l) {
     switch(l) {
         case LogicalValue::TRUE: os << "true"; break;
         case LogicalValue::LIKELY: os << "likely";  break;
@@ -177,7 +177,7 @@ template<> struct LogicalExpression<OrOp,Sequence<LowerKleenean>> : public Logic
         }
         return LogicalValue::INDETERMINATE;
     }
-    OutputStream& _write(OutputStream& os) const {
+    ostream& _write(ostream& os) const {
         return os << "disjunction(" << _seq[0u] << "," << _seq[1u] << "," << _seq[2u] << ",...)";
     }
 };
@@ -194,7 +194,7 @@ template<> struct LogicalExpression<AndOp,Sequence<UpperKleenean>> : public Logi
         }
         return LogicalValue::INDETERMINATE;
     }
-    OutputStream& _write(OutputStream& os) const {
+    ostream& _write(ostream& os) const {
         return os << "conjunction(" << _seq[0u] << "," << _seq[1u] << "," << _seq[2u] << ",...)";
     }
 };

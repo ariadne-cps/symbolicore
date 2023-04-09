@@ -58,7 +58,7 @@ using Utility::CodedVariant;
 class Integer;
 class Real;
 
-typedef std::ostream OutputStream;
+typedef std::ostream ostream;
 
 template<class X> struct Logic;
 template<> struct Logic<String> { typedef Boolean Type; };
@@ -160,8 +160,8 @@ enum class Operator::Code : ComparableEnumerationType {
     DISJ=-9    // Compare disjointness
 };
 
-OutputStream& operator<<(OutputStream& os, const OperatorKind& knd);
-OutputStream& operator<<(OutputStream&, const OperatorCode& op);
+ostream& operator<<(ostream& os, const OperatorKind& knd);
+ostream& operator<<(ostream&, const OperatorCode& op);
 const char* name(const OperatorCode& op);
 const char* symbol(const OperatorCode& op);
 
@@ -170,10 +170,10 @@ template<class OBJ> struct Object { OBJ const& upcast() const { return static_ca
 template<class OP> struct OperatorObject : Object<OP> { };
 template<class CMP> struct ComparisonObject : Object<CMP> { };
 
-template<class OP> inline OutputStream& operator<<(OutputStream& os, OperatorObject<OP> const& op) {
+template<class OP> inline ostream& operator<<(ostream& os, OperatorObject<OP> const& op) {
     return os << op.upcast().code(); }
 
-template<class CMP> inline OutputStream& operator<<(OutputStream& os, ComparisonObject<CMP> const& cmp) {
+template<class CMP> inline ostream& operator<<(ostream& os, ComparisonObject<CMP> const& cmp) {
     return os << cmp.upcast().code(); }
 
 struct GtrZero {}; struct LessZero {};
@@ -468,7 +468,7 @@ template<class... OPS> class OperatorVariant
         return ops.call(as...); }
     template<class R, class... AS> friend R evaluate_as(OperatorVariant<OPS...>const& ops, AS&& ... as) {
         return ops.call_as(as...); }
-    friend OutputStream& operator<<(OutputStream& os, OperatorVariant<OPS...> const& op) {
+    friend ostream& operator<<(ostream& os, OperatorVariant<OPS...> const& op) {
         op.accept([&os](auto op_){os << op_;}); return os; }
 };
 
@@ -551,21 +551,21 @@ class UnaryOperator {
 };
 
 
-inline OutputStream& operator<<(OutputStream& os, const Less& v) { return os << "<"; }
-inline OutputStream& operator<<(OutputStream& os, const Gtr& v) { return os << ">"; }
-inline OutputStream& operator<<(OutputStream& os, const Leq& v) { return os << "<="; }
-inline OutputStream& operator<<(OutputStream& os, const Geq& v) { return os << ">="; }
-inline OutputStream& operator<<(OutputStream& os, const Equal& v) { return os << "=="; }
-inline OutputStream& operator<<(OutputStream& os, const Unequal& v) { return os << "!="; }
+inline ostream& operator<<(ostream& os, const Less& v) { return os << "<"; }
+inline ostream& operator<<(ostream& os, const Gtr& v) { return os << ">"; }
+inline ostream& operator<<(ostream& os, const Leq& v) { return os << "<="; }
+inline ostream& operator<<(ostream& os, const Geq& v) { return os << ">="; }
+inline ostream& operator<<(ostream& os, const Equal& v) { return os << "=="; }
+inline ostream& operator<<(ostream& os, const Unequal& v) { return os << "!="; }
 
-inline OutputStream& operator<<(OutputStream& os, const AndOp& v) { return os << "&&"; }
-inline OutputStream& operator<<(OutputStream& os, const OrOp& v) { return os << "||"; }
-inline OutputStream& operator<<(OutputStream& os, const NotOp& v) { return os << "!"; }
+inline ostream& operator<<(ostream& os, const AndOp& v) { return os << "&&"; }
+inline ostream& operator<<(ostream& os, const OrOp& v) { return os << "||"; }
+inline ostream& operator<<(ostream& os, const NotOp& v) { return os << "!"; }
 
-inline OutputStream& operator<<(OutputStream& os, const Plus& v) { return os << "+"; }
-inline OutputStream& operator<<(OutputStream& os, const Minus& v) { return os << "-"; }
-inline OutputStream& operator<<(OutputStream& os, const Times& v) { return os << "*"; }
-inline OutputStream& operator<<(OutputStream& os, const Divides& v) { return os << "/"; }
+inline ostream& operator<<(ostream& os, const Plus& v) { return os << "+"; }
+inline ostream& operator<<(ostream& os, const Minus& v) { return os << "-"; }
+inline ostream& operator<<(ostream& os, const Times& v) { return os << "*"; }
+inline ostream& operator<<(ostream& os, const Divides& v) { return os << "/"; }
 
 
 } // namespace SymboliCore

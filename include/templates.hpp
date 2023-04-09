@@ -51,7 +51,7 @@ template<class C> struct Symbolic<Cnst,C> {
     C val() const { return _val; }
     template<class T> explicit operator T() const { return static_cast<T>(_val); }
     template<class... AS> auto operator() (AS... vals) const -> C { return _val; }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) { return os << expr._val; }
+    friend ostream& operator<<(ostream& os, Symbolic expr) { return os << expr._val; }
 };
 
 template<class I> struct Symbolic<Var,I> {
@@ -59,7 +59,7 @@ template<class I> struct Symbolic<Var,I> {
     explicit Symbolic(I i) : _op(), _ind(i) { }
     Symbolic(Var o, I i) : _op(o), _ind(i) { }
     template<class AS> auto operator() (AS vals) const -> decltype(vals[_ind]) { return vals[_ind]; }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) { return os << expr._ind; }
+    friend ostream& operator<<(ostream& os, Symbolic expr) { return os << expr._ind; }
 };
 
 template<class O, class A> struct Symbolic<O,A> {
@@ -69,7 +69,7 @@ template<class O, class A> struct Symbolic<O,A> {
 //    template<class T> explicit operator T() const { return _op(static_cast<T>(_arg)); }
     template<class... AS> auto operator() (AS... vals) const -> decltype(_op(_arg(vals...))) {
         return _op(_arg(vals...)); }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << expr._op.code() << "(" << expr._arg << ")"; }
 };
 
@@ -80,7 +80,7 @@ template<class O, class A1, class A2> struct Symbolic<O,A1,A2> {
 //    template<class T> explicit operator T() const { return _op(static_cast<T>(_arg1),static_cast<T>(_arg2)); }
     template<class... AS> auto operator() (AS... vals) const -> decltype(_op(_arg1(vals...),_arg2(vals...))) {
         return _op(_arg1(vals...),_arg2(vals...)); }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << expr._op.code() << "(" << expr._arg1 << "," << expr._arg2 << ")"; }
 };
 
@@ -92,7 +92,7 @@ template<class A, class N> struct Symbolic<Pow,A,N> {
 //    template<class T> explicit operator T() const { return _op(static_cast<T>(_arg),_num); }
     template<class... AS> auto operator() (AS... vals) const -> decltype(_op(_arg(vals...),_num)) {
         return _op(_arg(vals...),_num); }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << expr._op.code() << "(" << expr._arg << "," << expr._num << ")"; }
 };
 
@@ -104,7 +104,7 @@ template<class A, class N> struct Symbolic<GradedElementaryOperator,A,N> {
     template<class T> explicit operator T() const { return _op(static_cast<T>(_arg),_num); }
     template<class... AS> auto operator() (AS... vals) const -> decltype(_op(_arg(vals...),_num)) {
         return _op(_arg(vals...),_num); }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << expr._op.code() << "(" << expr._arg << "," << expr._num << ")"; }
 };
 
@@ -114,7 +114,7 @@ template<class O, class A1, class A2, class A3> struct Symbolic<O,A1,A2,A3> {
     template<class T> explicit operator T() const { return _op(static_cast<T>(_arg1),static_cast<T>(_arg2),static_cast<T>(_arg3)); }
     template<class... AS> auto operator() (AS... vals) const -> decltype(_op(_arg1(vals...),_arg2(vals...),_arg3(vals...))) {
         return _op(_arg1(vals...),_arg2(vals...)); }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << expr._op.code() << "(" << expr._arg1 << "," << expr._arg2 << "," << expr._arg3 << ")"; }
 };
 
@@ -134,7 +134,7 @@ template<class C, class A> struct Symbolic<IfThnEls,C,A> {
     Symbolic(IfThnEls op, C cnd, A atru, A afls) : _op(op), _cnd(cnd), _atru(atru), _afls(afls) { }
     template<class... VS> decltype(auto) operator () (VS... vals) const {
         if(_cnd(vals...)) { return  _atr(vals...); } else { return _afls(vals...); } }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << "while(" << expr._cnd << ") { " << expr._fn << "}";
     }
 };
@@ -143,7 +143,7 @@ template<class C, class F> struct Symbolic<While,C,F> {
     Symbolic(While op, C cnd, F fn) : _op(op), _cnd(cnd), _fn(fn) { }
     template<class S> S& operator () (S& s) const {
         while(_cnd(s)) { s=_fn(s); } return s; }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << "while(" << expr._cnd << ") { " << expr._fn << "}";
     }
 };
@@ -154,7 +154,7 @@ template<class F> struct Symbolic<Iterate,F> {
     template<class S> Sequence<S> operator () (S const& s) const {
         // TODO: Use cache so that sequence does not always have to be recomputed
         return Sequence<S>([&](unsigned int const& n){ S t=s; for(unsigned int i=0u; i!=n; ++i) { t=_fn(t); } return t; }); }
-    friend OutputStream& operator<<(OutputStream& os, Symbolic expr) {
+    friend ostream& operator<<(ostream& os, Symbolic expr) {
         return os << "iterate(f)" << expr._cnd << ") { " << expr._fn << "}";
     }
 };

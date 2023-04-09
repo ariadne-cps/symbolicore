@@ -58,7 +58,7 @@ template<class T> class Constant
     const T& value() const { return *this; }
     const T& val() const { return *this; }
     //! Write to an output stream.
-    friend OutputStream& operator<<(OutputStream& os, Constant<T> const& c) {
+    friend ostream& operator<<(ostream& os, Constant<T> const& c) {
         if (c.name().empty()) { return os << c.value(); } else { return os << c._name << "(=" << c.value() << ")"; } }
   private:
     Identifier _name;

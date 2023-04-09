@@ -74,7 +74,7 @@ class Effort {
     Effort& operator++() { ++_m; return *this; }
     Effort& operator+=(unsigned int m) { _m+=m; return *this; }
     Effort& operator*=(unsigned int m) { _m*=m; return *this; }
-    friend OutputStream& operator<<(OutputStream& os, Effort eff) { return os << "Effort(" << eff._m << ")"; }
+    friend ostream& operator<<(ostream& os, Effort eff) { return os << "Effort(" << eff._m << ")"; }
 };
 inline Effort operator""_eff(unsigned long long int e) { unsigned int m=static_cast<unsigned int>(e); assert(m==e); return Effort(m); }
 
@@ -101,14 +101,14 @@ namespace Detail {
     inline LogicalValue operator&&(LogicalValue lv1, LogicalValue lv2) { return std::min(lv1,lv2); }
     inline LogicalValue operator||(LogicalValue lv1, LogicalValue lv2) { return std::max(lv1,lv2); }
     inline LogicalValue operator^(LogicalValue lv1, LogicalValue lv2) { return not (lv1==lv2); }
-    OutputStream& operator<<(OutputStream& os, LogicalValue l);
+    ostream& operator<<(ostream& os, LogicalValue l);
 
     class LogicalInterface {
       public:
         virtual ~LogicalInterface() = default;
         virtual LogicalInterface* clone() const = 0;
         virtual LogicalValue _check(Effort) const = 0;
-        virtual OutputStream& _write(OutputStream&) const = 0;
+        virtual ostream& _write(ostream&) const = 0;
     };
 
     class LogicalHandle : public Handle<LogicalInterface> {
@@ -116,7 +116,7 @@ namespace Detail {
         using Handle<LogicalInterface>::Handle;
         static LogicalHandle constant(LogicalValue v);
         LogicalValue check(Effort eff) const { return this->pointer()->_check(eff); }
-        friend OutputStream& operator<<(OutputStream& os, LogicalHandle l) {
+        friend ostream& operator<<(ostream& os, LogicalHandle l) {
             return l.pointer()->_write(os); }
     };
 
@@ -212,7 +212,7 @@ template<class L, class R, class NL=L, class XL=L> class Logical : public Logica
     friend XL operator==(L const& l1, L const& l2) { return XL(l1._v == l2._v); }
     friend XL operator!=(L const& l1, L const& l2) { return XL(l1._v ^ l2._v); }
 
-    friend OutputStream& operator<<(OutputStream& os, L const& l) { return os << l._v; }
+    friend ostream& operator<<(ostream& os, L const& l) { return os << l._v; }
 };
 
 #ifdef DOXYGEN
@@ -251,7 +251,7 @@ class Indeterminate {
     operator ValidatedKleenean() const;
     friend bool decide(Indeterminate const& l, Effort e);
     friend bool decide(Indeterminate const& l);
-    friend OutputStream& operator<<(OutputStream& os, ValidatedKleenean const&);
+    friend ostream& operator<<(ostream& os, ValidatedKleenean const&);
 };
 
 //! \ingroup LogicalModule

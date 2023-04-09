@@ -156,7 +156,7 @@ struct DeclareVectorOperations {
     template<class X1, class X2> friend ArithmeticType<X1,X2> dot(Vector<X1> const& v1, Vector<X2> const& v2);
     template<class X1, class X2> friend EqualsType<X1,X2> operator==(Vector<X1> const& v1, Vector<X2> const& v2);
     template<class X1, class X2> friend decltype(declval<X1>()!=declval<X2>()) operator!=(Vector<X1> const& v1, Vector<X2> const& v2);
-    template<class X> friend OutputStream& operator<<(OutputStream& os, Vector<X> const& v);
+    template<class X> friend ostream& operator<<(ostream& os, Vector<X> const& v);
 };
 
 #else // SIMPLE_VECTOR_OPERATORS
@@ -335,7 +335,7 @@ public:
     // friend template<class X> requires AScalar<X> Vector<X> join(const X& s1, const X& s2);
 
     //! \brief Write to an output stream.
-    friend template<class X> OutputStream& operator<<(OutputStream& os, const Vector<X>& v);
+    friend template<class X> ostream& operator<<(ostream& os, const Vector<X>& v);
     //! \brief Read from an output stream.
     friend template<class X> InputStream& operator>>(InputStream& is, Vector<X>& v);
 #endif // DOXYGEN
@@ -373,7 +373,7 @@ template<class X> inline VectorRange<Vector<X>> Vector<X>::operator[](Range rng)
 template<class X> inline VectorRange<const Vector<X>> Vector<X>::operator[](Range rng) const {
     return project(*this,rng); }
 
-template<AVectorExpression V> OutputStream& operator<<(OutputStream& os, const V& v) {
+template<AVectorExpression V> ostream& operator<<(ostream& os, const V& v) {
     typedef decltype(v[0]) X;
     return os << Vector<X>(v);
 }
@@ -473,7 +473,7 @@ struct ProvideVectorOperations {
         return r;
     }
 
-    template<class X> friend OutputStream& operator<<(OutputStream& os, Vector<X> const& v) {
+    template<class X> friend ostream& operator<<(ostream& os, Vector<X> const& v) {
         if(v.size()==0) { os << "["; }
         for(size_t i=0; i!=v.size(); ++i) { os << (i==0u?"[":",") << v[i]; }
         return os << "]";

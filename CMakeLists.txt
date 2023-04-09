@@ -96,4 +96,7 @@ if(NOT TARGET symbolicore)
         add_subdirectory(test)
     endif()
 
+    add_subdirectory(submodules)
+    target_link_libraries(symbolicore utility)
+
 endif()

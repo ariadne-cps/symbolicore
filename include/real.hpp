@@ -140,7 +140,7 @@ class Real
 
     //!@{
     //! \name Input/output operations
-    friend OutputStream& operator<<(OutputStream& os, Real const& r); //!< <p/>
+    friend ostream& operator<<(ostream& os, Real const& r); //!< <p/>
     //!@}
 };
 

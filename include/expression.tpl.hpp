@@ -54,7 +54,7 @@ struct CatOp {
     static constexpr OperatorCode code() { return OperatorCode::ADD; }
     static constexpr OperatorKind kind() { return OperatorKind::BINARY; }
     String operator()(String const& s1, String const& s2) const { return s1+s2; }
-    friend OutputStream& operator<<(OutputStream& os, CatOp op) { return os << "cat"; }
+    friend ostream& operator<<(ostream& os, CatOp op) { return os << "cat"; }
 };
 inline String pos(String s) { return s; }
 
@@ -143,7 +143,7 @@ template<class T> struct ExpressionNode : public ExpressionVariantType<T> {
     Operator op() const { return this->accept([](auto s){return Operator(_op_impl(s));}); }
 };
 
-template<class T> inline OutputStream& operator<<(OutputStream& os, const ExpressionNode<T>* e) {
+template<class T> inline ostream& operator<<(ostream& os, const ExpressionNode<T>* e) {
     return os << static_cast<void const*>(e);
 }
 
@@ -199,17 +199,17 @@ template<class T> Set<UntypedVariable> Expression<T>::arguments() const {
     return this->node_ref().accept([](auto s){return _arguments(s);});
 }
 
-template<class T> OutputStream& Expression<T>::_write(OutputStream& os) const {
+template<class T> ostream& Expression<T>::_write(ostream& os) const {
     return os << _default_writer(*this);
 }
 
 template<class T> Writer<Expression<T>> Expression<T>::_default_writer(new PrefixExpressionWriter<T>());
 
-template<class T> OutputStream& PrefixExpressionWriter<T>::_write(OutputStream& os, Expression<T> const& e) const {
+template<class T> ostream& PrefixExpressionWriter<T>::_write(ostream& os, Expression<T> const& e) const {
     e.node_ref().accept([&os](auto expr){_write_impl(os,expr);}); return os;
 }
 
-template<class T> OutputStream& InfixExpressionWriter<T>::_write(OutputStream& os, Expression<T> const& e) const {
+template<class T> ostream& InfixExpressionWriter<T>::_write(ostream& os, Expression<T> const& e) const {
     e.node_ref().accept([&os](auto expr){_write_impl(os,expr);}); return os;
 }
 

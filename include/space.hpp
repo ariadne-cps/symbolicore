@@ -48,7 +48,7 @@ using Utility::Map;
 using Utility::Set;
 
 template<class T> class Space;
-template<class T> OutputStream& operator<<(OutputStream& os, const Space<T>& spc);
+template<class T> ostream& operator<<(ostream& os, const Space<T>& spc);
 
 //! \brief A space defined as a list of real variables.
 //! \relates Space
@@ -122,7 +122,7 @@ template<class T> class Space
     List<Identifier> _variables;
 };
 
-template<class T> OutputStream& operator<<(OutputStream& os, const Space<T>& spc) { return os << spc.variables(); }
+template<class T> ostream& operator<<(ostream& os, const Space<T>& spc) { return os << spc.variables(); }
 
 template<class T> Space<T> join(const Space<T>& spc1, const Space<T>& spc2) {
     Space<T> r(spc1); r.adjoin(spc2); return r; }

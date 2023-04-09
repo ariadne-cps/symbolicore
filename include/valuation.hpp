@@ -196,7 +196,7 @@ template<class X> class HybridValuation
     Map<Identifier,X>& real_values() { return this->ContinuousValuation<X>::values(); }
 };
 
-inline OutputStream& operator<<(OutputStream& os, const DiscreteValuation& val) {
+inline ostream& operator<<(ostream& os, const DiscreteValuation& val) {
     const char open='('; const char mid='|'; char const close=')';
     //const char open='{'; const char mid=':'; char const close='}';
     char sep=open;
@@ -207,11 +207,11 @@ inline OutputStream& operator<<(OutputStream& os, const DiscreteValuation& val) 
     return os << close;
 }
 
-template<class X> inline OutputStream& operator<<(OutputStream& os, const ContinuousValuation<X>& val) {
+template<class X> inline ostream& operator<<(ostream& os, const ContinuousValuation<X>& val) {
     return os << val.values();
 }
 
-template<class X> inline OutputStream& operator<<(OutputStream& os, const Valuation<X>& val) {
+template<class X> inline ostream& operator<<(ostream& os, const Valuation<X>& val) {
     const char open='('; const char mid ='|'; const char close=')'; const char sep=',';
     //const char open='{'; const char mid=':'; char const close='}'; char const sep=",";
     os << open;

@@ -79,7 +79,7 @@ template<class X> class FastCauchySequence : public Sequence<X> {
 };
 
 
-using OutputStream = std::ostream;
+using ostream = std::ostream;
 template<class T, class W> class WritableTemporary;
 
 class SequenceWriter {
@@ -88,7 +88,7 @@ class SequenceWriter {
     SequenceWriter(unsigned int const& n) : _num(n) { }
     template<class T> inline WritableTemporary<Sequence<T>,SequenceWriter> operator() (Sequence<T> const& seq) const {
         return WritableTemporary<Sequence<T>,SequenceWriter>(*this,seq); }
-    template<class T> OutputStream& _write(OutputStream& os, Sequence<T> const& seq) const {
+    template<class T> ostream& _write(ostream& os, Sequence<T> const& seq) const {
         os << "["; for (unsigned int i=0u; i!=_num; ++i) { if (i!=0) { os << ","; } os << seq[i]; } os << "]"; return os; }
 };
 

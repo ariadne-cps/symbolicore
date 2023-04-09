@@ -78,7 +78,7 @@ class Assignment
 template<class V, class E> bool operator<(const Assignment<V,E>& a1, const Assignment<V,E>& a2) {
     return a1.lhs < a2.lhs;
 }
-template<class V, class E> inline OutputStream& operator<<(OutputStream& os, const Assignment<V,E>& a) {
+template<class V, class E> inline ostream& operator<<(ostream& os, const Assignment<V,E>& a) {
     return os<<a.lhs<<"="<<a.rhs;
 }
 

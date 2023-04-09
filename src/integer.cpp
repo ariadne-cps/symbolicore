@@ -182,7 +182,7 @@ String Integer::literal() const {
     return to_string(_value);
 }
 
-OutputStream& operator<<(OutputStream& os, Integer const& z) {
+ostream& operator<<(ostream& os, Integer const& z) {
     return os << z.literal();
 }
 
@@ -190,7 +190,7 @@ template<> String class_name<Integer>() { return "Integer"; }
 
 template<> String class_name<Natural>() { return "Natural"; }
 
-OutputStream& operator<<(OutputStream& os, Sign s) {
+ostream& operator<<(ostream& os, Sign s) {
     return os << ( (s==Sign::ZERO) ? "ZERO" : (s==Sign::NEGATIVE) ? "NEGATIVE" : "POSITIVE" );
 }
 

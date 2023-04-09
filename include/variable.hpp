@@ -86,7 +86,7 @@ class UntypedVariable {
     bool operator!=(const UntypedVariable& other) const { return !(*this==other); }
     bool operator<(const UntypedVariable& other) const {
         return this->name()<other.name() || (this->name()==other.name() && this->type() < other.type()); }
-    friend OutputStream& operator<<(OutputStream& os, const UntypedVariable& var) {
+    friend ostream& operator<<(ostream& os, const UntypedVariable& var) {
         return os << var.name(); }
   protected:
     explicit UntypedVariable(const Identifier& nm, VariableType tp)
@@ -156,7 +156,7 @@ template<class T> class Variables : public List<Variable<T>> {
 
 enum class VariableCategory : char { SIMPLE, DOTTED, PRIMED };
 
-inline OutputStream& operator<<(OutputStream& os, VariableCategory const& cat) {
+inline ostream& operator<<(ostream& os, VariableCategory const& cat) {
     switch(cat) {
         case VariableCategory::SIMPLE: os << "SIMPLE"; break;
         case VariableCategory::PRIMED: os << "DOTTED"; break;
@@ -180,7 +180,7 @@ class ExtendedUntypedVariable
         : UntypedVariable(name, type), _category(category) { }
 };
 
-inline OutputStream& operator<<(OutputStream& os, ExtendedUntypedVariable const& var) {
+inline ostream& operator<<(ostream& os, ExtendedUntypedVariable const& var) {
     switch(var.category()) {
         case VariableCategory::SIMPLE: os << var.name(); break;
         case VariableCategory::PRIMED: os << "prime("<<var.name()<<")"; break;
@@ -275,7 +275,7 @@ template<class T> struct PrimedVariables {
     const List<Variable<T>> _lhs;
     PrimedVariables(const List<Variable<T>>& lhs) : _lhs(lhs) { }
     List<Assignment<PrimedVariable<T>,Expression<T>>> operator=(const List<Expression<T>>&);
-    friend OutputStream& operator<<(OutputStream& os, PrimedVariables<T> const& dv) { return os <<"prime("<<dv._lhs<<")"; }
+    friend ostream& operator<<(ostream& os, PrimedVariables<T> const& dv) { return os <<"prime("<<dv._lhs<<")"; }
 };
 template<class T> inline PrimedVariables<T> prime(const List<Variable<T>>& lhs) { return PrimedVariables<T>(lhs); }
 template<class T> inline PrimedVariables<T> next(const List<Variable<T>>& lhs) { return PrimedVariables<T>(lhs); }
@@ -286,7 +286,7 @@ template<class T> struct DottedVariables {
     const List<Variable<T>> _lhs;
     DottedVariables(const List<Variable<T>>& lhs) : _lhs(lhs) { }
     List<Assignment<DottedVariable<T>,Expression<T>>> operator=(const List<Expression<T>>&);
-    friend OutputStream& operator<<(OutputStream& os, DottedVariables<T> const& dv) { return os <<"dot("<<dv._lhs<<")"; }
+    friend ostream& operator<<(ostream& os, DottedVariables<T> const& dv) { return os <<"dot("<<dv._lhs<<")"; }
 };
 inline DottedVariables<Real> dot(const List<Variable<Real>>& lhs) { return DottedVariables<Real>(lhs); }
 inline DottedVariables<Real> dot(const initializer_list<Variable<Real>>& lhs) { return DottedVariables<Real>(List<Variable<Real>>(lhs)); }
