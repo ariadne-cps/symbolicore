@@ -30,46 +30,46 @@
  *  \brief Vectors over a scalar.
  */
 
-#ifndef UTILITY_VECTOR_HPP
-#define UTILITY_VECTOR_HPP
+#ifndef HELPER_VECTOR_HPP
+#define HELPER_VECTOR_HPP
 
 #define SIMPLE_VECTOR_OPERATORS
 
-#include "utility/macros.hpp"
-#include "utility/metaprogramming.hpp"
-#include "utility/container.hpp"
-#include "utility/range.hpp"
+#include "helper/macros.hpp"
+#include "helper/metaprogramming.hpp"
+#include "helper/container.hpp"
+#include "helper/range.hpp"
 #include "using.hpp"
 #include "typedefs.hpp"
 
 namespace SymboliCore {
 
-using Utility::List;
-using Utility::Range;
+using Helper::List;
+using Helper::Range;
 
-using Utility::DefaultConstructible;
-using Utility::Constructible;
-using Utility::NegationType;
-using Utility::SumType;
-using Utility::DifferenceType;
-using Utility::ArithmeticType;
-using Utility::ProductType;
-using Utility::QuotientType;
-using Utility::InplaceSumType;
-using Utility::EqualsType;
-using Utility::InplaceDifferenceType;
-using Utility::InplaceProductType;
-using Utility::InplaceQuotientType;
-using Utility::InvocableReturning;
-using Utility::ExplicitlyConvertible;
-using Utility::Uninitialised;
-using Utility::RemoveConst;
-using Utility::RemoveReference;
+using Helper::DefaultConstructible;
+using Helper::Constructible;
+using Helper::NegationType;
+using Helper::SumType;
+using Helper::DifferenceType;
+using Helper::ArithmeticType;
+using Helper::ProductType;
+using Helper::QuotientType;
+using Helper::InplaceSumType;
+using Helper::EqualsType;
+using Helper::InplaceDifferenceType;
+using Helper::InplaceProductType;
+using Helper::InplaceQuotientType;
+using Helper::InvocableReturning;
+using Helper::ExplicitlyConvertible;
+using Helper::Uninitialised;
+using Helper::RemoveConst;
+using Helper::RemoveReference;
 
-using Utility::ResultOf;
+using Helper::ResultOf;
 
-using Utility::True;
-using Utility::False;
+using Helper::True;
+using Helper::False;
 
 
 //! \brief A scalar of type \a X; defined as an synonym (typedef) of \a X.
@@ -257,7 +257,7 @@ public:
     //! \brief The unit vector \f$e_i\f$ with value one in the \a i<sup>th</sup> entry, and zero otherwise.
     template<class... PRS> requires Constructible<X,unsigned int,PRS...>
     static Vector<X> unit(size_t n, size_t i, PRS... prs) {
-        UTILITY_ASSERT(i<n); Vector<X> result(n,X(0u,prs...)); result[i]=X(1u,prs...); return result; }
+        HELPER_ASSERT(i<n); Vector<X> result(n,X(0u,prs...)); result[i]=X(1u,prs...); return result; }
     //! \brief The unit vector \f$e_i\f$ with value one in the \a i<sup>th</sup> entry, and zero otherwise.
     template<class... PRS> requires Constructible<X,unsigned int,PRS...>
     static Array< Vector<X> > basis(size_t n, PRS... prs) {
@@ -274,9 +274,9 @@ public:
     //! \brief The number of elements of the vector.
     size_t size() const { return this->_ary.size(); }
     //! \brief A reference to the value stored in the \a i<sup>th</sup> element.
-    X& at(size_t i) { UTILITY_PRECONDITION_MSG(i<this->size(),*this<<"["<<i<<"]"); return (*this)[i]; }
+    X& at(size_t i) { HELPER_PRECONDITION_MSG(i<this->size(),*this<<"["<<i<<"]"); return (*this)[i]; }
     //! \brief A constant reference to the value stored in the \a i<sup>th</sup> element.
-    const X& at(size_t i) const { UTILITY_PRECONDITION_MSG(i<this->size(),*this<<"["<<i<<"]"); return (*this)[i]; }
+    const X& at(size_t i) const { HELPER_PRECONDITION_MSG(i<this->size(),*this<<"["<<i<<"]"); return (*this)[i]; }
     //! \brief Get the value stored in the \a i<sup>th</sup> element.
     const X& get(size_t i) const { return this->_ary[i]; }
     //! \brief Set the value stored in the \a i<sup>th</sup> element to \a x.
@@ -286,7 +286,7 @@ public:
     //! \brief Constant subscripting operator.
     const X& operator[](size_t i) const { return this->_ary[i]; }
     //! \brief Range subscripting operator.
-    VectorRange<Vector<X>> operator[](Range rng); // { UTILITY_PRECONDITION_MSG(rng.stop()<this->size(),*this<<"["<<r<<"]"); return VectorRange<X>(*this,rng); }
+    VectorRange<Vector<X>> operator[](Range rng); // { HELPER_PRECONDITION_MSG(rng.stop()<this->size(),*this<<"["<<r<<"]"); return VectorRange<X>(*this,rng); }
     //! \brief Constant range subscripting operator.
     VectorRange<const Vector<X>> operator[](Range rng) const;
     //! \brief The zero of the ring containing the Vector's elements. This may be dependent on class parameters.
@@ -360,7 +360,7 @@ public:
     void set(size_t i, const ScalarType& x) { _v[i+_rng.start()]=x; }
     ScalarType& operator[](size_t i) { return _v[i+_rng.start()]; }
     template<class VE> VectorRange<V>& operator=(const VectorExpression<VE>& ve) {
-        UTILITY_PRECONDITION(this->size()==ve().size());
+        HELPER_PRECONDITION(this->size()==ve().size());
         for(size_t i=0; i!=this->size(); ++i) { (*this)[i]=ve()[i]; } return *this; }
 };
 
@@ -390,11 +390,11 @@ struct ProvideVectorOperations {
         return Vector<NegationType<X>>( v.size(), [&v](size_t i){return -v[i];} ); }
 
     template<class X1, class X2> friend Vector<SumType<X1,X2>> operator+(Vector<X1> const& v1, Vector<X2> const& v2) {
-        UTILITY_PRECONDITION(v1.size()==v2.size());
+        HELPER_PRECONDITION(v1.size()==v2.size());
         return Vector<SumType<X1,X2>>( v1.size(), [&v1,&v2](size_t i){return v1[i]+v2[i];} ); }
 
     template<class X1, class X2> friend Vector<DifferenceType<X1,X2>> operator-(Vector<X1> const& v1, Vector<X2> const& v2) {
-        UTILITY_PRECONDITION(v1.size()==v2.size());
+        HELPER_PRECONDITION(v1.size()==v2.size());
         return Vector<DifferenceType<X1,X2>>( v1.size(), [&v1,&v2](size_t i){return v1[i]-v2[i];} ); }
 
     template<class X1, class X2> friend Vector<ProductType<Scalar<X1>,X2>> operator*(X1 const& x1, Vector<X2> const& v2) {
@@ -407,12 +407,12 @@ struct ProvideVectorOperations {
         return Vector<QuotientType<X1,Scalar<X2>>>( v1.size(), [&v1,&x2](size_t i){return v1[i]/x2;} ); }
 
     template<class X1,class X2> friend Vector<InplaceSumType<X1,X2>>& operator+=(Vector<X1>& v1, Vector<X2> const& v2) {
-        UTILITY_PRECONDITION(v1.size()==v2.size());
+        HELPER_PRECONDITION(v1.size()==v2.size());
         for(size_t i=0; i!=v1.size(); ++i) { v1[i]+=v2[i]; } return v1;
     }
 
     template<class X1,class X2> friend Vector<InplaceDifferenceType<X1,X2>>& operator-=(Vector<X1>& v1, Vector<X2> const& v2) {
-        UTILITY_PRECONDITION(v1.size()==v2.size());
+        HELPER_PRECONDITION(v1.size()==v2.size());
         for(size_t i=0; i!=v1.size(); ++i) { v1[i]-=v2[i]; } return v1;
     }
 
@@ -425,7 +425,7 @@ struct ProvideVectorOperations {
     }
 
     template<class X1, class X2> friend ArithmeticType<X1,X2> dot(const Vector<X1>& v1, const Vector<X2>& v2) {
-        UTILITY_PRECONDITION(v1.size()==v2.size());
+        HELPER_PRECONDITION(v1.size()==v2.size());
         ArithmeticType<X1,X2> r=v1.zero_element()*v2.zero_element();
         for(size_t i=0; i!=v1.size(); ++i) {
             r+=v1[i]*v2[i];
@@ -519,7 +519,7 @@ template<class V1, class V2> struct IsVectorExpression<VectorSum<V1,V2>> : True 
 
 template<AVectorExpression V1, AVectorExpression V2> inline
 VectorSum<V1,V2> operator+(const V1& v1, const V2& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     return VectorSum<V1,V2>(v1,v2); }
 
 
@@ -535,7 +535,7 @@ template<class V1, class V2> struct IsVectorExpression<VectorDifference<V1,V2>> 
 
 template<AVectorExpression V1, AVectorExpression V2> inline
 VectorDifference<V1,V2> operator-(const V1& v1, const V2& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     return VectorDifference<V1,V2>(v1,v2); }
 
 
@@ -673,7 +673,7 @@ template<class X> inline decltype(error(declval<X>())) error(const Vector<X>& v)
 
 
 template<class X> inline Vector<decltype(refinement(declval<X>(),declval<X>()))> refinement(const Vector<X>& v1, const Vector<X>& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     Vector<X> r(v1.size(),v1.zero_element());
     for(size_t i=0; i!=v1.size(); ++i) {
         r[i]=refinement(v1[i],v2[i]);
@@ -682,7 +682,7 @@ template<class X> inline Vector<decltype(refinement(declval<X>(),declval<X>()))>
 }
 
 template<class X> inline decltype(refines(declval<X>(),declval<X>())) refines(const Vector<X>& v1, const Vector<X>& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     for(size_t i=0; i!=v1.size(); ++i) {
         if(!refines(v1[i],v2[i])) { return false; }
     }
@@ -690,7 +690,7 @@ template<class X> inline decltype(refines(declval<X>(),declval<X>())) refines(co
 }
 
 template<class VX, class EX> inline decltype(models(declval<VX>(),declval<EX>())) models(const Vector<VX>& v1, const Vector<EX>& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     for(size_t i=0; i!=v1.size(); ++i) {
         if(!models(v1[i],v2[i])) { return false; }
     }
@@ -698,7 +698,7 @@ template<class VX, class EX> inline decltype(models(declval<VX>(),declval<EX>())
 }
 
 template<class VX, class EX> inline decltype(represents(declval<VX>(),declval<EX>())) represents(const Vector<VX>& v1, const Vector<EX>& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     for(size_t i=0; i!=v1.size(); ++i) {
         if(!represents(v1[i],v2[i])) { return false; }
     }
@@ -706,7 +706,7 @@ template<class VX, class EX> inline decltype(represents(declval<VX>(),declval<EX
 }
 
 template<class X1, class X2> inline decltype(inconsistent(declval<X1>(),declval<X2>())) inconsistent(const Vector<X1>& v1, const Vector<X2>& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     for(size_t i=0; i!=v1.size(); ++i) {
         if(inconsistent(v1[i],v2[i])) { return true; }
     }
@@ -714,7 +714,7 @@ template<class X1, class X2> inline decltype(inconsistent(declval<X1>(),declval<
 }
 
 template<class X1, class X2> inline decltype(consistent(declval<X1>(),declval<X2>())) consistent(const Vector<X1>& v1, const Vector<X2>& v2) {
-    UTILITY_PRECONDITION(v1.size()==v2.size());
+    HELPER_PRECONDITION(v1.size()==v2.size());
     for(size_t i=0; i!=v1.size(); ++i) {
         if(!consistent(v1[i],v2[i])) { return false; }
     }
@@ -732,7 +732,7 @@ return Vector<R>(v.size(),[&](size_t i){return f(v[i]);});
 }
 
 template<class F, class X1, class X2> Vector<ResultOf<F(X1,X2)>> elementwise(F const& f, Vector<X1> const& v1, Vector<X2> const& v2) {
-UTILITY_PRECONDITION(v1.size()==v2.size());
+HELPER_PRECONDITION(v1.size()==v2.size());
 typedef ResultOf<F(X1,X2)> R;
 return Vector<R>(v1.size(),[&](size_t i){return f(v1[i],v2[i]);});
 }
@@ -792,4 +792,4 @@ Vector<X>::Vector(initializer_list<double> const& lst, PRS... prs)
 
 } // namespace SymboliCore
 
-#endif // UTILITY_VECTOR_HPP
+#endif // HELPER_VECTOR_HPP

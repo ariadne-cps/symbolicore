@@ -36,9 +36,9 @@
 #include <iostream>
 #include <cassert>
 
-#include "utility/variant.hpp"
-#include "utility/variant.inl.hpp"
-#include "utility/string.hpp"
+#include "helper/variant.hpp"
+#include "helper/variant.inl.hpp"
+#include "helper/string.hpp"
 #include "using.hpp"
 #include "typedefs.hpp"
 #include "logical.decl.hpp"
@@ -47,13 +47,13 @@ namespace SymboliCore {
 
 using std::declval;
 
-using Utility::String;
-using Utility::ProductType;
-using Utility::QuotientType;
-using Utility::DifferenceType;
-using Utility::ArithmeticType;
-using Utility::OneOf;
-using Utility::CodedVariant;
+using Helper::String;
+using Helper::ProductType;
+using Helper::QuotientType;
+using Helper::DifferenceType;
+using Helper::ArithmeticType;
+using Helper::OneOf;
+using Helper::CodedVariant;
 
 class Integer;
 class Real;

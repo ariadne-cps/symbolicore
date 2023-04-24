@@ -34,7 +34,7 @@
 #define SYMBOLICORE_REAL_HPP
 
 #include "using.hpp"
-#include "utility/metaprogramming.hpp"
+#include "helper/metaprogramming.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
 

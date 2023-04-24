@@ -38,7 +38,7 @@
 
 namespace SymboliCore {
 
-using Utility::Variant;
+using Helper::Variant;
 
 /************ Symbolic ************************************************/
 

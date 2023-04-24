@@ -30,9 +30,9 @@
  *  \brief
  */
 
-#include "utility/stdlib.hpp"
-#include "utility/string.hpp"
-#include "utility/macros.hpp"
+#include "helper/stdlib.hpp"
+#include "helper/string.hpp"
+#include "helper/macros.hpp"
 #include "templates.hpp"
 #include "sequence.hpp"
 #include "operators.hpp"
@@ -40,7 +40,7 @@
 
 namespace SymboliCore {
 
-using Utility::make_handle;
+using Helper::make_handle;
 
 namespace Detail {
 
@@ -161,7 +161,7 @@ ostream& operator<<(ostream& os, LogicalValue l) {
         case LogicalValue::INDETERMINATE: os << "indeterminate";  break;
         case LogicalValue::UNLIKELY: os << "unlikely"; break;
         case LogicalValue::FALSE: os << "false"; break;
-        default: UTILITY_FAIL_MSG("Unhandled LogicalValue for output streaming.");
+        default: HELPER_FAIL_MSG("Unhandled LogicalValue for output streaming.");
     }
     return os;
 }
@@ -245,7 +245,7 @@ template<> String class_name<ApproximateKleenean>() { return "ApproximateKleenea
 
 } // namespace SymboliCore
 
-#include "utility/array.hpp"
+#include "helper/array.hpp"
 
 namespace SymboliCore {
 

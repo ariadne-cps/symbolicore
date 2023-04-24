@@ -32,10 +32,10 @@
 #ifndef SYMBOLICORE_LOGICAL_HPP
 #define SYMBOLICORE_LOGICAL_HPP
 
-#include "utility/stdlib.hpp"
-#include "utility/handle.hpp"
-#include "utility/string.hpp"
-#include "utility/array.hpp"
+#include "helper/stdlib.hpp"
+#include "helper/handle.hpp"
+#include "helper/string.hpp"
+#include "helper/array.hpp"
 
 #include "using.hpp"
 #include "sign.hpp"
@@ -44,10 +44,10 @@
 
 namespace SymboliCore {
 
-using Utility::String;
-using Utility::Array;
-using Utility::Handle;
-using Utility::ConstructibleFrom;
+using Helper::String;
+using Helper::Array;
+using Helper::Handle;
+using Helper::ConstructibleFrom;
 
 template<class X> class Sequence;
 

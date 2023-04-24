@@ -37,9 +37,9 @@
 #include <iosfwd>
 #include <iostream>
 
-#include "utility/macros.hpp"
-#include "utility/container.hpp"
-#include "utility/writable.hpp"
+#include "helper/macros.hpp"
+#include "helper/container.hpp"
+#include "helper/writable.hpp"
 
 #include "using.hpp"
 #include "logical.decl.hpp"
@@ -51,10 +51,10 @@
 
 namespace SymboliCore {
 
-using Utility::Writer;
-using Utility::WriterInterface;
-using Utility::ConvertibleTo;
-using Utility::SelfType;
+using Helper::Writer;
+using Helper::WriterInterface;
+using Helper::ConvertibleTo;
+using Helper::SelfType;
 
 template<class T> struct DeclareExpressionOperations;
 template<class X> struct ExpressionNode;

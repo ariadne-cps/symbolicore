@@ -26,7 +26,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "utility/stdlib.hpp"
+#include "helper/stdlib.hpp"
 
 #include "constant.hpp"
 #include "variable.hpp"
@@ -35,15 +35,15 @@
 #include "valuation.hpp"
 #include "logical.hpp"
 
-namespace Utility {
+namespace Helper {
     template<class T, class... TS> struct IndexOf<T,Variant<TS...>> { static const size_t N=IndexOf<T,TS...>::N; };
 }
 
 namespace SymboliCore {
 
-using Utility::IndexOf;
-using Utility::Same;
-using Utility::IntegralConstant;
+using Helper::IndexOf;
+using Helper::Same;
+using Helper::IntegralConstant;
 
 using Eq = Equal;
 using Neq = Unequal;

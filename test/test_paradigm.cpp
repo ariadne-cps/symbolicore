@@ -26,7 +26,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "utility/test.hpp"
+#include "helper/test.hpp"
 #include "paradigm.hpp"
 
 using namespace SymboliCore;
@@ -40,8 +40,8 @@ class TestParadigm
 };
 
 int main() {
-    UTILITY_TEST_CLASS(TestParadigm,TestParadigm());
-    return UTILITY_TEST_FAILURES;
+    HELPER_TEST_CLASS(TestParadigm,TestParadigm());
+    return HELPER_TEST_FAILURES;
 }
 
 
@@ -55,22 +55,22 @@ TestParadigm::test()
 void
 TestParadigm::test_concept()
 {
-    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,ApproximateTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,ValidatedTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,EffectiveTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<ApproximateTag,ExactTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<ValidatedTag,ValidatedTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<ValidatedTag,EffectiveTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<ValidatedTag,ExactTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<EffectiveTag,EffectiveTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<EffectiveTag,ExactTag>);
-    UTILITY_TEST_CONCEPT(WeakerThan<ExactTag,ExactTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ApproximateTag,ApproximateTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ApproximateTag,ValidatedTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ApproximateTag,EffectiveTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ApproximateTag,ExactTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ValidatedTag,ValidatedTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ValidatedTag,EffectiveTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ValidatedTag,ExactTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<EffectiveTag,EffectiveTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<EffectiveTag,ExactTag>);
+    HELPER_TEST_CONCEPT(WeakerThan<ExactTag,ExactTag>);
 
-    UTILITY_TEST_CONCEPT(not WeakerThan<ValidatedTag,ApproximateTag>);
-    UTILITY_TEST_CONCEPT(not WeakerThan<EffectiveTag,ApproximateTag>);
-    UTILITY_TEST_CONCEPT(not WeakerThan<EffectiveTag,ValidatedTag>);
-    UTILITY_TEST_CONCEPT(not WeakerThan<ExactTag,ApproximateTag>);
-    UTILITY_TEST_CONCEPT(not WeakerThan<ExactTag,ValidatedTag>);
-    UTILITY_TEST_CONCEPT(not WeakerThan<ExactTag,EffectiveTag>);
+    HELPER_TEST_CONCEPT(not WeakerThan<ValidatedTag,ApproximateTag>);
+    HELPER_TEST_CONCEPT(not WeakerThan<EffectiveTag,ApproximateTag>);
+    HELPER_TEST_CONCEPT(not WeakerThan<EffectiveTag,ValidatedTag>);
+    HELPER_TEST_CONCEPT(not WeakerThan<ExactTag,ApproximateTag>);
+    HELPER_TEST_CONCEPT(not WeakerThan<ExactTag,ValidatedTag>);
+    HELPER_TEST_CONCEPT(not WeakerThan<ExactTag,EffectiveTag>);
 }
 

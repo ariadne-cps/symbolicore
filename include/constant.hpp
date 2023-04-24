@@ -33,7 +33,7 @@
 #ifndef SYMBOLICORE_CONSTANT_HPP
 #define SYMBOLICORE_CONSTANT_HPP
 
-#include "utility/string.hpp"
+#include "helper/string.hpp"
 #include "using.hpp"
 #include "identifier.hpp"
 

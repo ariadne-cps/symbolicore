@@ -28,15 +28,15 @@
 
 #include <limits>
 
-#include "utility/stdlib.hpp"
-#include "utility/macros.hpp"
-#include "utility/string.hpp"
+#include "helper/stdlib.hpp"
+#include "helper/macros.hpp"
+#include "helper/string.hpp"
 #include "integer.hpp"
 #include "logical.hpp"
 
 namespace SymboliCore {
 
-using Utility::to_string;
+using Helper::to_string;
 
 Comparison cmp(Integer const& z1, Integer const& z2);
 

@@ -26,8 +26,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "utility/test.hpp"
-#include "utility/container.hpp"
+#include "helper/test.hpp"
+#include "helper/container.hpp"
 #include "real.hpp"
 #include "space.hpp"
 
@@ -39,23 +39,23 @@ class TestSpace {
     void test_construction() {
         {
             Space<Boolean> spc;
-            UTILITY_TEST_EQUAL(spc.dimension(),0);
+            HELPER_TEST_EQUAL(spc.dimension(),0);
         }
         {
             RealVariable x("x"), y("y");
             Space<Real> spc({x,y});
-            UTILITY_TEST_EQUAL(spc.dimension(),2);
+            HELPER_TEST_EQUAL(spc.dimension(),2);
         }
     }
 
 
 
     void test() {
-        UTILITY_TEST_CALL(test_construction());
+        HELPER_TEST_CALL(test_construction());
     }
 };
 
 int main() {
     TestSpace().test();
-    return UTILITY_TEST_FAILURES;
+    return HELPER_TEST_FAILURES;
 }

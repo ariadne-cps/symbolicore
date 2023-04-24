@@ -35,7 +35,7 @@
 #define SYMBOLICORE_SIGN_HPP
 
 #include <iosfwd>
-#include "utility/macros.hpp"
+#include "helper/macros.hpp"
 #include "using.hpp"
 #include "typedefs.hpp"
 
@@ -58,7 +58,7 @@ inline ostream& operator<<(ostream& os, Comparison const& cmp) {
         case Comparison::EQUAL: os << "EQUAL";  break;
         case Comparison::GREATER: os << "GREATER";  break;
         case Comparison::INCOMPARABLE: os << "INCOMPARABLE"; break;
-        default: UTILITY_FAIL_MSG("Unhandled Comparison for output streaming.");
+        default: HELPER_FAIL_MSG("Unhandled Comparison for output streaming.");
     }
     return os;
 }

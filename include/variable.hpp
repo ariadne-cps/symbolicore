@@ -37,9 +37,9 @@
 #include <iosfwd>
 #include <iostream>
 
-#include "utility/macros.hpp"
-#include "utility/string.hpp"
-#include "utility/container.hpp"
+#include "helper/macros.hpp"
+#include "helper/string.hpp"
+#include "helper/container.hpp"
 #include "logical.decl.hpp"
 #include "expression.decl.hpp"
 #include "identifier.hpp"
@@ -47,15 +47,15 @@
 
 namespace SymboliCore {
 
-using Utility::List;
-using Utility::to_str;
+using Helper::List;
+using Helper::to_str;
 
 class UntypedVariable;
 class ExtendedUntypedVariable;
 
 enum class VariableType : char { BOOLEAN, ENUMERATED, STRING, INTEGER, REAL };
 
-template<class T> inline VariableType variable_type() { UTILITY_FAIL_MSG("Unknown variable type"); }
+template<class T> inline VariableType variable_type() { HELPER_FAIL_MSG("Unknown variable type"); }
 template<> inline constexpr VariableType variable_type<Boolean>() { return VariableType::BOOLEAN; }
 template<> inline constexpr VariableType variable_type<String>() { return VariableType::STRING; }
 template<> inline constexpr VariableType variable_type<Integer>() { return VariableType::INTEGER; }
@@ -69,7 +69,7 @@ inline String class_name(const VariableType& tp) {
         case VariableType::INTEGER: return "Integer";
         case VariableType::REAL: return "Real";
         default:
-            UTILITY_FAIL_MSG("Unhandled VariableType for output stream");
+            HELPER_FAIL_MSG("Unhandled VariableType for output stream");
     }
 }
 
@@ -162,7 +162,7 @@ inline ostream& operator<<(ostream& os, VariableCategory const& cat) {
         case VariableCategory::PRIMED: os << "DOTTED"; break;
         case VariableCategory::DOTTED: os << "PRIMED"; break;
         default:
-            UTILITY_FAIL_MSG("Unhandled VariableCategory for output streaming");
+            HELPER_FAIL_MSG("Unhandled VariableCategory for output streaming");
     }
     return os;
 }
@@ -186,7 +186,7 @@ inline ostream& operator<<(ostream& os, ExtendedUntypedVariable const& var) {
         case VariableCategory::PRIMED: os << "prime("<<var.name()<<")"; break;
         case VariableCategory::DOTTED: os << "dot("<<var.name()<<")"; break;
         default:
-            UTILITY_FAIL_MSG("Unhandled VariableCategory "<<var.category());
+            HELPER_FAIL_MSG("Unhandled VariableCategory "<<var.category());
     }
     return os;
 }

@@ -32,14 +32,14 @@
 
 #include <iostream>
 
-#include "utility/macros.hpp"
+#include "helper/macros.hpp"
 #include "real.hpp"
 #include "variable.hpp"
 #include "space.hpp"
 
 namespace SymboliCore {
 
-using Utility::List;
+using Helper::List;
 
 template<class T> Space<T>::Space() : _variables() { }
 
@@ -88,7 +88,7 @@ template<class T> List<typename Space<T>::VariableType> Space<T>::variables() co
 template<class T> Map<Identifier,size_t> Space<T>::indices_from_names() const {
     Map<Identifier,size_t> indices;
     for(size_t i=0; i!=this->_variables.size(); ++i) {
-        UTILITY_ASSERT_MSG(!indices.has_key(_variables[i]),"Repeated variable "<<_variables[i]<<" in space "<<_variables)
+        HELPER_ASSERT_MSG(!indices.has_key(_variables[i]),"Repeated variable "<<_variables[i]<<" in space "<<_variables)
             indices.insert(this->_variables[i],i);
     }
     return indices;
@@ -96,7 +96,7 @@ template<class T> Map<Identifier,size_t> Space<T>::indices_from_names() const {
 template<class T> Map<typename Space<T>::VariableType,size_t> Space<T>::indices() const {
     Map<VariableType,size_t> indices;
     for(size_t i=0; i!=this->_variables.size(); ++i) {
-        UTILITY_ASSERT_MSG(!indices.has_key(VariableType(_variables[i])),"Repeated variable "<<_variables[i]<<" in space "<<_variables)
+        HELPER_ASSERT_MSG(!indices.has_key(VariableType(_variables[i])),"Repeated variable "<<_variables[i]<<" in space "<<_variables)
         indices.insert(VariableType(this->_variables[i]),i);
     }
     return indices;
@@ -117,12 +117,12 @@ template<class T> size_t Space<T>::operator[](const Identifier& n) const {
 template<class T> size_t Space<T>::index(const typename Space<T>::VariableType& v) const {
     for(size_t i=0; i!=_variables.size(); ++i) {
         if(v.name()==_variables[i]) { return i; } }
-    UTILITY_ASSERT_MSG(false,"Variable "<<v<<" is not in the Space "<<*this);
+    HELPER_ASSERT_MSG(false,"Variable "<<v<<" is not in the Space "<<*this);
     return _variables.size(); }
 template<class T> size_t Space<T>::index(const Identifier& n) const {
     for(size_t i=0; i!=_variables.size(); ++i) {
         if(n==_variables[i]) { return i; } }
-    UTILITY_ASSERT_MSG(false,"Variable named "<<n<<" is not in the Space "<<*this);
+    HELPER_ASSERT_MSG(false,"Variable named "<<n<<" is not in the Space "<<*this);
     return _variables.size(); }
 template<class T> Space<T>& Space<T>::insert(const typename Space<T>::VariableType& v) {
     for(size_t i=0; i!=_variables.size(); ++i) {
@@ -136,7 +136,7 @@ template<class T> Space<T>& Space<T>::adjoin(const Space<T>& spc) {
 
 template<class T> Space<T>& Space<T>::append(const VariableType& v) {
     for(size_t i=0; i!=_variables.size(); ++i) {
-        UTILITY_ASSERT_MSG(_variables[i]!=v.name(),"Variable "<<v<<" is already a variable of the StateSpace "<<*this);
+        HELPER_ASSERT_MSG(_variables[i]!=v.name(),"Variable "<<v<<" is already a variable of the StateSpace "<<*this);
     }
     _variables.push_back(v.name()); return *this;
 }

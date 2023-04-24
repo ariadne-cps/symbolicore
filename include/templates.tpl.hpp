@@ -136,7 +136,7 @@ namespace {
 template<class OP, class F, class J> inline decltype(auto) _derivative_impl(OP op, F const& f, J j) {
     return op.derivative(f,derivative(f,j)); }
 template<class F, class J> inline auto _derivative_impl(Abs op, F const& f, J j) -> F {
-    UTILITY_THROW(std::runtime_error,"derivative(abs(f))","Cannot take derivative of non-smooth function"); }
+    HELPER_THROW(std::runtime_error,"derivative(abs(f))","Cannot take derivative of non-smooth function"); }
 
 template<class F1, class F2, class J> inline decltype(auto) _derivative_impl(Add, F1 const& f1, F2 const& f2, J j) {
     return derivative(f1,j)+derivative(f2,j); }
@@ -147,9 +147,9 @@ template<class F1, class F2, class J> inline decltype(auto) _derivative_impl(Mul
 template<class F1, class F2, class J> inline decltype(auto) _derivative_impl(Div, F1 const& f1, F2 const& f2, J j) {
     return (derivative(f1,j)-derivative(f2,j)*(f1/f2))/f2; }
 template<class F1, class F2, class J> inline auto _derivative_impl(Max, F1 const& f1, F2 const& f2, J j) -> decltype(max(f1,f2)){
-    UTILITY_THROW(std::runtime_error,"derivative(max(f1,f2))","Cannot take derivative of non-smooth function."); }
+    HELPER_THROW(std::runtime_error,"derivative(max(f1,f2))","Cannot take derivative of non-smooth function."); }
 template<class F1, class F2, class J> inline auto _derivative_impl(Min, F1 const& f1, F2 const& f2, J j) -> decltype(min(f1,f2)) {
-    UTILITY_THROW(std::runtime_error,"derivative(min(f1,f2))","Cannot take derivative of non-smooth function."); }
+    HELPER_THROW(std::runtime_error,"derivative(min(f1,f2))","Cannot take derivative of non-smooth function."); }
 
 template<class F, class N, class J> inline decltype(auto) _derivative_impl(Pow op, F const& f, N const& n, J j) {
     return op.derivative(f,derivative(f,j),n); }

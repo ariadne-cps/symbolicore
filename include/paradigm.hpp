@@ -34,11 +34,11 @@
 #define SYMBOLICORE_PARADIGM_HPP
 
 #include <cstdint>
-#include "utility/metaprogramming.hpp"
+#include "helper/metaprogramming.hpp"
 
 namespace SymboliCore {
 
-using Utility::Convertible;
+using Helper::Convertible;
 
 class ParadigmError { };
 

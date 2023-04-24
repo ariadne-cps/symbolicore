@@ -28,16 +28,16 @@
 
 #include <limits>
 
-#include "utility/stdlib.hpp"
-#include "utility/macros.hpp"
-#include "utility/string.hpp"
+#include "helper/stdlib.hpp"
+#include "helper/macros.hpp"
+#include "helper/string.hpp"
 #include "real.hpp"
 #include "logical.hpp"
 #include "integer.hpp"
 
 namespace SymboliCore {
 
-using Utility::to_string;
+using Helper::to_string;
 
 Comparison cmp(Real const& r1, Real const& r2);
 

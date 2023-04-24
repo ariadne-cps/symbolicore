@@ -37,8 +37,8 @@
 #include <iostream>
 #include <string>
 
-#include "utility/macros.hpp"
-#include "utility/container.hpp"
+#include "helper/macros.hpp"
+#include "helper/container.hpp"
 
 #include "integer.hpp"
 #include "variable.hpp"
@@ -46,9 +46,9 @@
 
 namespace SymboliCore {
 
-using Utility::Pair;
-using Utility::Map;
-using Utility::Set;
+using Helper::Pair;
+using Helper::Map;
+using Helper::Set;
 
 // Sequencing operators to make Valuation objects or objects convertible to Valuations.
 template<class X> Pair<Variable<X>,X> operator|(const Variable<X>& v, const typename Variable<X>::Type& c) { return Pair<Variable<X>,X>(v,c); }
@@ -130,7 +130,7 @@ template<class T, class X> bool operator==(const Valuation<T,X>& v1, const Valua
         }
     }
     if(v1iter!=v1sm.end() || v2iter!=v2sm.end()) { identical=false; }
-    if(!identical) { UTILITY_THROW(std::runtime_error,"operator==(DiscreteLocation,DiscreteLocation)",
+    if(!identical) { HELPER_THROW(std::runtime_error,"operator==(DiscreteLocation,DiscreteLocation)",
                                    "Valuations "<<v1<<" and "<<v2<<" are not identical, but no values differ."); }
     return true;
 }

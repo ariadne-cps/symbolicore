@@ -26,7 +26,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "utility/test.hpp"
+#include "helper/test.hpp"
 #include "logical.hpp"
 #include "real.hpp"
 
@@ -46,8 +46,8 @@ class TestReal
 
 void TestReal::test()
 {
-    UTILITY_TEST_CALL(test_arithmetic());
-    UTILITY_TEST_CALL(test_transcendental());
+    HELPER_TEST_CALL(test_arithmetic());
+    HELPER_TEST_CALL(test_transcendental());
 }
 
 void TestReal::test_concept() {
@@ -64,45 +64,45 @@ void TestReal::test_concept() {
 void TestReal::test_arithmetic() {
     Real x(2.5);
     Real y(4.0);
-    UTILITY_TEST_EQUALS(x, 2.5);
-    UTILITY_TEST_EQUALS(y, 4.0);
-    UTILITY_TEST_EQUALS(+x, 2.5);
-    UTILITY_TEST_EQUALS(-x,-2.5);
-    UTILITY_TEST_EQUALS(x+y, 6.5);
-    UTILITY_TEST_EQUALS(x-y,-1.5);
-    UTILITY_TEST_EQUALS(x*y,10.0);
-    UTILITY_TEST_EQUALS(x/y,0.625);
-    UTILITY_TEST_EQUALS(add(x,y), 6.5);
-    UTILITY_TEST_EQUALS(sub(x,y),-1.5);
-    UTILITY_TEST_EQUALS(mul(x,y),10.0);
-    UTILITY_TEST_EQUALS(div(x,y),0.625);
-    UTILITY_TEST_EQUALS(pow(x,3u),15.625);
-    UTILITY_TEST_EQUALS(pow(x,3),15.625);
-    UTILITY_TEST_EQUALS(pos(x),+2.5);
-    UTILITY_TEST_EQUALS(neg(x),-2.5);
-    UTILITY_TEST_EQUALS(hlf(x),1.25);
-    UTILITY_TEST_EQUALS(sqr(x),6.25);
-    UTILITY_TEST_EQUALS(rec(y),0.25);
+    HELPER_TEST_EQUALS(x, 2.5);
+    HELPER_TEST_EQUALS(y, 4.0);
+    HELPER_TEST_EQUALS(+x, 2.5);
+    HELPER_TEST_EQUALS(-x,-2.5);
+    HELPER_TEST_EQUALS(x+y, 6.5);
+    HELPER_TEST_EQUALS(x-y,-1.5);
+    HELPER_TEST_EQUALS(x*y,10.0);
+    HELPER_TEST_EQUALS(x/y,0.625);
+    HELPER_TEST_EQUALS(add(x,y), 6.5);
+    HELPER_TEST_EQUALS(sub(x,y),-1.5);
+    HELPER_TEST_EQUALS(mul(x,y),10.0);
+    HELPER_TEST_EQUALS(div(x,y),0.625);
+    HELPER_TEST_EQUALS(pow(x,3u),15.625);
+    HELPER_TEST_EQUALS(pow(x,3),15.625);
+    HELPER_TEST_EQUALS(pos(x),+2.5);
+    HELPER_TEST_EQUALS(neg(x),-2.5);
+    HELPER_TEST_EQUALS(hlf(x),1.25);
+    HELPER_TEST_EQUALS(sqr(x),6.25);
+    HELPER_TEST_EQUALS(rec(y),0.25);
 }
 
 void TestReal::test_transcendental() {
     double eps = 1e-16;
     double ax = 2.5;
     Real x(ax);
-    UTILITY_TEST_EQUALS(sqrt(Real(4)),2.0);
-    UTILITY_TEST_EQUALS(exp(Real(0)),1.0);
-    UTILITY_TEST_EQUALS(log(Real(1)),0.0);
+    HELPER_TEST_EQUALS(sqrt(Real(4)),2.0);
+    HELPER_TEST_EQUALS(exp(Real(0)),1.0);
+    HELPER_TEST_EQUALS(log(Real(1)),0.0);
 
-    UTILITY_TEST_WITHIN(sqrt(x),sqrt(ax),eps);
-    UTILITY_TEST_WITHIN(exp(x),exp(ax),8*eps);
-    UTILITY_TEST_WITHIN(log(x),log(ax),eps);
-    UTILITY_TEST_WITHIN(sin(x),sin(ax),2*eps);
-    UTILITY_TEST_WITHIN(cos(x),cos(ax),2*eps);
-    UTILITY_TEST_WITHIN(tan(x),tan(ax),3*eps);
-    UTILITY_TEST_WITHIN(atan(x),atan(ax),eps);
+    HELPER_TEST_WITHIN(sqrt(x),sqrt(ax),eps);
+    HELPER_TEST_WITHIN(exp(x),exp(ax),8*eps);
+    HELPER_TEST_WITHIN(log(x),log(ax),eps);
+    HELPER_TEST_WITHIN(sin(x),sin(ax),2*eps);
+    HELPER_TEST_WITHIN(cos(x),cos(ax),2*eps);
+    HELPER_TEST_WITHIN(tan(x),tan(ax),3*eps);
+    HELPER_TEST_WITHIN(atan(x),atan(ax),eps);
 }
 
 int main() {
     TestReal().test();
-    return UTILITY_TEST_FAILURES;
+    return HELPER_TEST_FAILURES;
 }

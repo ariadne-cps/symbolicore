@@ -26,13 +26,13 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "utility/test.hpp"
-#include "utility/macros.hpp"
+#include "helper/test.hpp"
+#include "helper/macros.hpp"
 #include "logical.hpp"
 #include "sequence.hpp"
 
 using namespace SymboliCore;
-using namespace Utility;
+using namespace Helper;
 
 class TestLogical
 {
@@ -46,16 +46,16 @@ class TestLogical
 };
 
 int main() {
-    UTILITY_TEST_CLASS(TestLogical,TestLogical());
-    return UTILITY_TEST_FAILURES;
+    HELPER_TEST_CLASS(TestLogical,TestLogical());
+    return HELPER_TEST_FAILURES;
 }
 
 void
 TestLogical::test()
 {
-    UTILITY_TEST_CALL(test_conversion_to_bool());
-    UTILITY_TEST_CALL(test_conversion());
-    UTILITY_TEST_CALL(test_disjunction());
+    HELPER_TEST_CALL(test_conversion_to_bool());
+    HELPER_TEST_CALL(test_conversion());
+    HELPER_TEST_CALL(test_disjunction());
 }
 
 void
@@ -83,72 +83,72 @@ TestLogical::test_concept()
 void
 TestLogical::test_conversion_to_bool()
 {
-    UTILITY_TEST_CONCEPT(Convertible<Boolean,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<Sierpinskian,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<NegatedSierpinskian,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<Kleenean,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<LowerKleenean,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<UpperKleenean,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ValidatedKleenean,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ValidatedUpperKleenean,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ValidatedLowerKleenean,bool>);
-    UTILITY_TEST_CONCEPT(not Convertible<ApproximateKleenean,bool>);
+    HELPER_TEST_CONCEPT(Convertible<Boolean,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<Sierpinskian,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<NegatedSierpinskian,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<Kleenean,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<LowerKleenean,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<UpperKleenean,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<ValidatedKleenean,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<ValidatedUpperKleenean,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<ValidatedLowerKleenean,bool>);
+    HELPER_TEST_CONCEPT(not Convertible<ApproximateKleenean,bool>);
 }
 
 void
 TestLogical::test_conversion()
 {
     if(Convertible<LogicalType<EffectiveTag>,LogicalType<ValidatedTag>>) {
-        UTILITY_TEST_NOTIFY("EffectiveTag logical types may be converted to values using default Effort.");
+        HELPER_TEST_NOTIFY("EffectiveTag logical types may be converted to values using default Effort.");
     } else if(Convertible<LogicalType<EffectiveTag>,LogicalType<ValidatedTag>>) {
-        UTILITY_TEST_NOTIFY("EffectiveTag logical types may be explicitly converted to values using default Effort.");
+        HELPER_TEST_NOTIFY("EffectiveTag logical types may be explicitly converted to values using default Effort.");
     } else {
-        UTILITY_TEST_NOTIFY("EffectiveTag logical types cannot be converted to values; the Effort used must be specified.");
+        HELPER_TEST_NOTIFY("EffectiveTag logical types cannot be converted to values; the Effort used must be specified.");
     }
 
     try {
         if(decide(indeterminate)) {
-            UTILITY_TEST_NOTIFY("decide(...) is true on INDETERMINATE value.");
+            HELPER_TEST_NOTIFY("decide(...) is true on INDETERMINATE value.");
         } else {
-            UTILITY_TEST_NOTIFY("decide(...) is false on INDETERMINATE value.");
+            HELPER_TEST_NOTIFY("decide(...) is false on INDETERMINATE value.");
         }
     } catch(...) {
-        UTILITY_TEST_NOTIFY("decide(...) is throws error on INDETERMINATE value.");
+        HELPER_TEST_NOTIFY("decide(...) is throws error on INDETERMINATE value.");
     }
 
-    UTILITY_TEST_CONCEPT(not Convertible<Indeterminate,Boolean>);
-    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,Sierpinskian>);
-    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,NegatedSierpinskian>);
-    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,Kleenean>);
-    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,LowerKleenean>);
-    UTILITY_TEST_CONCEPT(Convertible<Indeterminate,UpperKleenean>);
-    UTILITY_TEST_CONCEPT(Same<decltype(indeterminate and Sierpinskian(true)),Sierpinskian>);
-    UTILITY_TEST_CONCEPT(Same<decltype(indeterminate and Kleenean(true)),Kleenean>);
+    HELPER_TEST_CONCEPT(not Convertible<Indeterminate,Boolean>);
+    HELPER_TEST_CONCEPT(Convertible<Indeterminate,Sierpinskian>);
+    HELPER_TEST_CONCEPT(Convertible<Indeterminate,NegatedSierpinskian>);
+    HELPER_TEST_CONCEPT(Convertible<Indeterminate,Kleenean>);
+    HELPER_TEST_CONCEPT(Convertible<Indeterminate,LowerKleenean>);
+    HELPER_TEST_CONCEPT(Convertible<Indeterminate,UpperKleenean>);
+    HELPER_TEST_CONCEPT(Same<decltype(indeterminate and Sierpinskian(true)),Sierpinskian>);
+    HELPER_TEST_CONCEPT(Same<decltype(indeterminate and Kleenean(true)),Kleenean>);
 
-    UTILITY_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vl,(LogicalValue::LIKELY))
-    UTILITY_TEST_EQUAL(definitely(vl),false);
-    UTILITY_TEST_EQUAL(possibly(vl),true);
-    UTILITY_TEST_EQUAL(decide(vl),true);
+    HELPER_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vl,(LogicalValue::LIKELY))
+    HELPER_TEST_EQUAL(definitely(vl),false);
+    HELPER_TEST_EQUAL(possibly(vl),true);
+    HELPER_TEST_EQUAL(decide(vl),true);
 
-    UTILITY_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vi,(LogicalValue::INDETERMINATE))
-    UTILITY_TEST_EQUAL(definitely(vl),false);
-    UTILITY_TEST_EQUAL(possibly(vl),true);
+    HELPER_TEST_CONSTRUCT(LogicalType<ValidatedTag>,vi,(LogicalValue::INDETERMINATE))
+    HELPER_TEST_EQUAL(definitely(vl),false);
+    HELPER_TEST_EQUAL(possibly(vl),true);
 }
 
 void
 TestLogical::test_disjunction()
 {
     Sequence<LowerKleenean> seq([](unsigned int n){return n==2 ? LowerKleenean(true) : LowerKleenean(indeterminate);});
-    UTILITY_TEST_ASSIGN_CONSTRUCT(LowerKleenean, some, disjunction(seq));
-    UTILITY_TEST_ASSERT(possibly(not some.check(2_eff)));
-    UTILITY_TEST_ASSERT(definitely(some.check(3_eff)));
-    UTILITY_TEST_ASSERT(definitely(some.check(4_eff)));
+    HELPER_TEST_ASSIGN_CONSTRUCT(LowerKleenean, some, disjunction(seq));
+    HELPER_TEST_ASSERT(possibly(not some.check(2_eff)));
+    HELPER_TEST_ASSERT(definitely(some.check(3_eff)));
+    HELPER_TEST_ASSERT(definitely(some.check(4_eff)));
 
-    UTILITY_TEST_ASSIGN_CONSTRUCT(
+    HELPER_TEST_ASSIGN_CONSTRUCT(
         UpperKleenean, all, conjunction(Sequence<UpperKleenean>([](unsigned int n){return n==2 ? UpperKleenean(false) : UpperKleenean(indeterminate);})));
-    UTILITY_TEST_ASSERT(possibly(all.check(2_eff)));
-    UTILITY_TEST_ASSERT(not possibly(all.check(3_eff)));
-    UTILITY_TEST_ASSERT(definitely(not all.check(4_eff)));
+    HELPER_TEST_ASSERT(possibly(all.check(2_eff)));
+    HELPER_TEST_ASSERT(not possibly(all.check(3_eff)));
+    HELPER_TEST_ASSERT(definitely(not all.check(4_eff)));
 
 }
 

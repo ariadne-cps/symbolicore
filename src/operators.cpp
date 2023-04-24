@@ -33,9 +33,9 @@ double mul(double,double);
 double div(double,double);
 }
 
-#include "utility/macros.hpp"
-#include "utility/stdlib.hpp"
-#include "utility/string.hpp"
+#include "helper/macros.hpp"
+#include "helper/stdlib.hpp"
+#include "helper/string.hpp"
 #include "operators.hpp"
 
 namespace SymboliCore {
@@ -164,7 +164,7 @@ OperatorKind kind(OperatorCode op) {
         case OperatorCode::EQ: case OperatorCode::NEQ: case OperatorCode::LEQ: case OperatorCode::GEQ: case OperatorCode::LT: case OperatorCode::GT:
             return OperatorKind::COMPARISON;
         default:
-            UTILITY_FAIL_MSG("Cannot deduce kind of operator "<<op);
+            HELPER_FAIL_MSG("Cannot deduce kind of operator "<<op);
     }
 }
 

@@ -33,17 +33,17 @@
 #ifndef SYMBOLICORE_INTEGER_HPP
 #define SYMBOLICORE_INTEGER_HPP
 
-#include "utility/metaprogramming.hpp"
+#include "helper/metaprogramming.hpp"
 #include "using.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
 
 namespace SymboliCore {
 
-using Utility::True;
-using Utility::False;
-using Utility::BuiltinIntegral;
-using Utility::BuiltinUnsignedIntegral;
+using Helper::True;
+using Helper::False;
+using Helper::BuiltinIntegral;
+using Helper::BuiltinUnsignedIntegral;
 
 struct ExactTag;
 class Integer;
@@ -153,7 +153,7 @@ class Integer
 };
 
 template<BuiltinIntegral N> inline N Integer::get() const {
-    N n=static_cast<N>(_value); UTILITY_ASSERT(Integer(n)==*this); return n; }
+    N n=static_cast<N>(_value); HELPER_ASSERT(Integer(n)==*this); return n; }
 
 template<class R, class A> R integer_cast(const A& a) {
     return cast_integer(a).template get<R>(); }

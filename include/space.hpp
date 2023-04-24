@@ -37,15 +37,15 @@
 #include <iosfwd>
 #include <iostream>
 
-#include "utility/macros.hpp"
-#include "utility/container.hpp"
+#include "helper/macros.hpp"
+#include "helper/container.hpp"
 #include "variable.hpp"
 
 namespace SymboliCore {
 
-using Utility::List;
-using Utility::Map;
-using Utility::Set;
+using Helper::List;
+using Helper::Map;
+using Helper::Set;
 
 template<class T> class Space;
 template<class T> ostream& operator<<(ostream& os, const Space<T>& spc);
