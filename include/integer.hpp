@@ -34,7 +34,6 @@
 #define SYMBOLICORE_INTEGER_HPP
 
 #include "helper/metaprogramming.hpp"
-#include "using.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
 

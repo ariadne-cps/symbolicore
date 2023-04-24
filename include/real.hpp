@@ -33,12 +33,13 @@
 #ifndef SYMBOLICORE_REAL_HPP
 #define SYMBOLICORE_REAL_HPP
 
-#include "using.hpp"
 #include "helper/metaprogramming.hpp"
 #include "sign.hpp"
 #include "logical.hpp"
 
 namespace SymboliCore {
+
+using std::ostream;
 
 class Integer;
 

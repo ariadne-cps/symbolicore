@@ -37,7 +37,6 @@
 #include "helper/string.hpp"
 #include "helper/array.hpp"
 
-#include "using.hpp"
 #include "sign.hpp"
 #include "paradigm.hpp"
 #include "logical.decl.hpp"
@@ -48,6 +47,8 @@ using Helper::String;
 using Helper::Array;
 using Helper::Handle;
 using Helper::ConstructibleFrom;
+using std::ostream;
+using std::shared_ptr;
 
 template<class X> class Sequence;
 

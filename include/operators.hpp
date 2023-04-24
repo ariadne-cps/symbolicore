@@ -39,13 +39,10 @@
 #include "helper/variant.hpp"
 #include "helper/variant.inl.hpp"
 #include "helper/string.hpp"
-#include "using.hpp"
 #include "typedefs.hpp"
 #include "logical.decl.hpp"
 
 namespace SymboliCore {
-
-using std::declval;
 
 using Helper::String;
 using Helper::ProductType;
@@ -55,10 +52,11 @@ using Helper::ArithmeticType;
 using Helper::OneOf;
 using Helper::CodedVariant;
 
+using std::declval;
+using std::ostream;
+
 class Integer;
 class Real;
-
-typedef std::ostream ostream;
 
 template<class X> struct Logic;
 template<> struct Logic<String> { typedef Boolean Type; };

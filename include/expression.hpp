@@ -41,7 +41,6 @@
 #include "helper/container.hpp"
 #include "helper/writable.hpp"
 
-#include "using.hpp"
 #include "logical.decl.hpp"
 #include "operators.hpp"
 #include "constant.hpp"
@@ -55,6 +54,8 @@ using Helper::Writer;
 using Helper::WriterInterface;
 using Helper::ConvertibleTo;
 using Helper::SelfType;
+using std::shared_ptr;
+using std::ostream;
 
 template<class T> struct DeclareExpressionOperations;
 template<class X> struct ExpressionNode;

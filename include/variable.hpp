@@ -49,6 +49,7 @@ namespace SymboliCore {
 
 using Helper::List;
 using Helper::to_str;
+using std::initializer_list;
 
 class UntypedVariable;
 class ExtendedUntypedVariable;

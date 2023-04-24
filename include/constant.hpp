@@ -34,10 +34,11 @@
 #define SYMBOLICORE_CONSTANT_HPP
 
 #include "helper/string.hpp"
-#include "using.hpp"
 #include "identifier.hpp"
 
 namespace SymboliCore {
+
+using std::ostream;
 
 //! \brief A named constant of type \a T.
 //! \details

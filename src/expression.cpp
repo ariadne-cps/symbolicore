@@ -46,6 +46,7 @@
 namespace SymboliCore {
 
 using Helper::range;
+using std::shared_ptr;
 
 template class Expression<Boolean>;
 template class Expression<Kleenean>;

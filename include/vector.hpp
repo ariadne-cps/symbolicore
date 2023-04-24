@@ -39,7 +39,6 @@
 #include "helper/metaprogramming.hpp"
 #include "helper/container.hpp"
 #include "helper/range.hpp"
-#include "using.hpp"
 #include "typedefs.hpp"
 
 namespace SymboliCore {
@@ -71,6 +70,8 @@ using Helper::ResultOf;
 using Helper::True;
 using Helper::False;
 
+using std::ostream;
+using std::initializer_list;
 
 //! \brief A scalar of type \a X; defined as an synonym (typedef) of \a X.
 template<class X> using Scalar = X;

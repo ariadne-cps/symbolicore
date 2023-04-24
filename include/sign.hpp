@@ -36,12 +36,11 @@
 
 #include <iosfwd>
 #include "helper/macros.hpp"
-#include "using.hpp"
 #include "typedefs.hpp"
 
 namespace SymboliCore {
 
-using ostream = std::ostream;
+using std::ostream;
 
 //! \brief The sign of a numerical value.
 enum class Sign : ComparableEnumerationType { NEGATIVE=-1, ZERO=0, POSITIVE=+1 };
