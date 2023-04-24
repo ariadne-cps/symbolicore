@@ -12,3 +12,6 @@ foreach(TEST ${UNIT_TESTS})
     target_link_libraries(${TEST} symbolicore)
     add_test(${TEST} ${TEST})
 endforeach()
+
+add_custom_target(tests)
+add_dependencies(tests ${UNIT_TESTS})
